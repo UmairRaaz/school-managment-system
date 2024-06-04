@@ -8,8 +8,18 @@ const AdminSchema = new mongoose.Schema({
     },
     password : {
         type : String,
-        uniquie : true,
         required: true,
+    },
+    name:{
+        type : String,
+    },
+    email:{
+        type : String,
+        uniquie : true,
+    },
+    phoneNumber:{
+        type : Number,
+        uniquie : true,
     },
     role: {
         type: String,

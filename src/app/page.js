@@ -8,7 +8,6 @@ export default async function Home() {
   if (!session) {
     redirect("/api/auth/signin");
   }
-  console.log(session.username)
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md text-center">

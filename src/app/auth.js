@@ -26,6 +26,7 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
           if (!user) {
             console.error("user not found");
             throw new Error("user Not Found");
+            return null
           }
 
           const passwordMatch = await compare(password, user.password);
@@ -70,5 +71,9 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
       }
       return session
     }
+  },
+  session: {
+    strategy : "jwt",
+    maxAge: 86400,
   }
 })
