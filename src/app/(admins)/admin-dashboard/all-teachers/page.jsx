@@ -33,6 +33,9 @@ const TeacherList = () => {
   const handleEdit = (id) => {
     router.push(`/admin-dashboard/edit-teacher/${id}`)
   };
+  const handleView = (id) => {
+    router.push(`/admin-dashboard/view-teacher/${id}`)
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
