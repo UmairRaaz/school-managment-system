@@ -63,7 +63,7 @@ const TeacherList = () => {
                 <td className="py-3 px-6 text-left">{teacher.classes.join(', ')}</td>
                 <td className="py-3 px-6 text-left">{teacher.subjects.join(', ')}</td>
                 <td className="py-3 px-6 text-center flex justify-center">
-                  <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />
+                  <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(teacher._id)} />
                   <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />
                   <FaTrash className="text-red-500 hover:text-red-700 mx-2 cursor-pointer" onClick={() => handleDelete(teacher._id)} />
                 </td>

@@ -6,29 +6,14 @@ import { redirect } from 'next/navigation';
 import { FaUserGraduate, FaChalkboardTeacher, FaMoneyBillWave, FaUserNurse, FaLaptop, FaUserCheck } from 'react-icons/fa';
 
 const DashboardPage = () => {
-  const [totalStudents, setTotalStudents] = useState(0);
-  const [totalTeachers, setTotalTeachers] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [totalEngineeringStudents, setTotalEngineeringStudents] = useState(0);
-  const [totalMedicalStudents, setTotalMedicalStudents] = useState(0);
-  const [totalAttendanceToday, setTotalAttendanceToday] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(500);
+  const [totalTeachers, setTotalTeachers] = useState(50);
+  const [totalAmount, setTotalAmount] = useState(75000);
+  const [totalEngineeringStudents, setTotalEngineeringStudents] = useState(250);
+  const [totalMedicalStudents, setTotalMedicalStudents] = useState(150);
+  const [totalAttendanceToday, setTotalAttendanceToday] = useState(350);
 
-  useEffect(() => {
-    async function fetchData() {
-      const session = await auth();
-      if (!session) {
-        redirect("/api/auth/signin");
-      }
-      // Mock data for demonstration
-      setTotalStudents(500);
-      setTotalTeachers(50);
-      setTotalAmount(75000);
-      setTotalEngineeringStudents(250);
-      setTotalMedicalStudents(150);
-      setTotalAttendanceToday(350);
-    }
-    fetchData();
-  }, []);
+  
 
   return (
     <div className="max-w-6xl mx-auto p-8">
