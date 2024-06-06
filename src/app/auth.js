@@ -1,4 +1,5 @@
 import dbConnect from "@/libs/dbConnect";
+import { TeacherModel } from "@/models/teacherModel";
 import { AdminModel } from "@/models/userModel";
 import { compare } from "bcryptjs";
 import NextAuth from "next-auth"
@@ -24,11 +25,17 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
           console.log("User lookup result:", user);
 
           if (!user) {
-            console.error("user not found");
-            throw new Error("user Not Found");
-            return null
-          }
+            // If user is not found in AdminModel, try finding in TeacherModel
+            user = await TeacherModel.findOne({ username });
+            console.log("Teacher lookup result:", user);
 
+            if (!user) {
+              console.error("User not found");
+              throw new Error("User not found");
+              return null;
+            }
+          }
+          console.log(user)
           const passwordMatch = await compare(password, user.password);
           console.log("Password match result:", passwordMatch);
 
@@ -52,28 +59,28 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
   pages: {
     signIn: "/admin-auth/login"
   },
-  callbacks :{
-    jwt : async({token, user}) => {
-      if(user){
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
         console.log("token user", token)
         token._id = user._id,
-        token.role = user.role,
-        token.username = user.username
+          token.role = user.role,
+          token.username = user.username
       }
       return token
     },
-    session : async({session, token}) => {
+    session: async ({ session, token }) => {
       console.log("session", token)
-      if(token){
+      if (token) {
         session._id = token._id,
-        session.role = token.role,
-        session.username = token.username
+          session.role = token.role,
+          session.username = token.username
       }
       return session
     }
   },
   session: {
-    strategy : "jwt",
+    strategy: "jwt",
     maxAge: 86400,
   }
 })

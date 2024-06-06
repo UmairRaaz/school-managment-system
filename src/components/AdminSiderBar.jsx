@@ -13,6 +13,12 @@ const Sidebar = () => {
                     <Link className="mb-2" href="/admin-dashboard/student-details" >
                         <p className="block py-2 px-4 hover:bg-gray-700">Add Students</p>
                     </Link>
+                    <Link className="mb-2" href="/admin-dashboard/add-teachers" >
+                        <p className="block py-2 px-4 hover:bg-gray-700">Add Teacher</p>
+                    </Link>
+                    <Link className="mb-2" href="/admin-dashboard/all-teachers" >
+                        <p className="block py-2 px-4 hover:bg-gray-700">All Teachers List</p>
+                    </Link>
                 </ul>
             </div>
         </div>

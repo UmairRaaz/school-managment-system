@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     return (
         <SessionProvider>
             <div className={inter.className}>
-                <div >
+                <div className='flex' >
                     <div className="w-[20%]">
                     <Sidebar />
                     </div>

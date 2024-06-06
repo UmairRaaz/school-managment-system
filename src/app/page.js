@@ -17,7 +17,7 @@ export default async function Home() {
             <p className="text-lg">Welcome, {session.username}</p>
           </div>
         )}
-        <Link href={"/admin-auth/login"} className="text-blue-500 hover:underline">
+        <Link href={"/admin-dashboard"} className="text-blue-500 hover:underline">
           Admin Page
         </Link>
         <div className="mt-6">
