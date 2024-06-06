@@ -8,7 +8,9 @@ const page = async () => {
     redirect("/api/auth/signin");
   }
   return (
+    <>
     <div>AdminDashBoard</div>
+    </>
   )
 }
 

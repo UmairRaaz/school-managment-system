@@ -50,7 +50,7 @@ const TeacherEditForm = ({ teacherDetails }) => {
     };
 
     return (
-        <div className="max-w-lg mx-auto p-4">
+        <div className="max-w-lg mx-auto p-4 mt-20">
             <h1 className='text-2xl my-4'>Edit Teacher</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
