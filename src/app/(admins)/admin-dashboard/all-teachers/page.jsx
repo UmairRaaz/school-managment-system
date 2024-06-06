@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 const TeacherList = () => {
   const [teachers, setTeachers] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
+  
   useEffect(() => {
     fetchTeachers();
   }, []);
@@ -36,54 +38,40 @@ const TeacherList = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl my-4">Teacher List</h1>
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Username</th>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Email</th>
-            <th className="py-2 px-4 border-b">Phone Number</th>
-            <th className="py-2 px-4 border-b">Classes</th>
-            <th className="py-2 px-4 border-b">Subjects</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teachers.map((teacher) => (
-            <tr key={teacher._id}>
-              <td className="py-2 px-4 border-b">{teacher.username}</td>
-              <td className="py-2 px-4 border-b">{teacher.name}</td>
-              <td className="py-2 px-4 border-b">{teacher.email}</td>
-              <td className="py-2 px-4 border-b">{teacher.phoneNumber}</td>
-              <td className="py-2 px-4 border-b">{teacher.classes.join(', ')}</td>
-              <td className="py-2 px-4 border-b">{teacher.subjects.join(', ')}</td>
-              <td className="py-2 px-4 border-b">
-                
-                <button
-                  onClick={() => handleEdit(teacher._id)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleView(teacher._id)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
-                >
-                  View
-                </button>
-                <button
-                  onClick={() => handleDelete(teacher._id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded-md"
-                >
-                  Delete
-                </button>
-              </td>
+    <div className="max-w-6xl mx-auto p-8 mt-10">
+      <h1 className="text-3xl my-4 text-center">All Teachers</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white shadow-md rounded-lg">
+          <thead className="bg-black text-white">
+            <tr className="text-xs font-semibold uppercase tracking-wider">
+              <th className="py-3 px-6 text-left rounded-tl-lg">Username</th>
+              <th className="py-3 px-6 text-left">Name</th>
+              <th className="py-3 px-6 text-left">Email</th>
+              <th className="py-3 px-6 text-left">Phone</th>
+              <th className="py-3 px-6 text-left">Classes</th>
+              <th className="py-3 px-6 text-left">Subjects</th>
+              <th className="py-3 px-6 text-center rounded-tr-lg">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="text-gray-700 text-xs">
+            {teachers.map((teacher) => (
+              <tr key={teacher._id} className="border-b border-gray-200 hover:bg-gray-100">
+                <td className="py-3 px-6 text-left">{teacher.username}</td>
+                <td className="py-3 px-6 text-left">{teacher.name}</td>
+                <td className="py-3 px-6 text-left">{teacher.email}</td>
+                <td className="py-3 px-6 text-left">{teacher.phoneNumber}</td>
+                <td className="py-3 px-6 text-left">{teacher.classes.join(', ')}</td>
+                <td className="py-3 px-6 text-left">{teacher.subjects.join(', ')}</td>
+                <td className="py-3 px-6 text-center flex justify-center">
+                  <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />
+                  <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />
+                  <FaTrash className="text-red-500 hover:text-red-700 mx-2 cursor-pointer" onClick={() => handleDelete(teacher._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

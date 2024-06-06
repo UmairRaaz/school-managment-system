@@ -18,19 +18,18 @@ const subjectsOptions = [
 ];
 
 const TeacherEditForm = ({ teacherDetails }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm(
-        {
-            defaultValues: {
-                username: teacherDetails?.username || "",
-                name: teacherDetails?.name || "",
-                email: teacherDetails?.email || "",
-                phoneNumber: teacherDetails?.phoneNumber || "",
-                classes: teacherDetails?.classes || [],
-                subjects: teacherDetails?.subjects || []
-            }
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            username: teacherDetails?.username || "",
+            name: teacherDetails?.name || "",
+            email: teacherDetails?.email || "",
+            phoneNumber: teacherDetails?.phoneNumber || "",
+            classes: teacherDetails?.classes || [],
+            subjects: teacherDetails?.subjects || []
         }
-    );
-    const router = useRouter()
+    });
+    const router = useRouter();
+
     const onSubmit = async (data) => {
         data.classes = data.classes || [];
         data.subjects = data.subjects || [];
@@ -39,7 +38,7 @@ const TeacherEditForm = ({ teacherDetails }) => {
             console.log(response);
             if (response.data.success) {
                 alert("Teacher Edited Successfully");
-                router.push("/admin-dashboard/all-teachers")
+                router.push("/admin-dashboard/all-teachers");
             } else {
                 alert("Username is taken");
             }
@@ -50,30 +49,31 @@ const TeacherEditForm = ({ teacherDetails }) => {
     };
 
     return (
-        <div className="max-w-lg mx-auto p-4 mt-20">
-            <h1 className='text-2xl my-4'>Edit Teacher</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Username</label>
-                    <input
-                        type="text"
-                        {...register('username', { required: true })}
-                        className={`mt-1 block w-full p-2 border ${errors.username ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-                    />
-                    {errors.username && <span className="text-red-500 text-sm">Username is required</span>}
+        <div className="p-11 mt-20 bg-white">
+            <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center">'Edit Teacher'</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium text-black">Username</label>
+                        <input
+                            type="text"
+                            {...register('username', { required: true })}
+                            className={`mt-1 block w-full p-2 border ${errors.username ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+                        />
+                        {errors.username && <span className="text-red-500 text-sm">Username is required</span>}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-black">Name</label>
+                        <input
+                            type="text"
+                            {...register('name', { required: true })}
+                            className={`mt-1 block w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+                        />
+                        {errors.name && <span className="text-red-500 text-sm">Name is required</span>}
+                    </div>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Name</label>
-                    <input
-                        type="text"
-                        {...register('name', { required: true })}
-                        className={`mt-1 block w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-                    />
-                    {errors.name && <span className="text-red-500 text-sm">Name is required</span>}
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Email</label>
+                    <label className="block text-sm font-medium text-black">Email</label>
                     <input
                         type="email"
                         {...register('email', { required: true })}
@@ -83,7 +83,7 @@ const TeacherEditForm = ({ teacherDetails }) => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <label className="block text-sm font-medium text-black">Phone Number</label>
                     <input
                         type="text"
                         {...register('phoneNumber', { required: true })}
@@ -92,9 +92,9 @@ const TeacherEditForm = ({ teacherDetails }) => {
                     {errors.phoneNumber && <span className="text-red-500 text-sm">Phone Number is required</span>}
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Classes</label>
-                    <div className="mt-1 flex gap-4 items-center justify-center">
+                <div className="col-span-1 md:col-span-3">
+                    <label className="block text-sm font-medium text-black">Classes</label>
+                    <div className="mt-1 flex flex-wrap gap-2">
                         {classesOptions.map(classOption => (
                             <div key={classOption} className="flex items-center">
                                 <input
@@ -103,16 +103,16 @@ const TeacherEditForm = ({ teacherDetails }) => {
                                     {...register('classes')}
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 />
-                                <label className="ml-2 block text-sm text-gray-700">{classOption}</label>
+                                <label className="ml-2 block text-sm text-black">{classOption}</label>
                             </div>
                         ))}
                     </div>
                     {errors.classes && <span className="text-red-500 text-sm">At least one class is required</span>}
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Subjects</label>
-                    <div className="mt-1 gap-4 flex items-center justify-center">
+                <div className="col-span-1 md:col-span-3">
+                    <label className="block text-sm font-medium text-black">Subjects</label>
+                    <div className="mt-1 flex flex-wrap gap-2">
                         {subjectsOptions.map(subjectOption => (
                             <div key={subjectOption} className="flex items-center">
                                 <input
@@ -121,15 +121,15 @@ const TeacherEditForm = ({ teacherDetails }) => {
                                     {...register('subjects')}
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 />
-                                <label className="ml-2 block text-sm text-gray-700">{subjectOption}</label>
+                                <label className="ml-2 block text-sm text-black">{subjectOption}</label>
                             </div>
                         ))}
                     </div>
                     {errors.subjects && <span className="text-red-500 text-sm">At least one subject is required</span>}
                 </div>
 
-                <div>
-                    <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md">Submit</button>
+                <div className="col-span-1 md:col-span-3 flex items-end justify-end">
+                    <button type="submit" className="border bg-black text-white p-3 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">Submit</button>
                 </div>
             </form>
         </div>
