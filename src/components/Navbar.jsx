@@ -10,8 +10,8 @@ const Navbar = () => {
           MyWebsite
         </div>
         <ul className="flex space-x-4">
-          <Link href="/home">
-            <p  className="text-white hover:text-gray-200">Home</p>
+          <Link href="/admin-dashboard">
+            <p  className="text-white hover:text-gray-200">Dashboard</p>
           </Link>
           <Link href="/about">
             <p  className="text-white hover:text-gray-200">About</p>

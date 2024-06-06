@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaCog, FaSignOutAlt } from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function AdminNavbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -40,12 +41,12 @@ export default function AdminNavbar() {
                   <p className="text-xs text-gray-600">Moon@example.com</p>
                 </div>
                 <div className="p-2">
-                  <a href="/admin-dashboard/admin-profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                  <Link href="/admin-dashboard/admin-profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                     <FaCog className="mr-2 text-blue-500" /> Account Settings
-                  </a>
-                  <a href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
+                  </Link>
+                  <Link href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
                     <FaSignOutAlt className="mr-2 text-red-500" /> Logout
-                  </a>
+                  </Link>
                 </div>
               </div>
               )}

@@ -75,10 +75,10 @@ const Sidebar = () => {
                                     <div className="ml-10">
                                         {link.dropdownLinks.map((dropdownLink, i) => (
                                        
-                                                <a href={dropdownLink.href} key={i} className={`flex items-center py-2.5 px-4  transition duration-200 bg-white hover:bg-blue-50 hover:text-blue-700 hover:shadow-xl transform hover:scale-105`}>
+                                                <Link href={dropdownLink.href} key={i} className={`flex items-center py-2.5 px-4  transition duration-200 bg-white hover:bg-blue-50 hover:text-blue-700 hover:shadow-xl transform hover:scale-105`}>
                                                     <FaAngleRight className="w-4 h-4 mr-2 text-blue-500" />
                                                     <span className={`text-sm transition-all duration-300 ${!isOpen && 'hidden'}`}>{dropdownLink.label}</span>
-                                                </a>
+                                                </Link>
                                           
                                         ))}
                                     </div>
@@ -86,10 +86,10 @@ const Sidebar = () => {
                             </>
                         ) : (
                            
-                                <a href={link.href} className={`flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-white hover:bg-blue-50 hover:text-blue-700 hover:shadow-xl transform hover:scale-105`}>
+                                <Link href={link.href} className={`flex items-center py-2.5 px-4 rounded-lg transition duration-200 bg-white hover:bg-blue-50 hover:text-blue-700 hover:shadow-xl transform hover:scale-105`}>
                                     <link.icon className="w-6 h-6 mr-3 text-blue-800" />
                                     <span className={`transition-all duration-300 ${!isOpen && 'hidden'}`}>{link.label}</span>
-                                </a>
+                                </Link>
                             
                         )}
                         <div className="absolute bottom-full mb-2 hidden group-hover:flex justify-center w-full">
