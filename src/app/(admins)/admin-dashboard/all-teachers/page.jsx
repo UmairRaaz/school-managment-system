@@ -31,6 +31,9 @@ const TeacherList = () => {
   const handleEdit = (id) => {
     router.push(`/admin-dashboard/edit-teacher/${id}`)
   };
+  const handleView = (id) => {
+    router.push(`/admin-dashboard/view-teacher/${id}`)
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-4">
@@ -57,11 +60,18 @@ const TeacherList = () => {
               <td className="py-2 px-4 border-b">{teacher.classes.join(', ')}</td>
               <td className="py-2 px-4 border-b">{teacher.subjects.join(', ')}</td>
               <td className="py-2 px-4 border-b">
+                
                 <button
                   onClick={() => handleEdit(teacher._id)}
                   className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
                 >
                   Edit
+                </button>
+                <button
+                  onClick={() => handleView(teacher._id)}
+                  className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
+                >
+                  View
                 </button>
                 <button
                   onClick={() => handleDelete(teacher._id)}
