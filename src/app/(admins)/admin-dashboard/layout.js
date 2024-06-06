@@ -2,6 +2,7 @@ import React from 'react';
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import Sidebar from '@/components/AdminSiderBar';
+import AdminNavbar from '@/components/AdminNavbar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,8 +15,10 @@ export default function RootLayout({ children }) {
     return (
         <SessionProvider>
             <div className={inter.className}>
+            <AdminNavbar/>
                 <div className='flex' >
                     <div className="w-[20%]">
+                       
                     <Sidebar />
                     </div>
                     <div className="w-[80%]">{children}</div>

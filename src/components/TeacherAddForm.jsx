@@ -39,7 +39,7 @@ const TeacherForm = () => {
     };
 
     return (
-        <div className="max-w-lg mx-auto p-4">
+        <div className="max-w-lg mx-auto p-4 mt-20">
             <h1 className='text-2xl my-4'>Add New Teacher</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>

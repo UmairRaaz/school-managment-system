@@ -104,7 +104,7 @@ const ProfileEditForm = () => {
     }
 
     return (
-        <div className='flex items-center justify-center'>
+        <div className='flex items-center justify-center mt-20'>
             <div className="bg-white my-12 shadow-md rounded p-4 w-full max-w-md">
                 <div className="flex flex-col items-center justify-center">
                     <Image src={profile.image || "/profile.png"} alt="Profile" width={32} height={32} className="w-8 h-8 rounded-full mb-4" />
