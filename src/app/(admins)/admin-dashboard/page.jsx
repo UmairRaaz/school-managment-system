@@ -5,7 +5,7 @@ import { auth } from '@/app/auth';
 import { redirect } from 'next/navigation';
 import { FaUserGraduate, FaChalkboardTeacher, FaMoneyBillWave, FaUserNurse, FaLaptop, FaUserCheck } from 'react-icons/fa';
 
-const page = () => {
+const DashboardPage = () => {
   const [totalStudents, setTotalStudents] = useState(0);
   const [totalTeachers, setTotalTeachers] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -92,4 +92,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DashboardPage;
