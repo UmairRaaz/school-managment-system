@@ -4,9 +4,10 @@ import React from 'react'
 
 const page = async () => {
   const session = await auth();
-  if (!session) {
-    redirect("/api/auth/signin");
-  }
+  console.log(session)
+  // if (!session) {
+  //   redirect("/api/auth/signin");
+  // }
   return (
     <>
     <div>AdminDashBoard</div>
