@@ -183,4 +183,4 @@ const studentSchema = new mongoose.Schema({
 });
 
 
-const StudentModel = mongoose.models?.StudentModel || mongoose.model("StudentModel",studentSchema )
+export const StudentModel = mongoose.models?.StudentModel || mongoose.model("StudentModel",studentSchema )

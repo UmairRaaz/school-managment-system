@@ -4,10 +4,12 @@ import { useForm } from 'react-hook-form';
 
 const AddStudentForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 max-w-2xl mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 mt-28 max-w-2xl mx-auto">
       {/* SID */}
       <div>
         <label htmlFor="SID" className="block text-sm font-medium text-gray-700">SID</label>

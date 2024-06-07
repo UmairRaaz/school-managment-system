@@ -22,7 +22,7 @@ const Sidebar = () => {
     const navLinks = [
         { href: "/",  icon: FaTachometerAlt, label: "Dashboard", color: "blue", tooltip: "Go to Dashboard" },
         { href: "/", icon: FaUserGraduate, label: "Students", color: "blue", tooltip: "Students", hasDropdown: true, dropdownLinks: [
-            { href: "/admin-dashboard/student-details", label: "Add Student" },
+            { href: "/admin-dashboard/add-student", label: "Add Student" },
             { href: "/admin/view-all-students", label: "View All Students" },
             { href: "/admin/manage-students", label: "Manage Students" }
         ]},
