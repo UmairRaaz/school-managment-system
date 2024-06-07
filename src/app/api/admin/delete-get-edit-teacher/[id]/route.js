@@ -22,7 +22,7 @@ export async function GET(req, { params }) {
         await dbConnect();
         const { id } = params;
         const teacher = await TeacherModel.findOne({ _id: id });
-
+        console.log("GET TEACHER DETAILS : ", teacher)
         return NextResponse.json({ message: 'Teacher Fetched Successfully', teacher: teacher, success: true }, { status: 200 });
     } catch (error) {
         console.error('Error fetching teacher details:', error);
@@ -34,21 +34,38 @@ export async function PUT(req, { params }) {
     try {
         await dbConnect();
         const { id } = params;
-        console.log(id);
-        const body = await req.json()
-        console.log(body)
-        const { username, name, email, phoneNumber, classes, subjects } = body;
+        const body = await req.json();
+        const { username, password, name, email, phoneNumber, classes, subjects } = body;
 
+        // Retrieve the current teacher record
+        const currentTeacher = await TeacherModel.findById(id);
+        if (!currentTeacher) {
+            return NextResponse.json({ message: 'Teacher not found', success: false }, { status: 404 });
+        }
 
-        const updatedTeacher = await TeacherModel.findOneAndUpdate({ _id: id }, {
-            name,
-            email,
-            phoneNumber,
-            classes,
-            subjects
-        }, {new: true});
+        // Check if the username is being changed
+        if (username && username !== currentTeacher.username) {
+            // Check if the new username is already taken
+            const usernameTaken = await TeacherModel.findOne({ username });
+            if (usernameTaken) {
+                return NextResponse.json({ message: 'Username is already taken', success: false }, { status: 400 });
+            }
+        }
 
-        console.log(updatedTeacher)
+        // Update the teacher details
+        const updatedTeacher = await TeacherModel.findByIdAndUpdate(
+            id,
+            {
+                username,
+                password,
+                name,
+                email,
+                phoneNumber,
+                classes,
+                subjects
+            },
+            { new: true }
+        );
 
         return NextResponse.json({ message: 'Teacher Edited Successfully', success: true }, { status: 200 });
     } catch (error) {

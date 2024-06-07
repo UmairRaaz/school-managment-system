@@ -31,6 +31,10 @@ const TeacherSchema = new mongoose.Schema({
     subjects: {
         type: [String],
         default: []
+    },
+    role: {
+        type: String,
+        default : "teacher"
     }
 });
 

@@ -15,12 +15,10 @@ export async function POST(req) {
         if (checkUserName) {
             return NextResponse.json({ message: "Username already taken", success: false }, { status: 400 });
         } else {
-            const hashedPassword = await hash(password, 10);
-            console.log(hashedPassword)
 
             const newTeacher = await TeacherModel.create({
                 username,
-                password: hashedPassword,
+                password,
                 name,
                 email,
                 phoneNumber,
