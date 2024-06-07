@@ -1,4 +1,5 @@
 import dbConnect from "@/libs/dbConnect";
+import { StudentModel } from "@/models/studentModel";
 import { TeacherModel } from "@/models/teacherModel";
 import { AdminModel } from "@/models/userModel";
 import { compare } from "bcryptjs";
@@ -23,20 +24,23 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
 
           let user = await AdminModel.findOne({ username });
           console.log("User lookup result:", user);
-
           if (!user) {
             // If user is not found in AdminModel, try finding in TeacherModel
             user = await TeacherModel.findOne({ username });
             console.log("Teacher lookup result:", user);
 
             if (!user) {
-              console.error("User not found");
-              throw new Error("User not found");
-              return null;
+              // If user is not found in TeacherModel, try finding in StudentModel
+              user = await StudentModel.findOne({ username });
+              console.log("Student lookup result:", user);
+
+              if (!user) {
+                console.error("User not found");
+              }
             }
           }
           console.log(user)
-          const passwordMatch = await compare(password, user.password);
+          const passwordMatch = password == user.password;
           console.log("Password match result:", passwordMatch);
 
           if (!passwordMatch) {

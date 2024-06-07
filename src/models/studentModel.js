@@ -1,8 +1,17 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
+    username : {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password : {
+        type: String,
+        required: true,
+    },
     SID: {
-        type: Number,
+        type: String,
         required: true,
         default: 0
     },
@@ -24,7 +33,7 @@ const studentSchema = new mongoose.Schema({
         required: true
     },
     SeatNumber: {
-        type: Number,
+        type: String,
         default: 0
     },
     AdmissionClass: {
@@ -108,77 +117,81 @@ const studentSchema = new mongoose.Schema({
         required: false
     },
     AdmissionFee: {
-        type: Number,
+        type: String,
         required: true
     },
     AdmissionFeeDiscount: {
-        type: Number,
+        type: String,
         required: false,
         default: 0
     },
     ApprovedAdmissionFee: {
-        type: Number,
+        type: String,
         required: true
     },
     LabCharges: {
-        type: Number,
+        type: String,
         required: true
     },
     LabChargesDiscount: {
-        type: Number,
+        type: String,
         required: false,
         default: 0
     },
     ApprovedLabChargesFee: {
-        type: Number,
+        type: String,
         required: true
     },
     TuitionFee: {
-        type: Number,
+        type: String,
         required: true
     },
     TuitionFeeDiscount: {
-        type: Number,
+        type: String,
         required: false,
         default: 0
     },
     ApprovedTuitionFee: {
-        type: Number,
+        type: String,
         required: true
     },
     CoursePayment: {
-        type: Number,
+        type: String,
         required: true
     },
     CoursePaymentDiscount: {
-        type: Number,
+        type: String,
         required: false,
         default: 0
     },
     ApprovedCoursePayment: {
-        type: Number,
+        type: String,
         required: true
     },
     StationaryCharges: {
-        type: Number,
+        type: String,
         required: true
     },
     AnnualCharges: {
-        type: Number,
+        type: String,
         required: true
     },
     SchoolFee: {
-        type: Number,
+        type: String,
         required: true
     },
     Arrears: {
-        type: Number,
+        type: String,
         required: false,
         default: 0
     },
     StudentImage: {
         type: String,
         required: false
+    },
+    role: {
+        type: String,
+        default:"student"
     }
 });
 

@@ -23,8 +23,8 @@ const Sidebar = () => {
         { href: "/",  icon: FaTachometerAlt, label: "Dashboard", color: "blue", tooltip: "Go to Dashboard" },
         { href: "/", icon: FaUserGraduate, label: "Students", color: "blue", tooltip: "Students", hasDropdown: true, dropdownLinks: [
             { href: "/admin-dashboard/add-student", label: "Add Student" },
-            { href: "/admin/view-all-students", label: "View All Students" },
-            { href: "/admin/manage-students", label: "Manage Students" }
+            { href: "/admin-dashboard/all-students", label: "View All Students" },
+            { href: "/admin-dashboard/manage-students", label: "Manage Students" }
         ]},
         { href: "/", icon: FaUsers, label: "Teachers", color: "blue", tooltip: "Teachers", hasDropdown: true, dropdownLinks: [
             { href: "/admin-dashboard/add-teachers", label: "Add Teacher" },

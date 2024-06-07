@@ -1,27 +1,55 @@
 'use client'
+import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const AddStudentForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const onSubmit = async (data) => {
+    const response = await axios.post("/api/admin/add-student", data)
     console.log(data);
+    if (response.data.success) {
+      alert("student added successfully")
+      reset()
+    }else{
+      alert("username is taken")
+    }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 mt-28 max-w-2xl mx-auto">
+      <div>
+        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Student Username</label>
+        <input
+          type="text"
+          id="username"
+          {...register('username', { required: true })}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+        {errors.username && <span className="text-red-500">This field is required</span>}
+      </div>
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Student Password</label>
+        <input
+          type="text"
+          id="password"
+          {...register('password', { required: true })}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+        {errors.password && <span className="text-red-500">This field is required</span>}
+      </div>
       {/* SID */}
       <div>
         <label htmlFor="SID" className="block text-sm font-medium text-gray-700">SID</label>
         <input
-          type="number"
+          type="text"
           id="SID"
           {...register('SID', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
         {errors.SID && <span className="text-red-500">This field is required</span>}
       </div>
-      
+
       {/* Name */}
       <div>
         <label htmlFor="Name" className="block text-sm font-medium text-gray-700">Name</label>
@@ -78,7 +106,7 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="SeatNumber" className="block text-sm font-medium text-gray-700">Seat Number</label>
         <input
-          type="number"
+          type="text"
           id="SeatNumber"
           {...register('SeatNumber', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
@@ -323,8 +351,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="AdmissionFee" className="block text-sm font-medium text-gray-700">Admission Fee</label>
         <input
-          type="number"
+          type="text"
           id="AdmissionFee"
+          step="any"
           {...register('AdmissionFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -335,8 +364,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="AdmissionFeeDiscount" className="block text-sm font-medium text-gray-700">Admission Fee Discount</label>
         <input
-          type="number"
+          type="text"
           id="AdmissionFeeDiscount"
+          step="any"
           {...register('AdmissionFeeDiscount', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -346,8 +376,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="ApprovedAdmissionFee" className="block text-sm font-medium text-gray-700">Approved Admission Fee</label>
         <input
-          type="number"
+          type="text"
           id="ApprovedAdmissionFee"
+          step="any"
           {...register('ApprovedAdmissionFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -358,8 +389,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="LabCharges" className="block text-sm font-medium text-gray-700">Lab Charges</label>
         <input
-          type="number"
+          type="text"
           id="LabCharges"
+          step="any"
           {...register('LabCharges', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -370,8 +402,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="LabChargesDiscount" className="block text-sm font-medium text-gray-700">Lab Charges Discount</label>
         <input
-          type="number"
+          type="text"
           id="LabChargesDiscount"
+          step="any"
           {...register('LabChargesDiscount', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -381,8 +414,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="ApprovedLabChargesFee" className="block text-sm font-medium text-gray-700">Approved Lab Charges Fee</label>
         <input
-          type="number"
+          type="text"
           id="ApprovedLabChargesFee"
+          step="any"
           {...register('ApprovedLabChargesFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -393,8 +427,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="TuitionFee" className="block text-sm font-medium text-gray-700">Tuition Fee</label>
         <input
-          type="number"
+          type="text"
           id="TuitionFee"
+          step="any"
           {...register('TuitionFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -405,8 +440,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="TuitionFeeDiscount" className="block text-sm font-medium text-gray-700">Tuition Fee Discount</label>
         <input
-          type="number"
+          type="text"
           id="TuitionFeeDiscount"
+          step="any"
           {...register('TuitionFeeDiscount', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -416,8 +452,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="ApprovedTuitionFee" className="block text-sm font-medium text-gray-700">Approved Tuition Fee</label>
         <input
-          type="number"
+          type="text"
           id="ApprovedTuitionFee"
+          step="any"
           {...register('ApprovedTuitionFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -428,8 +465,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="CoursePayment" className="block text-sm font-medium text-gray-700">Course Payment</label>
         <input
-          type="number"
+          type="text"
           id="CoursePayment"
+          step="any"
           {...register('CoursePayment', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -440,8 +478,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="CoursePaymentDiscount" className="block text-sm font-medium text-gray-700">Course Payment Discount</label>
         <input
-          type="number"
+          type="text"
           id="CoursePaymentDiscount"
+          step="any"
           {...register('CoursePaymentDiscount', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -451,8 +490,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="ApprovedCoursePayment" className="block text-sm font-medium text-gray-700">Approved Course Payment</label>
         <input
-          type="number"
+          type="text"
           id="ApprovedCoursePayment"
+          step="any"
           {...register('ApprovedCoursePayment', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -463,8 +503,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="StationaryCharges" className="block text-sm font-medium text-gray-700">Stationary Charges</label>
         <input
-          type="number"
+          type="text"
           id="StationaryCharges"
+          step="any"
           {...register('StationaryCharges', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -475,8 +516,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="AnnualCharges" className="block text-sm font-medium text-gray-700">Annual Charges</label>
         <input
-          type="number"
+          type="text"
           id="AnnualCharges"
+          step="any"
           {...register('AnnualCharges', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -487,8 +529,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="SchoolFee" className="block text-sm font-medium text-gray-700">School Fee</label>
         <input
-          type="number"
+          type="text"
           id="SchoolFee"
+          step="any"
           {...register('SchoolFee', { required: true })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
@@ -499,8 +542,9 @@ const AddStudentForm = () => {
       <div>
         <label htmlFor="Arrears" className="block text-sm font-medium text-gray-700">Arrears</label>
         <input
-          type="number"
+          type="text"
           id="Arrears"
+          step="any"
           {...register('Arrears', { required: false })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
