@@ -17,11 +17,11 @@ export async function POST(req){
             })
         }
 
-        const hashedPassword = await hash(adminDetails.password, 10)
+        // const hashedPassword = await hash(adminDetails.password, 10)
 
         const newAdmin = await AdminModel.create({
             username : adminDetails.username,
-            password : hashedPassword,
+            password : adminDetails.password,
         })
         console.log("newAdminCreated", newAdmin)
         return NextResponse.json({

@@ -35,6 +35,9 @@ const TeacherSchema = new mongoose.Schema({
     role: {
         type: String,
         default : "teacher"
+    },
+    image : {
+        type: String,
     }
 });
 

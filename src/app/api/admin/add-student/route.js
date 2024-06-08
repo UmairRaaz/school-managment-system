@@ -1,32 +1,25 @@
 import dbConnect from "@/libs/dbConnect";
 import { StudentModel } from "@/models/studentModel";
 import { TeacherModel } from "@/models/teacherModel";
+import { Big_Shoulders_Display } from "next/font/google";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
     try {
         await dbConnect();
         const body = await req.json();
-        // const { username, password, name, email, phoneNumber, classes, subjects } = body;
+        console.log(body)
 
-        const checkUserName = await StudentModel.findOne({ username });
+        const checkUserName = await StudentModel.findOne({ username: body.username });
         console.log(checkUserName);
 
         if (checkUserName) {
             return NextResponse.json({ message: "Username already taken", success: false }, { status: 400 });
         } else {
-
-            // const newTeacher = await StudentModel.create({
-            //     username,
-            //     password,
-            //     name,
-            //     email,
-            //     phoneNumber,
-            //     classes,
-            //     subjects
-            // });
-            // console.log(newTeacher);
+            const newStudent = await StudentModel.create(body);
+            console.log(newStudent);
             return NextResponse.json({ message: "Student added successfully", success: true }, { status: 200 });
+
         }
 
 

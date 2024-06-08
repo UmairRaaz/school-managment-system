@@ -11,6 +11,6 @@ export async function GET(req) {
         return NextResponse.json({ message: "Teacher fetched successfully", success: true, teachers:  allTeachers }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ message: "Adding fetched failed", success: false }, { status: 400 });
+        return NextResponse.json({ message: "Teacher fetched failed", success: false }, { status: 400 });
     }
 }
