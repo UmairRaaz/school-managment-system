@@ -70,8 +70,7 @@ const Sidebar = () => {
       hasDropdown: true,
       dropdownLinks: [
         { href: "/admin-dashboard/add-student", label: "Add Student" },
-        { href: "/admin-dashboard/all-students", label: "View All Students" },
-        { href: "/admin-dashboard/manage-students", label: "Manage Students" },
+        { href: "/admin-dashboard/all-students", label: "Manage Students" },
       ],
     },
     {
