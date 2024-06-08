@@ -9,15 +9,17 @@ export default function AdminNavbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { data: session, status } = useSession();
   const [userDetails, setUserDetails] = useState({
+    id: session?._id || "",
     username: "",
     image: "/profile.png",
     email: "",
-    role : "Panel",
+    role: "Panel",
   });
 
   useEffect(() => {
     if (session) {
       setUserDetails({
+        id: session?._id || "",
         username: session?.username || "",
         image: session?.image || "/profile.png",
         email: session?.email || "",
@@ -30,8 +32,21 @@ export default function AdminNavbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const getProfileLink = (id) => {
+    switch (userDetails.role) {
+      case 'admin':
+        return `/admin-dashboard/admin-profile`;
+      case 'teacher':
+        return `/admin-dashboard/view-teacher/${id}`;
+      case 'student':
+        return `/admin-dashboard/view-student/${id}`;
+      default:
+        return `/admin-dashboard/admin-profile`;
+    }
+  };
+
   return (
-    <nav className="bg-white fixed w-full top-0 z-50  shadow-lg ">
+    <nav className="bg-white fixed w-full top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex-shrink-0 flex items-center">
@@ -60,9 +75,22 @@ export default function AdminNavbar() {
                     <p className="text-xs text-gray-600">{userDetails.email}</p>
                   </div>
                   <div className="p-2">
-                    <Link href="/admin-dashboard/admin-profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    {userDetails.role === "admin" && (
+                      <Link href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                       <FaCog className="mr-2 text-blue-500" /> Account Settings
                     </Link>
+                    )}
+                    {userDetails.role === "teacher" && (
+                      <Link href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                      <FaCog className="mr-2 text-blue-500" /> Account Settings
+                    </Link>
+                    )}
+                    {userDetails.role === "student" && (
+                      <Link href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                      <FaCog className="mr-2 text-blue-500" /> Account Settings
+                    </Link>
+                    )}
+                    
                     <Link href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
                       <FaSignOutAlt className="mr-2 text-red-500" /> Logout
                     </Link>
