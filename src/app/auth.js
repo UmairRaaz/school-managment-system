@@ -66,19 +66,22 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        console.log("token user", token)
-        token._id = user._id,
-          token.role = user.role,
-          token.username = user.username
+          token._id = user._id;
+          token.role = user.role;
+          token.username = user.username;
+          token.image = user?.image || "/profile.png";
+          token.email = user?.email || "";
       }
-      return token
-    },
+      return token;
+  },
     session: async ({ session, token }) => {
       console.log("session", token)
       if (token) {
-        session._id = token._id,
+          session._id = token._id,
           session.role = token.role,
-          session.username = token.username
+          session.username = token.username,
+          session.image = token?.image || "/profile.png";
+          session.email = token?.email || "";
       }
       return session
     }

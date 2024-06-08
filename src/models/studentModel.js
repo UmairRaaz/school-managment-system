@@ -185,7 +185,7 @@ const studentSchema = new mongoose.Schema({
         required: false,
         default: 0
     },
-    StudentImage: {
+    image: {
         type: String,
         required: false
     },
