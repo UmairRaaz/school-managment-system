@@ -8,13 +8,13 @@ const subjectsOptions = [
     "Mathematics",
     "English",
     "Science",
-    "History",
-    "Geography",
-    "Physical Education",
-    "Art",
-    "Music",
-    "Computer Science",
-    "Biology"
+    "Urdu",
+    "Sindhi",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Computer",
+    "Drawing"
 ];
 
 const TeacherEditForm = ({ teacherDetails }) => {
