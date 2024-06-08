@@ -44,8 +44,8 @@ const TeacherList = () => {
         <table className="min-w-full bg-white shadow-md rounded-lg">
           <thead className="bg-black text-white">
             <tr className="text-xs font-semibold uppercase tracking-wider">
-              <th className="py-3 px-6 text-left rounded-tl-lg">Username</th>
-              <th className="py-3 px-6 text-left">Name</th>
+              <th className="py-3 px-6 text-left rounded-tl-lg">Name</th>
+              <th className="py-3 px-6 text-left">Username</th>
               <th className="py-3 px-6 text-left">Email</th>
               <th className="py-3 px-6 text-left">Phone</th>
               <th className="py-3 px-6 text-left">Classes</th>
@@ -56,8 +56,8 @@ const TeacherList = () => {
           <tbody className="text-gray-700 text-xs">
             {teachers.map((teacher) => (
               <tr key={teacher._id} className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-3 px-6 text-left">{teacher.username}</td>
                 <td className="py-3 px-6 text-left">{teacher.name}</td>
+                <td className="py-3 px-6 text-left">{teacher.username}</td>
                 <td className="py-3 px-6 text-left">{teacher.email}</td>
                 <td className="py-3 px-6 text-left">{teacher.phoneNumber}</td>
                 <td className="py-3 px-6 text-left">{teacher.classes.join(', ')}</td>
