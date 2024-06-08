@@ -19,11 +19,8 @@ const AddStudentForm = () => {
   return (
 
     <div className="max-w-4xl mx-auto mt-20 p-2">
-    <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center ml-3">'Add Student'</h1>
+    <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center ml-3">&rsquo;Add Student&rsquo;</h1>
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4 p-4 max-w-4xl mx-auto sm:grid-cols-5">
-      
-
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 mt-28 max-w-2xl mx-auto">
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-gray-700">Student Username</label>
         <input
