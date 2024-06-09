@@ -24,11 +24,11 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showDropdown, setShowDropdown] = useState(Array(8).fill(false));
   const { data: session, status } = useSession();
-
   const [userDetails, setUserDetails] = useState({
     username: "",
     image: "/profile.png",
     email: "",
+    id: ""
   });
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const Sidebar = () => {
         username: session?.username || "",
         image: session?.image || "/profile.png",
         email: session?.email || "",
+        id: session?._id || "",
       });
     }
   }, [session]);
@@ -140,7 +141,7 @@ const Sidebar = () => {
       tooltip: 'Account View',
     },
     {
-      href: '/admin-dashboard/take-attendance',
+      href: `/admin-dashboard/take-attendance/${userDetails?.id}`,
       icon: FaUserGraduate,
       label: 'Take Attendance',
       color: 'blue',
