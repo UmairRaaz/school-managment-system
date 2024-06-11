@@ -94,7 +94,7 @@ const Sidebar = () => {
       color: "blue",
       tooltip: "Attendance",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-orders", label: "All Orders" }],
+      dropdownLinks: [{ href: "/admin-dashboard/all-attendances", label: "All Attendances" }],
     },
     {
       href: "/",
@@ -148,6 +148,13 @@ const Sidebar = () => {
       tooltip: 'Take Attendance',
     },
     {
+      href: `/admin-dashboard/view-attendance/${userDetails?.id}`,
+      icon: FaUserGraduate,
+      label: 'View Attendance',
+      color: 'blue',
+      tooltip: 'View Attendance',
+    },
+    {
       href: '/admin-dashboard/add-result',
       icon: FaUserGraduate,
       label: 'Add Result',
@@ -184,6 +191,13 @@ const Sidebar = () => {
       label: 'View Grades',
       color: 'blue',
       tooltip: 'View Grades',
+    },
+    {
+      href: `/admin-dashboard/student-attendance/${userDetails?.id}`,
+      icon: FaUserGraduate,
+      label: 'View Attendance',
+      color: 'blue',
+      tooltip: 'View Attendance',
     },
     {
       href: '/student-dashboard/notifications',
