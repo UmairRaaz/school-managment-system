@@ -24,11 +24,11 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showDropdown, setShowDropdown] = useState(Array(8).fill(false));
   const { data: session, status } = useSession();
-
   const [userDetails, setUserDetails] = useState({
     username: "",
     image: "/profile.png",
     email: "",
+    id: ""
   });
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const Sidebar = () => {
         username: session?.username || "",
         image: session?.image || "/profile.png",
         email: session?.email || "",
+        id: session?._id || "",
       });
     }
   }, [session]);
@@ -92,7 +93,7 @@ const Sidebar = () => {
       color: "blue",
       tooltip: "Attendance",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-orders", label: "All Orders" }],
+      dropdownLinks: [{ href: "/admin-dashboard/all-attendances", label: "All Attendances" }],
     },
     {
       href: "/",
@@ -139,11 +140,18 @@ const Sidebar = () => {
       tooltip: 'Account View',
     },
     {
-      href: '/admin-dashboard/take-attendance',
+      href: `/admin-dashboard/take-attendance/${userDetails?.id}`,
       icon: FaUserGraduate,
       label: 'Take Attendance',
       color: 'blue',
       tooltip: 'Take Attendance',
+    },
+    {
+      href: `/admin-dashboard/view-attendance/${userDetails?.id}`,
+      icon: FaUserGraduate,
+      label: 'View Attendance',
+      color: 'blue',
+      tooltip: 'View Attendance',
     },
     {
       href: '/admin-dashboard/add-result',
@@ -182,6 +190,13 @@ const Sidebar = () => {
       label: 'View Grades',
       color: 'blue',
       tooltip: 'View Grades',
+    },
+    {
+      href: `/admin-dashboard/student-attendance/${userDetails?.id}`,
+      icon: FaUserGraduate,
+      label: 'View Attendance',
+      color: 'blue',
+      tooltip: 'View Attendance',
     },
     {
       href: '/student-dashboard/notifications',

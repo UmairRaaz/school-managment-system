@@ -1,36 +1,40 @@
-'use client'
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+"use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 const StudentEditForm = ({ studentDetails }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm();
-  // Format date function
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString().padStart(2, '0');
-    let day = date.getDate().toString().padStart(2, '0');
+    let month = (1 + date.getMonth()).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   };
 
   React.useEffect(() => {
-    if (studentDetails) {
+    if (studentDetails) {      
       Object.keys(studentDetails).forEach((key) => {
-        if (key === 'AdmissionDate' || key === 'DateOfBirth' || key === 'LeaveDate') {
+        if (
+          key === "AdmissionDate" ||
+          key === "DateOfBirth" ||
+          key === "LeaveDate"
+        ) {
           setValue(key, formatDate(studentDetails[key]));
         } else {
           setValue(key, studentDetails[key]);
         }
       });
     }
+    console.log(studentDetails["SID"])
   }, [studentDetails, setValue]);
   const router = useRouter();
 
@@ -54,6 +58,7 @@ const StudentEditForm = ({ studentDetails }) => {
     }
   };
   return (
+<<<<<<< HEAD
     <div className=" p-11 mt-20 bg-white  ">
              <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 ml-3 text-center">'Edit Student Details'</h1>
 
@@ -61,6 +66,16 @@ const StudentEditForm = ({ studentDetails }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-4 p-4  max-w-4xl mx-auto sm:grid-cols-5"
         >
+=======
+    <div className="max-w-4xl mx-auto mt-20 p-2">
+      <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center ml-3">
+        &rsquo;Edit Student&rsquo;
+      </h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid grid-cols-1 gap-4 p-4 max-w-4xl mx-auto sm:grid-cols-5"
+      >
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
         <div>
           <label
             htmlFor="username"
@@ -95,6 +110,7 @@ const StudentEditForm = ({ studentDetails }) => {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
+
         {/* SID */}
         <div>
           <label
@@ -139,7 +155,7 @@ const StudentEditForm = ({ studentDetails }) => {
             htmlFor="FatherName"
             className="block text-xs font-medium text-gray-700"
           >
-            Father's Name
+            Father&rsquo;s Name
           </label>
           <input
             type="text"
@@ -469,7 +485,11 @@ const StudentEditForm = ({ studentDetails }) => {
             type="text"
             id="Reason"
             {...register("Reason", { required: false })}
+<<<<<<< HEAD
            className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
+=======
+            className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
           />
         </div>
 
@@ -880,20 +900,30 @@ const StudentEditForm = ({ studentDetails }) => {
         {/* StudentImage */}
         <div>
           <label
+<<<<<<< HEAD
             htmlFor="StudentImage"
+=======
+            htmlFor="image"
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
             className="block text-xs font-medium text-gray-700"
           >
             Student Image
           </label>
           <input
             type="text"
+<<<<<<< HEAD
             id="StudentImage"
             {...register("StudentImage", { required: false })}
+=======
+            id="image"
+            {...register("image", { required: false })}
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
             className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
           />
         </div>
 
         <div className="col-span-1 md:col-span-5 flex items-end justify-end">
+<<<<<<< HEAD
         <button
           type="submit"
           className="border bg-black text-white p-3 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"
@@ -901,6 +931,15 @@ const StudentEditForm = ({ studentDetails }) => {
           Submit
         </button>
       </div>
+=======
+          <button
+            type="submit"
+            className="border bg-black text-white p-3 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"
+          >
+            Submit
+          </button>
+        </div>
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
       </form>
     </div>
   );

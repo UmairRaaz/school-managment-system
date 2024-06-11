@@ -1,5 +1,9 @@
 "use client";
 import axios from "axios";
+<<<<<<< HEAD
+=======
+import Image from "next/image";
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
 import React, { useEffect, useState } from "react";
 
 const StudentPreviewPage = ({ params }) => {
@@ -39,6 +43,7 @@ const StudentPreviewPage = ({ params }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             {/* Profile Picture */}
             <div className="md:col-span-1 flex justify-center md:justify-end items-start md:order-2 order-1 mt-6">
+<<<<<<< HEAD
   <div className="text-center md:text-center">
     <img
       src={student.StudentImage || "/images/profile/moon.jpg"}
@@ -56,11 +61,38 @@ const StudentPreviewPage = ({ params }) => {
     </p>
   </div>
 </div>
+=======
+              <div className="text-center md:text-center">
+                <Image
+                  src={student.StudentImage || "/images/profile/moon.jpg"}
+                  width={128}
+                  height={128}
+                  alt="Student"
+                  className="w-32 h-32 md:w-48 md:h-48 object-cover border-4 border-gray-200"
+                />
+                <p className="text-xl font-semibold text-gray-700 mt-2">
+                  <span className="text-blue-500">{student.Name}</span>
+                </p>
+                <p className="text-gray-600 text-sm mt-2">
+                  <span className="font-bold">Username:</span>{" "}
+                  {student.username}
+                </p>
+                <p className="text-gray-600 text-sm">
+                  <span className="font-bold">Password:</span>{" "}
+                  {student.password}
+                </p>
+              </div>
+            </div>
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
 
             {/* Personal Details */}
             <div className="md:col-span-2 md:order-1 order-2">
               <div className="mb-6">
+<<<<<<< HEAD
                 <h2 className="text-lg font-semibold text-gray-800  text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+=======
+                <h2 className="text-lg font-semibold text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
                   Personal Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -118,7 +150,11 @@ const StudentPreviewPage = ({ params }) => {
           <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
             {/* Other Details */}
             <div className="mb-6">
+<<<<<<< HEAD
               <h2 className="text-lg font-semibold text-gray-800  text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+=======
+              <h2 className="text-lg font-semibold   text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
                 Other Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -164,7 +200,11 @@ const StudentPreviewPage = ({ params }) => {
 
             {/* Fees */}
             <div className="mb-6">
+<<<<<<< HEAD
               <h2 className="text-lg font-semibold text-gray-800  text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+=======
+              <h2 className="text-lg font-semibold  text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
                 Fees
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
@@ -181,7 +221,11 @@ const StudentPreviewPage = ({ params }) => {
                   value={student.ApprovedAdmissionFee}
                 />
                 <DetailItem label="Lab Charges" value={student.LabCharges} />
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
                 <DetailItem
                   label="Lab Charges Discount"
                   value={student.LabChargesDiscount}
@@ -211,6 +255,7 @@ const StudentPreviewPage = ({ params }) => {
                   label="Approved Course Payment"
                   value={student.ApprovedCoursePayment}
                 />
+<<<<<<< HEAD
                
               </div>
             </div>
@@ -222,6 +267,16 @@ const StudentPreviewPage = ({ params }) => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 
+=======
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold  text-gray-900 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                Extra Carges
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
                 <DetailItem
                   label="Stationary Charges"
                   value={student.StationaryCharges}
@@ -236,8 +291,11 @@ const StudentPreviewPage = ({ params }) => {
                 )}
               </div>
             </div>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> bf6fd20720fa3e216d87e1ca60b1f73848002da3
           </div>
         </div>
       )}

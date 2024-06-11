@@ -48,7 +48,7 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
             throw new Error("Incorrect password");
           }
 
-          console.log("Login succeeded", user);
+          // console.log("Login succeeded", user);
           return user;
         } catch (error) {
           console.error("Error during authorization:", error);
@@ -75,7 +75,7 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
       return token;
   },
     session: async ({ session, token }) => {
-      console.log("session", token)
+      // console.log("session", token)
       if (token) {
           session._id = token._id,
           session.role = token.role,
