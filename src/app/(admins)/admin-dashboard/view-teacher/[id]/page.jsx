@@ -1,5 +1,6 @@
 'use client'
 import axios from 'axios'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FaUser, FaEnvelope, FaPhone, FaChalkboardTeacher, FaBook } from 'react-icons/fa'
 
@@ -33,9 +34,11 @@ const TeacherPreviewPage = ({ params }) => {
                     <div className="bg-gray-50 p-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Profile Section */}
                         <div className="flex flex-col items-center">
-                            <img
+                            <Image
                                 src={teacher.profilePicture || "/images/profile/moon.jpg"}
                                 alt="Profile"
+                                width={128}
+                                height={128}
                                 className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover mb-4"
                             />
                             <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2 text-center">{teacher.name}</h2>
@@ -65,6 +68,15 @@ const TeacherPreviewPage = ({ params }) => {
                                 <div className="ml-2 flex flex-wrap">
                                     {teacher.classes.map((className, index) => (
                                         <span key={index} className="bg-gray-200 rounded-full px-2 py-1 text-xs md:text-sm font-semibold text-gray-700 mr-1 mb-1 md:mr-2 md:mb-2">{className}</span>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="flex items-center text-gray-700">
+                                <FaChalkboardTeacher className="text-indigo-500 mr-2 md:mr-3" />
+                                <span className="font-semibold text-sm md:text-base">Sections:</span>
+                                <div className="ml-2 flex flex-wrap">
+                                    {teacher.section.map((section, index) => (
+                                        <span key={index} className="bg-gray-200 rounded-full px-2 py-1 text-xs md:text-sm font-semibold text-gray-700 mr-1 mb-1 md:mr-2 md:mb-2">{section}</span>
                                     ))}
                                 </div>
                             </div>

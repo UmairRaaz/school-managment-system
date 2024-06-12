@@ -7,7 +7,7 @@ export async function POST(req) {
     try {
         await dbConnect();
         const body = await req.json();
-        const { username, password, name, email, phoneNumber, classes, subjects } = body;
+        const { username, password, name, email, phoneNumber, classes,section, subjects } = body;
 
         const checkUserName = await TeacherModel.findOne({ username });
         console.log(checkUserName);
@@ -21,6 +21,7 @@ export async function POST(req) {
                 password,
                 name,
                 email,
+                section,
                 phoneNumber,
                 classes,
                 subjects

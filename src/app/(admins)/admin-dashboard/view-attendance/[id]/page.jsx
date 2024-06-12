@@ -34,13 +34,12 @@ const TeacherViewAttendancePage = ({ params }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setFilteredAttendance([]);
     if (teacher) {
       const response = await axios.get(
         `/api/admin/getAttendanceTeacher/${teacher._id}`
       );
       setAttendance(response.data.data);
-
       const filteredData = response.data.data.filter(
         (record) =>
           record.className === selectedClass &&
@@ -119,6 +118,7 @@ const TeacherViewAttendancePage = ({ params }) => {
               <ul>
                 {filteredAttendance.map((record, index) => (
                   <li key={index}>
+                    <div className="font-bold mb-2">Date: {new Date(record.date).toLocaleDateString()}</div>
                     {record.students.map((student, idx) => (
                       <div key={idx}>
                         {student.rollNumber}:{" "}

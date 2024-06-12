@@ -35,7 +35,7 @@ export async function PUT(req, { params }) {
         await dbConnect();
         const { id } = params;
         const body = await req.json();
-        const { username, password, name, email, phoneNumber, classes, subjects } = body;
+        const { username, password,section, name, email, phoneNumber, classes, subjects } = body;
 
         // Retrieve the current teacher record
         const currentTeacher = await TeacherModel.findById(id);
@@ -60,6 +60,7 @@ export async function PUT(req, { params }) {
                 password,
                 name,
                 email,
+                section,
                 phoneNumber,
                 classes,
                 subjects

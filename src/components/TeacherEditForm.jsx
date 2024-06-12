@@ -17,6 +17,11 @@ const subjectsOptions = [
     "Computer",
     "Drawing"
 ];
+const sections = [
+    "A",
+    "B",
+    "C",
+];
 
 const TeacherEditForm = ({ teacherDetails }) => {
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -27,7 +32,9 @@ const TeacherEditForm = ({ teacherDetails }) => {
             email: teacherDetails?.email || "",
             phoneNumber: teacherDetails?.phoneNumber || "",
             classes: teacherDetails?.classes || [],
-            subjects: teacherDetails?.subjects || []
+            subjects: teacherDetails?.subjects || [],
+            section: teacherDetails?.section || [],
+
         }
     });
     const router = useRouter();
@@ -35,6 +42,7 @@ const TeacherEditForm = ({ teacherDetails }) => {
     const onSubmit = async (data) => {
         data.classes = data.classes || [];
         data.subjects = data.subjects || [];
+        data.section = data.section || [];
         console.log(data)
         try {
             const response = await axios.put(`/api/admin/delete-get-edit-teacher/${teacherDetails._id}`, data);
@@ -121,7 +129,23 @@ const TeacherEditForm = ({ teacherDetails }) => {
                     </div>
                     {errors.classes && <span className="text-red-500 text-sm">At least one class is required</span>}
                 </div>
-
+                <div className="col-span-1 md:col-span-3">
+                    <label className="block text-sm font-medium text-black">Sections</label>
+                    <div className="mt-1 flex flex-wrap gap-2">
+                        {sections.map((sectionOption, index) => (
+                            <div key={index} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    value={sectionOption}
+                                    {...register('section')}
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                />
+                                <label className="ml-2 block text-sm text-black">{sectionOption}</label>
+                            </div>
+                        ))}
+                    </div>
+                    {errors.section && <span className="text-red-500 text-sm">At least one section is required</span>}
+                </div>
                 <div className="col-span-1 md:col-span-3">
                     <label className="block text-sm font-medium text-black">Subjects</label>
                     <div className="mt-1 flex flex-wrap gap-2">

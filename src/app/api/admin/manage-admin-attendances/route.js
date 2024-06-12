@@ -38,7 +38,7 @@ export async function PUT(req) {
 
     const updatedAttendances = await Attendance.find({});
     return NextResponse.json({ message: "Attendance updated successfully", success: true, attendance: updatedAttendances }, { status: 200 });
-    // return NextResponse.json({ message: "Attendance updated successfully", success: true }, { status: 200 });
+
   } catch (error) {
     console.error('Error updating attendance:', error);
     return NextResponse.json({ message: 'Failed to update attendance', success: false }, { status: 500 });

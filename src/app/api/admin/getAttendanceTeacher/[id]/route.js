@@ -9,27 +9,8 @@ export async function GET(req, { params }) {
     const { id } = params;
     console.log(id);
 
-    const allAttendances = await Attendance.aggregate([
-      // Match documents containing the specified student ID
-      {
-          $match: {
-              'students.id': id
-          }
-      },
-      // Deconstruct the students array
-      {
-          $unwind: '$students'
-      },
-      // Match the student with the specified student ID
-      {
-          $match: {
-              'students.id': id
-          }
-      }
-    ]).exec();
-
-    console.log(allAttendances);
-
+    const allAttendances = await Attendance.find({teacher : id})
+    console.log("allAttendances", allAttendances)
     return NextResponse.json({ message: "Attendance fetched successfully", success: true, data: allAttendances },{ status: 200 });
   } catch (error) {
     console.error("Error fetching attendance:", error);

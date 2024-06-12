@@ -16,6 +16,11 @@ const subjectsOptions = [
     "Computer",
     "Drawing"
 ];
+const sections = [
+    "A",
+    "B",
+    "C",
+];
 
 const TeacherForm = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -23,6 +28,7 @@ const TeacherForm = () => {
     const onSubmit = async (data) => {
         data.classes = data.classes || [];
         data.subjects = data.subjects || [];
+        data.section = data.section || [];
         try {
             const response = await axios.post("/api/admin/add-teacher", data);
             console.log(response);
@@ -40,7 +46,7 @@ const TeacherForm = () => {
 
     return (
         <div className=" p-11 mt-20 bg-white  ">
-             <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center">'Add Teacher'</h1>
+             <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center">&rsquo;Add Teacher&rsquo;</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label className="block text-sm font-medium text-black">Username</label>
@@ -108,6 +114,23 @@ const TeacherForm = () => {
                         ))}
                     </div>
                     {errors.classes && <span className="text-red-500 text-sm">At least one class is required</span>}
+                </div>
+                <div className="col-span-1 md:col-span-3">
+                    <label className="block text-sm font-medium text-black">Sections</label>
+                    <div className="mt-1 flex flex-wrap gap-2">
+                        {sections.map((sectionOption, index) => (
+                            <div key={index} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    value={sectionOption}
+                                    {...register('section')}
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                />
+                                <label className="ml-2 block text-sm text-black">{sectionOption}</label>
+                            </div>
+                        ))}
+                    </div>
+                    {errors.section && <span className="text-red-500 text-sm">At least one section is required</span>}
                 </div>
 
                 <div className="col-span-1 md:col-span-3">

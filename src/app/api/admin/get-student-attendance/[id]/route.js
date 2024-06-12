@@ -8,8 +8,8 @@ export async function GET(req, { params }) {
     await dbConnect();
 
     const { id } = params;
-    const attendances = await Attendance.find({});
-
+    // const attendances = await Attendance.find({});
+    console.log(id)
     const studentId = mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : id;
 
     const studentAttendance = await Attendance.aggregate([

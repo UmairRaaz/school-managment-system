@@ -3,10 +3,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 
-const AttendancePage = ({ params }) => {
-  const { id } = params;
+const AdminAttendancePage = () => {
   const [loading, setLoading] = useState(true);
-  const [teacher, setTeacher] = useState(null);
+  const [teachers, setTeachers] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [teacherDetails, setTeacherDetails] = useState(null);
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
@@ -14,26 +15,34 @@ const AttendancePage = ({ params }) => {
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [attendanceData, setAttendanceData] = useState({
-    teacherName: "",
+    teacher: "",
     className: "",
     subject: "",
     section: "",
     date: format(new Date(), "yyyy-MM-dd"),
     students: [],
   });
-  console.log(selectedClass)
+
   useEffect(() => {
-    const fetchTeacherDetails = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `/api/admin/delete-get-edit-teacher/${id}`
-      );
-      setTeacher(response.data.teacher);
+    const fetchTeachers = async () => {
+      const response = await axios.get("/api/admin/all-teachers");
+      setTeachers(response.data.teachers);
       setLoading(false);
     };
 
-    fetchTeacherDetails();
-  }, [id]);
+    fetchTeachers();
+  }, []);
+
+  const handleTeacherChange = async (event) => {
+    const teacherId = event.target.value;
+    setSelectedTeacher(teacherId);
+    setLoading(true);
+    const response = await axios.get(
+      `/api/admin/delete-get-edit-teacher/${teacherId}`
+    );
+    setTeacherDetails(response.data.teacher);
+    setLoading(false);
+  };
 
   const handleClassChange = (event) => {
     setSelectedClass(event.target.value);
@@ -59,7 +68,6 @@ const AttendancePage = ({ params }) => {
         selectedClass,
         selectedSection,
       });
-      // Initialize each student's presence status
       const initializedStudents = studentsData.data.data.map((student) => ({
         id: student._id,
         rollNumber: student.SID,
@@ -68,7 +76,7 @@ const AttendancePage = ({ params }) => {
       setStudents(initializedStudents);
       setAttendanceData((prevData) => ({
         ...prevData,
-        teacher: teacher._id,
+        teacher: selectedTeacher,
         className: selectedClass,
         subject: selectedSubject,
         section: selectedSection,
@@ -110,13 +118,14 @@ const AttendancePage = ({ params }) => {
       if (response.data.success) {
         alert("Attendance taken successfully");
         // Reset fields
+        setSelectedTeacher("");
         setSelectedClass("");
         setSelectedSubject("");
         setSelectedSection("");
         setDate(format(new Date(), "yyyy-MM-dd"));
         setStudents([]);
         setAttendanceData({
-          teacherName: "",
+          teacher: "",
           className: "",
           subject: "",
           section: "",
@@ -141,74 +150,94 @@ const AttendancePage = ({ params }) => {
   return (
     <div className="min-h-screen mt-28 px-10">
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Teacher Details</h1>
+        <h1 className="text-2xl font-bold mb-4">Admin Attendance Page</h1>
         <div className="mb-4">
-          <p>
-            <strong>Name:</strong> {teacher.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {teacher.email}
-          </p>
+          <label className="block mb-2">Select Teacher</label>
+          <select
+            value={selectedTeacher}
+            onChange={handleTeacherChange}
+            className="border p-2 w-full"
+          >
+            <option value="">Select a teacher</option>
+            {teachers.map((teacher) => (
+              <option key={teacher._id} value={teacher._id}>
+                {teacher.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <form onSubmit={handleSubmit} className="mb-4">
-          <div className="mb-4">
-            <label className="block mb-2">Select Class</label>
-            <select
-              value={selectedClass}
-              onChange={handleClassChange}
-              className="border p-2 w-full"
-            >
-              <option value="">Select a class</option>
-              {teacher.classes.map((cls) => (
-                <option key={cls} value={cls}>
-                  {cls}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2">Select Subject</label>
-            <select
-              value={selectedSubject}
-              onChange={handleSubjectChange}
-              className="border p-2 w-full"
-            >
-              <option value="">Select a subject</option>
-              {teacher.subjects.map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2">Select Section</label>
-            <select
-              value={selectedSection}
-              onChange={handleSectionChange}
-              className="border p-2 w-full"
-            >
-              <option value="">Select a section</option>
-              {teacher.section.map((section) => (
-                <option key={section} value={section}>
-                  {section}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2">Select Date</label>
-            <input
-              type="date"
-              value={date}
-              onChange={handleDateChange}
-              className="border p-2 w-full"
-            />
-          </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            Get Students
-          </button>
-        </form>
+        {teacherDetails && (
+          <>
+            <h2 className="text-xl font-bold mb-4">Teacher Details</h2>
+            <div className="mb-4">
+              <p>
+                <strong>Name:</strong> {teacherDetails.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {teacherDetails.email}
+              </p>
+            </div>
+            <form onSubmit={handleSubmit} className="mb-4">
+              <div className="mb-4">
+                <label className="block mb-2">Select Class</label>
+                <select
+                  value={selectedClass}
+                  onChange={handleClassChange}
+                  className="border p-2 w-full"
+                >
+                  <option value="">Select a class</option>
+                  {teacherDetails.classes.map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Select Subject</label>
+                <select
+                  value={selectedSubject}
+                  onChange={handleSubjectChange}
+                  className="border p-2 w-full"
+                >
+                  <option value="">Select a subject</option>
+                  {teacherDetails.subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Select Section</label>
+                <select
+                  value={selectedSection}
+                  onChange={handleSectionChange}
+                  className="border p-2 w-full"
+                >
+                  <option value="">Select a section</option>
+                  {teacherDetails.section.map((section) => (
+                    <option key={section} value={section}>
+                      {section}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Select Date</label>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={handleDateChange}
+                  className="border p-2 w-full"
+                />
+              </div>
+              <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+                Get Students
+              </button>
+            </form>
+          </>
+        )}
         <div>
           <h2 className="text-xl font-bold mb-2">Students</h2>
           {loadingStudents ? (
@@ -249,4 +278,4 @@ const AttendancePage = ({ params }) => {
   );
 };
 
-export default AttendancePage;
+export default AdminAttendancePage;

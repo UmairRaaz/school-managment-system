@@ -2,32 +2,42 @@ import dbConnect from "@/libs/dbConnect";
 import { StudentModel } from "@/models/studentModel";
 import { NextResponse } from "next/server";
 
-export async function GET(req, { params }) {
-  const { classname } = params;
+export async function POST(req) {
   try {
     await dbConnect();
+    const data = await req.json();
+
+    const { selectedClass, selectedSection } = data;
+    console.log(selectedClass, selectedSection)
 
     const students = await StudentModel.aggregate([
       {
-        $match: { CurrentClass: classname }
+        $match: {
+          $and: [
+            { CurrentClass: selectedClass },
+            { Section: selectedSection }
+          ]
+        }
       },
       {
         $project: {
-          _id: 1, 
-          SID: 1
+          _id: 1,
+          SID: 1,
+          Name: 1,  
+          CurrentClass: 1,
+          Section: 1
         }
       }
     ]);
-
     console.log(students);
 
     return NextResponse.json({
       message: "Students fetched successfully",
       success: true,
-      data: students
+      data: students 
     }, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({
       message: "Students fetch failed",
       success: false

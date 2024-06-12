@@ -23,6 +23,7 @@ export async function POST(req) {
             teacher: body.teacher,
             className: body.className,
             subject: body.subject,
+            section: body.section,
             date: body.date
         });
 

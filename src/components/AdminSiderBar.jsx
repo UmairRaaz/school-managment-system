@@ -94,7 +94,11 @@ const Sidebar = () => {
       color: "blue",
       tooltip: "Attendance",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin-dashboard/all-attendances", label: "All Attendances" }],
+      dropdownLinks: [
+        { href: "/admin-dashboard/all-attendances", label: "Edit Attendances" },
+        { href: "/admin-dashboard/admin-take-attendances", label: "Admin Take Attendances" },
+        { href: "/admin-dashboard/admin-view-attendances", label: "Admin View Attendances" },
+      ],
     },
     {
       href: "/",
