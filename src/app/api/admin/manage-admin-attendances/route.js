@@ -3,13 +3,22 @@ import { Attendance } from "@/models/attendanceModel";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
-export async function GET(req) {
+export async function POST(req) {
   try {
     await dbConnect();
-    const attendances = await Attendance.find({});
-    console.log("All Attendances:", attendances); // Log all attendances
-
-    return NextResponse.json({ message: "attendance fetched successfully", success: true, attendance: attendances }, { status: 200 });
+    const body = await req.json()
+    console.log(body)
+    const {selectedClass, selectedSection, selectedTeacher, selectedSubject, date} = body
+    const isoDate = new Date(date).toISOString();
+    const attendance = await Attendance.find({
+      subject : selectedSubject,
+      section : selectedSection,
+      className : selectedClass,
+      teacher : selectedTeacher,
+      date : isoDate
+    })
+    console.log(attendance)
+    return NextResponse.json({ message: "attendance fetched successfully", success: true, attendance: attendance, id: attendance[0]._id }, { status: 200 });
   } catch (error) {
     console.error("Error fetching attendance:", error);
 
@@ -18,29 +27,19 @@ export async function GET(req) {
 }
 
 export async function PUT(req) {
-  const { attendanceId, studentId, isPresent } = await req.json();
-
   try {
-    await dbConnect();
+    const body = await req.json();
+    const { attendanceData, attendanceEditId } = body;
 
-    const attendance = await Attendance.findById(attendanceId);
-    if (!attendance) {
-      return NextResponse.json({ message: 'Attendance record not found', success: false }, { status: 404 });
+    const updateAttendance = await Attendance.findByIdAndUpdate(attendanceEditId, attendanceData);
+
+    if (!updateAttendance) {
+      return NextResponse.json({ message: "Attendance not found", success: false }, { status: 404 });
     }
 
-    attendance.students.forEach((student) => {
-      if (student.id == studentId) {
-        student.isPresent = isPresent;
-      }
-    });
-
-    await attendance.save();
-
-    const updatedAttendances = await Attendance.find({});
-    return NextResponse.json({ message: "Attendance updated successfully", success: true, attendance: updatedAttendances }, { status: 200 });
-
+    return NextResponse.json({ message: "Attendance updated successfully", success: true }, { status: 200 });
   } catch (error) {
-    console.error('Error updating attendance:', error);
-    return NextResponse.json({ message: 'Failed to update attendance', success: false }, { status: 500 });
+    console.error("Error updating attendance:", error);
+    return NextResponse.json({ message: "Failed to update attendance", success: false }, { status: 500 });
   }
 }

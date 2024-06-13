@@ -31,10 +31,9 @@ const AttendancePage = ({ params }) => {
       setTeacher(response.data.teacher);
       setLoading(false);
     };
-
     fetchTeacherDetails();
   }, [id]);
-
+  
   const handleClassChange = (event) => {
     setSelectedClass(event.target.value);
   };

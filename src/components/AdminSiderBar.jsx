@@ -152,7 +152,7 @@ const Sidebar = () => {
       tooltip: 'Take Attendance',
     },
     {
-      href: `/admin-dashboard/view-attendance/${userDetails?.id}`,
+      href: `/admin-dashboard/view-attendance`,
       icon: FaUserGraduate,
       label: 'View Attendance',
       color: 'blue',
@@ -197,7 +197,7 @@ const Sidebar = () => {
       tooltip: 'View Grades',
     },
     {
-      href: `/admin-dashboard/student-attendance/${userDetails?.id}`,
+      href: `/admin-dashboard/view-attendance`,
       icon: FaUserGraduate,
       label: 'View Attendance',
       color: 'blue',
