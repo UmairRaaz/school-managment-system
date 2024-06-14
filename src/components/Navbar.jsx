@@ -1,28 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IoIosHome } from "react-icons/io";
 import { FaUserCircle, FaInfoCircle, FaEnvelope, FaBell, FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 function Navbar() {
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [userDetails, setUserDetails] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-
+  const [userDetails, setUserDetails] = useState({
+    id: session?._id || "",
+    username: "",
+    image: "/profile.png",
+    email: "",
+    role: "Panel",
+  });
+  useEffect(() => {
+    if (session) {
+      setUserDetails({
+        id: session?._id || "",
+        username: session?.username || "",
+        image: session?.image || "/profile.png",
+        email: session?.email || "",
+        role: session?.role || ""
+      });
+      setIsLoggedIn(true)
+    }
+  }, [session]);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log("home-sessions", session)
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const logoutHandler = () => {
-    // Implement your logout logic here
     setIsLoggedIn(false);
     router.push("/login");
   };
@@ -63,9 +81,9 @@ function Navbar() {
                 {isDropdownOpen && (
                   <ul className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-lg">
                     <li className="px-4 py-2 border-b">
-                      Name: {userDetails.name}
+                      Name: {userDetails.username}
                     </li>
-                    <li className="px-4 py-2 border-b">
+                    <li className="px-4 py-2 border-b text-sm">
                       Email: {userDetails.email}
                     </li>
                     <li className="px-4 py-2 border-b">
@@ -74,18 +92,17 @@ function Navbar() {
                       </Link>
                     </li>
                     <li className="px-4 py-2">
-                      <button
-                        onClick={logoutHandler}
+                      <Link href={"/api/auth/signout"}
                         className="text-blue-800 hover:text-blue-600"
                       >
                         Logout
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 )}
               </>
             ) : (
-              <Link href="/admin-dashboard">
+              <Link href="/admin-auth/login">
                 <button className="btn text-sm btn-sm btn-dark border-black">
                   Login
                 </button>
@@ -149,10 +166,10 @@ function Navbar() {
                       {isDropdownOpen && (
                         <ul className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-lg">
                           <li className="px-4 py-2 border-b">
-                            Name: moon
+                            Name: {userDetails.username}
                           </li>
-                          <li className="px-4 py-2 border-b">
-                            Email: moon@gmail.com
+                          <li className="px-4 py-2 border-b text-sm">
+                            Email: {userDetails.email}
                           </li>
                           <li className="px-4 py-2 border-b">
                             <Link href="/admin-dashboard" className="text-blue-800">
@@ -160,18 +177,19 @@ function Navbar() {
                             </Link>
                           </li>
                           <li className="px-4 py-2">
-                            <button
+                            <Link
+                            href={"/api/auth/signout"}
                               onClick={logoutHandler}
                               className="text-blue-800 hover:text-blue-600"
                             >
                               Logout
-                            </button>
+                            </Link>
                           </li>
                         </ul>
                       )}
                     </>
                   ) : (
-                    <Link href="/admin-dashboard">
+                    <Link href="/admin-auth/login">
                       <button className="btn text-sm btn-sm btn-dark border-black">
                         Login
                       </button>

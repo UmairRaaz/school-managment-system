@@ -32,18 +32,7 @@ export default function AdminNavbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const getProfileLink = (id) => {
-    switch (userDetails.role) {
-      case 'admin':
-        return `/admin-dashboard/admin-profile`;
-      case 'teacher':
-        return `/admin-dashboard/view-teacher/${id}`;
-      case 'student':
-        return `/admin-dashboard/view-student/${id}`;
-      default:
-        return `/admin-dashboard/admin-profile`;
-    }
-  };
+
 
   return (
     <nav className="bg-white fixed w-full top-0 z-50 shadow-lg">

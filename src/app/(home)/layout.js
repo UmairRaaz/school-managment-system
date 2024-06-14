@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,12 +16,13 @@ export default function HomeLayout({ children }) {
 
   return (
     <div >
-      <div>
-        <Navbar/>
-        <div>{children}</div>
-        <Footer/>
-      </div>
-
+      <SessionProvider>
+        <div>
+          <Navbar />
+          <div>{children}</div>
+          <Footer />
+        </div>
+      </SessionProvider>
     </div>
   );
 }
