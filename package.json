@@ -1,0 +1,33 @@
+{
+  "name": "school-managment-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.3",
+    "axios": "^1.7.2",
+    "bcryptjs": "^2.4.3",
+    "daisyui": "^4.12.2",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^11.2.10",
+    "mongoose": "^8.4.1",
+    "next": "14.2.3",
+    "next-auth": "^5.0.0-beta.19",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.5",
+    "react-icons": "^5.2.1",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
