@@ -13,7 +13,7 @@ export default function AdminNavbar() {
     username: "",
     image: "/profile.png",
     email: "",
-    role: "Panel",
+    role: session?.role || "",
   });
 
   useEffect(() => {

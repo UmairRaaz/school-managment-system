@@ -18,7 +18,7 @@ function Navbar() {
     username: "",
     image: "/profile.png",
     email: "",
-    role: "Panel",
+    role: session?.role || "",
   });
   useEffect(() => {
     if (session) {
