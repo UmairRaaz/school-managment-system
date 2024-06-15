@@ -173,7 +173,7 @@ const AdminProfileEditForm = () => {
             <button
   onClick={handleEditClick}
   className={`px-12 py-2 ml-4 text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out 
-              ${isEditing ? 'block md:inline-block' : 'inline-block md:hidden'}`}
+              ${isEditing ? 'block md:inline-block' : 'inline-block '}`}
 >
   {isEditing ? "Cancel" : "Edit Profile"}
 </button>
