@@ -197,7 +197,7 @@ const ViewAttendance = () => {
         <select
           value={selectedClass}
           onChange={(e) => setSelectedClass(e.target.value)}
-          className="border p-2 w-full rounded-md shadow-sm"
+          className=" border p-2 w-full rounded-md shadow-sm"
         >
           <option value="">Select a class</option>
           {classes.map((cls) => (
@@ -260,7 +260,7 @@ const ViewAttendance = () => {
   </form>
   <button
     onClick={handleFetchAttendance}
-    className="bg-blue-500 text-white py-2 px-2 text-xs rounded-md shadow-md transition duration-300 ease-in-out"
+    className="bg-black text-white py-3 px-2 text-xs rounded-md shadow-md transition duration-300 ease-in-out"
     style={{ whiteSpace: "nowrap" }}
     disabled={
       !selectedTeacher ||

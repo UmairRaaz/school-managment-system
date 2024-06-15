@@ -88,18 +88,18 @@ function Navbar() {
               </div>
               <div className="p-2">
                 {userDetails.role === "admin" && (
-                  <a href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  <a href={`/admin-dashboard`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "teacher" && (
-                  <a href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  <a href={`/admin-dashboard/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "student" && (
-                  <a href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  <a href={`/admin-dashboard/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 <a href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
@@ -180,17 +180,17 @@ function Navbar() {
               <div className="p-2">
                 {userDetails.role === "admin" && (
                   <a href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "teacher" && (
                   <a href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "student" && (
                   <a href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 <a href="/api/auth/signout" onClick={logoutHandler} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
