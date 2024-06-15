@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IoIosHome } from "react-icons/io";
+import { FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { FaUserCircle, FaInfoCircle, FaEnvelope, FaBell, FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -67,48 +68,55 @@ function Navbar() {
           <Link href="/notifications" className="text-black hover:text-blue-500">
             <FaBell size={25} />
           </Link>
+
           <div className="relative">
-            {isLoggedIn ? (
-              <>
-                <Image
-                  src="/profile.png"
-                  alt="Profile"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full cursor-pointer"
-                  onClick={toggleDropdown}
-                />
-                {isDropdownOpen && (
-                  <ul className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-lg">
-                    <li className="px-4 py-2 border-b">
-                      Name: {userDetails.username}
-                    </li>
-                    <li className="px-4 py-2 border-b text-sm">
-                      Email: {userDetails.email}
-                    </li>
-                    <li className="px-4 py-2 border-b">
-                      <Link href="/admin-dashboard" className="text-blue-800">
-                        View Dashboard
-                      </Link>
-                    </li>
-                    <li className="px-4 py-2">
-                      <Link href={"/api/auth/signout"}
-                        className="text-blue-800 hover:text-blue-600"
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  </ul>
+      {isLoggedIn ? (
+        <>
+          <Image
+            src="/profile.png"
+            alt="Profile"
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
+            onClick={toggleDropdown}
+          />
+          {isDropdownOpen && (
+            <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
+              <div className="p-4 border-b border-gray-200">
+                <p className="text-sm font-semibold text-gray-900">{userDetails.username}</p>
+                <p className="text-xs text-gray-600">{userDetails.email}</p>
+              </div>
+              <div className="p-2">
+                {userDetails.role === "admin" && (
+                  <a href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
                 )}
-              </>
-            ) : (
-              <Link href="/admin-auth/login">
-                <button className="btn text-sm btn-sm btn-dark border-black">
-                  Login
-                </button>
-              </Link>
-            )}
-          </div>
+                {userDetails.role === "teacher" && (
+                  <a href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
+                )}
+                {userDetails.role === "student" && (
+                  <a href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
+                )}
+                <a href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
+                  <FaSignOutAlt className="mr-2 text-red-500" /> Logout
+                </a>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <a href="/admin-auth/login">
+          <button className="text-sm px-6 py-3 bg-black text-white rounded-full hover:bg-gradient-to-l transition-colors duration-300 shadow-lg transform hover:scale-105">
+            Login
+          </button>
+        </a>
+      )}
+    </div>
         </div>
         <button className="lg:hidden text-black" onClick={toggleSidebar}>
           <FaBars className="h-6 w-6" />
@@ -152,50 +160,54 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <div className="relative">
-                  {isLoggedIn ? (
-                    <>
-                      <Image
-                        src="/profile.png"
-                        alt="Profile"
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-full cursor-pointer"
-                        onClick={toggleDropdown}
-                      />
-                      {isDropdownOpen && (
-                        <ul className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-lg">
-                          <li className="px-4 py-2 border-b">
-                            Name: {userDetails.username}
-                          </li>
-                          <li className="px-4 py-2 border-b text-sm">
-                            Email: {userDetails.email}
-                          </li>
-                          <li className="px-4 py-2 border-b">
-                            <Link href="/admin-dashboard" className="text-blue-800">
-                              View Dashboard
-                            </Link>
-                          </li>
-                          <li className="px-4 py-2">
-                            <Link
-                            href={"/api/auth/signout"}
-                              onClick={logoutHandler}
-                              className="text-blue-800 hover:text-blue-600"
-                            >
-                              Logout
-                            </Link>
-                          </li>
-                        </ul>
-                      )}
-                    </>
-                  ) : (
-                    <Link href="/admin-auth/login">
-                      <button className="btn text-sm btn-sm btn-dark border-black">
-                        Login
-                      </button>
-                    </Link>
-                  )}
-                </div>
+              <div className="relative">
+      {isLoggedIn ? (
+        <>
+          <Image
+            src="/profile.png"
+            alt="Profile"
+            width={32}
+            height={32}
+            className="w-8 h-8 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
+            onClick={toggleDropdown}
+          />
+          {isDropdownOpen && (
+            <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
+              <div className="p-4 border-b border-gray-200">
+                <p className="text-sm font-semibold text-gray-900">{userDetails.username}</p>
+                <p className="text-xs text-gray-600">{userDetails.email}</p>
+              </div>
+              <div className="p-2">
+                {userDetails.role === "admin" && (
+                  <a href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
+                )}
+                {userDetails.role === "teacher" && (
+                  <a href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
+                )}
+                {userDetails.role === "student" && (
+                  <a href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                    <FaCog className="mr-2 text-blue-500" /> Account Settings
+                  </a>
+                )}
+                <a href="/api/auth/signout" onClick={logoutHandler} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
+                  <FaSignOutAlt className="mr-2 text-red-500" /> Logout
+                </a>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <a href="/admin-auth/login">
+          <button className="text-sm px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-md">
+            Login
+          </button>
+        </a>
+      )}
+    </div>
               </li>
             </ul>
           </div>
