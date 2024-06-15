@@ -11,7 +11,7 @@ export async function LoginAction(formData) {
         await signIn("credentials", {
             username,
             password,
-            redirectTo :"/admin-dashboard"
+            redirectTo :"/"
         })
     } catch (error) {
         if(error instanceof AuthError){
