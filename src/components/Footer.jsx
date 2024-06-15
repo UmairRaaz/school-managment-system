@@ -26,17 +26,17 @@ const Footer = () => {
           {/* Social Media Links */}
           <div className="text-center flex flex-col md:text-left  gap-2 md:mb-0">
             <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
-            <div className="flex justify-center md:justify-start items-center text-blue-600">
-              <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-green-800">
+            <div className="flex justify-center md:justify-start items-center text-blue-400">
+              <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-purple-600">
                 <FaFacebook size={24} />
               </Link>
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-green-800">
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-purple-600">
                 <FaTwitter size={24} />
               </Link>
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-green-800">
+              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="mr-3 hover:text-purple-600">
                 <FaInstagram size={24} />
               </Link>
-              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className=" hover:text-green-800">
+              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className=" hover:text-purple-600">
                 <FaLinkedin size={24} />
               </Link>
             </div>
