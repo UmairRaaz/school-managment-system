@@ -22,16 +22,17 @@ const ContactPage = () => {
               Mehran University Of Engineering And Technology
             </p>
             <div className="flex space-x-6 text-4xl">
-              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-white hover:text-green-400 transition duration-300 transform hover:scale-125">
+
+              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-green hover:text-green-400 transition duration-300 transform hover:scale-125">
                 <FaWhatsapp />
               </a>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-pink-400 transition duration-300 transform hover:scale-125">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-pink hover:text-pink-400 transition duration-300 transform hover:scale-125">
                 <FaInstagram />
               </a>
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition duration-300 transform hover:scale-125">
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-blue hover:text-blue-400 transition duration-300 transform hover:scale-125">
                 <FaFacebook />
               </a>
-              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-600 transition duration-300 transform hover:scale-125">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-purple hover:text-blue-600 transition duration-300 transform hover:scale-125">
                 <FaLinkedin />
               </a>
             </div>
