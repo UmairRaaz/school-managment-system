@@ -93,12 +93,12 @@ function Navbar() {
                   </a>
                 )}
                 {userDetails.role === "teacher" && (
-                  <a href={`/admin-dashboard/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                     <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "student" && (
-                  <a href={`/admin-dashboard/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                     <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
@@ -184,12 +184,12 @@ function Navbar() {
                   </a>
                 )}
                 {userDetails.role === "teacher" && (
-                  <a href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                     <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}
                 {userDetails.role === "student" && (
-                  <a href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
+                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
                     <FaCog className="mr-2 text-blue-500" /> View Dashboard
                   </a>
                 )}

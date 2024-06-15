@@ -220,7 +220,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-[#0e0e0e] min-h-screen ${
+      className={`bg-[#0e0e0e] h-screen ${
         isOpen ? 'w-64' : 'w-16'
       } duration-500 text-gray-100 px-4 fixed left-0 top-0 mt-20 pb-40 overflow-y-auto`}
     >
