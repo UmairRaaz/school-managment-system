@@ -22,6 +22,7 @@ const ContactPage = () => {
               Mehran University Of Engineering And Technology
             </p>
             <div className="flex space-x-6 text-4xl">
+
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-green hover:text-green-400 transition duration-300 transform hover:scale-125">
                 <FaWhatsapp />
               </a>

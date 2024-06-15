@@ -125,7 +125,12 @@ const Sidebar = () => {
       color: "blue",
       tooltip: "Notification",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-users", label: "All Users" }],
+      dropdownLinks: [
+        { href: "/admin-dashboard/admin-add-class-notification", label: "Add Class Notification" },
+        { href: "/admin-dashboard/admin-add-public-notification", label: "Add Public Notification" },
+        { href: "/admin-dashboard/adminview-all-public-notification", label: "All Public Notification" },
+        { href: "/admin-dashboard/adminview-all-class-notification", label: "All Class Notification" },
+      ],
     },
     {
       href: "/api/auth/signout",
