@@ -35,7 +35,7 @@ function Navbar() {
         </div>
         <div className="hidden lg:flex items-center space-x-8">
           <Link href="/">
-            <IoIosHome size={25} className="text-black hover:text-blue-500" />
+            <IoIosHome size={25} className="text-blue-400 hover:text-blue-500" />
           </Link>
           <Link href="/about" className="text-black hover:text-blue-500">
             About

@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* styles/globals.css */
+
+.notification-scroll {
+    display: flex;
+    flex-direction: column;
+    animation: scroll 20s linear infinite;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+  
+  .notification-scroll > a {
+    flex-shrink: 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
