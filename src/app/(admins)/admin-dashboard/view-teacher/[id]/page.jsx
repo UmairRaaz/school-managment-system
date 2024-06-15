@@ -27,7 +27,7 @@ const TeacherPreviewPage = ({ params }) => {
     return (
         
         <div className="flex flex-col items-start justify-start min-h-screen bg-white p-11 mt-20">
-                        <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center">&rsquo;View Teacher Profile&rsquo;</h1>
+                        <h1 className="text-sm flex justify-start items-start text-blue-500 mb-10 text-center">View Teacher Profile</h1>
 
             {loading ? "Loading" :
                 (
