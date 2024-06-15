@@ -46,7 +46,7 @@ const TeacherForm = () => {
 
     return (
         <div className=" p-11 mt-20 bg-white  ">
-             <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center">&rsquo;Add Teacher&rsquo;</h1>
+             <h1 className="text-sm flex justify-start items-start text-blue-500 mb-10 text-center">Add Teacher</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label className="block text-sm font-medium text-black">Username</label>
