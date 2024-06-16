@@ -60,7 +60,7 @@ const Sidebar = () => {
 
   const adminNavLinks = [
     {
-      href: "/",
+      href: "/admin-dashboard",
       icon: FaTachometerAlt,
       label: "Dashboard",
       color: "blue",
@@ -104,20 +104,28 @@ const Sidebar = () => {
     },
     {
       href: "/",
+      icon: FaLifeRing,
+      label: "Fees",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        { href: "/admin-dashboard/admin-add-class-fees", label: "Add Fees" },
+    
+      { href: "/admin-dashboard/all-student-fees", label: "Manage Fees" },
+  
+      
+      ],
+
+    },
+    {
+      href: "/",
       icon: FaShoppingCart,
       label: "Result",
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [{ href: "/admin/all-supports", label: "All Support" }],
     },
-    {
-      href: "/",
-      icon: FaLifeRing,
-      label: "Fees",
-      color: "blue",
-      hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-users", label: "All Users" }],
-    },
+   
     {
       href: "/",
       icon: FaLifeRing,
