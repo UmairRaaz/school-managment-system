@@ -20,6 +20,9 @@ const notificationSchema = new mongoose.Schema({
     section: {
         type: String,
     },
+    subject: {
+        type: String,
+    },
     title: {
         type: String,
         required: true

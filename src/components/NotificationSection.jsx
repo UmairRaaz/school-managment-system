@@ -1,26 +1,34 @@
-// components/NotificationSectionWithModal.jsx
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios"; // Import axios for making API requests
 import Image from "next/image";
-
-const notifications = [
-  { title: "School Closure", subject: "Closure Notice", message: "School will be closed on Friday.", link: "/notifications/1", image: "/moon.jpg" },
-  { title: "Parent-Teacher Meeting", subject: "Meeting Schedule", message: "Parent-teacher meeting next Wednesday.", link: "/notifications/2", image: "/moon.jpg" },
-  { title: "Library Update", subject: "New Books", message: "New library books are now available.", link: "/notifications/3", image: "/moon.jpg" },
-  { title: "Sports Day", subject: "Event Announcement", message: "Annual sports day next month.", link: "/notifications/4", image: "/moon.jpg" },
-  { title: "Maths Test", subject: "Test Schedule", message: "Maths test scheduled for Monday.", link: "/notifications/5", image: "/moon.jpg" },
-  { title: "Cafeteria Menu", subject: "Menu Update", message: "New cafeteria menu launched.", link: "/notifications/6", image: "/moon.jpg" },
-  { title: "Science Fair", subject: "Event Announcement", message: "Science fair this weekend.", link: "/notifications/7", image: "/moon.jpg" },
-  { title: "Extra Classes", subject: "Class Schedule", message: "Extra classes for Grade 10 on Saturday.", link: "/notifications/8", image: "/moon.jpg" },
-  { title: "Art Competition", subject: "Competition Announcement", message: "Art competition entries are open.", link: "/notifications/9", image: "/moon.jpg" },
-  { title: "Uniform Sale", subject: "Sale Notice", message: "School uniform sale this Thursday.", link: "/notifications/10", image: "/moon.jpg" },
-];
 
 const NotificationSectionWithModal = () => {
   const [showModal, setShowModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentNotification, setCurrentNotification] = useState({});
-  
+  const [publicNotifications, setPublicNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get("/api/admin/getNotifications");
+      const notifications = response.data.notifications;
+      const filteredPublicNotifications = notifications.filter(
+        (notification) => notification.notificationFor === "public"
+      );
+      setPublicNotifications(filteredPublicNotifications);
+    } catch (error) {
+      console.error("Error fetching public notifications:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
   const handleNotificationClick = (notification) => {
     setCurrentNotification(notification);
     setShowModal(true);
@@ -39,6 +47,17 @@ const NotificationSectionWithModal = () => {
     setShowImageModal(false);
   };
 
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-r p-6 rounded-lg w-full md:w-[94%] px-8 md:px-20">
+        <h1 className="text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-400 text-center mb-12">
+          Notifications
+        </h1>
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gradient-to-r p-6 rounded-lg w-full md:w-[94%] px-8 md:px-20">
       <h1 className="text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-400 text-center mb-12">
@@ -46,13 +65,13 @@ const NotificationSectionWithModal = () => {
       </h1>
       <div className="h-60 overflow-hidden relative">
         <div className="notification-scroll gap-4">
-          {notifications.map((notification, index) => (
+          {publicNotifications.map((notification, index) => (
             <button
               key={index}
               onClick={() => handleNotificationClick(notification)}
               className="block text-black text-sm py-2 hover:bg-blue-100 hover:shadow-lg transition duration-300 ease-in-out w-full text-left rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {notification.message}
+              {notification.content}
             </button>
           ))}
         </div>
@@ -66,8 +85,12 @@ const NotificationSectionWithModal = () => {
           ></div>
           <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div className="bg-black p-4">
-              <h2 className="text-2xl font-bold text-white mb-2">{currentNotification.title}</h2>
-              <p className="text-white text-sm">{currentNotification.subject}</p>
+              <h2 className="text-2xl font-bold text-white mb-2">
+                {currentNotification.title}
+              </h2>
+              <p className="text-white text-sm">
+                {currentNotification.content}
+              </p>
             </div>
             {currentNotification.image && (
               <img
@@ -78,7 +101,9 @@ const NotificationSectionWithModal = () => {
               />
             )}
             <div className="p-4">
-              <p className="text-gray-700 text-base">{currentNotification.message}</p>
+              <p className="text-gray-700 text-base">
+                {currentNotification.content}
+              </p>
               <div className="flex justify-end mt-4">
                 <button
                   onClick={() => closeModal()}
