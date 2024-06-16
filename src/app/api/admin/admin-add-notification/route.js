@@ -9,12 +9,6 @@ export async function POST(req) {
         let body = await req.json();
         console.log(body);
 
-        // if (body.teacher) {
-        //     body.teacher = mongoose.Types.ObjectId(body.teacher);
-        // }
-        // if (body.admin) {
-        //     body.admin = mongoose.Types.ObjectId(body.admin);
-        // }
 
         const notification = await NotificationModel.create(body);
         console.log(notification);

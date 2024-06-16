@@ -19,23 +19,22 @@ const AdminEditClassNotificationPage = ({ params }) => {
   const [teachers, setTeachers] = useState([]);
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
+  const [subjects, setSubjects] = useState([]); 
   const [adminId, setAdminId] = useState("");
   const [loading, setLoading] = useState(true);
   const selectedTeacher = watch("teacher");
   const imageFile = watch("image");
-  const router = useRouter()
+  const router = useRouter();
+  const [notification, setNotification] = useState(null);
+  const { id } = params;
+
   useEffect(() => {
     setAdminId(session?._id);
   }, [session]);
 
-  const [notification, setNotification] = useState(null);
-  const { id } = params;
-
   const getNotification = async () => {
     try {
-      const response = await axios.get(
-        `/api/admin/delete-edit-get-notification/${id}`
-      );
+      const response = await axios.get(`/api/admin/delete-edit-get-notification/${id}`);
       const notificationData = response.data.notification;
       setNotification(notificationData);
       reset(notificationData); 
@@ -68,14 +67,16 @@ const AdminEditClassNotificationPage = ({ params }) => {
         .then((response) => {
           setClasses(response.data.teacher.classes);
           setSections(response.data.teacher.section);
-          // Set the class and section from the notification if available
+          setSubjects(response.data.teacher.subjects); 
+          
           if (notification) {
             setValue("class", notification.class);
             setValue("section", notification.section);
+            setValue("subject", notification.subject);
           }
         })
         .catch((error) => {
-          console.error("Error fetching classes and sections:", error);
+          console.error("Error fetching classes, sections, and subjects:", error);
         });
     }
   }, [selectedTeacher, notification, setValue]);
@@ -85,8 +86,6 @@ const AdminEditClassNotificationPage = ({ params }) => {
       setValue("teacher", notification.teacher);
     }
   }, [notification, setValue]);
-
-  console.log(notification)
 
   const onSubmit = async (data) => {
     const formData = {
@@ -98,6 +97,7 @@ const AdminEditClassNotificationPage = ({ params }) => {
       teacher: data.teacher,
       class: data.class,
       section: data.section,
+      subject: data.subject, 
     };
 
     if (imageFile && imageFile.length > 0) {
@@ -111,7 +111,7 @@ const AdminEditClassNotificationPage = ({ params }) => {
       formData
     );
     if (response.data.success) {
-      router.push("/admin-dashboard/adminview-all-class-notification")
+      router.push("/admin-dashboard/adminview-all-class-notification");
     } else {
       alert("Notification update failed");
     }
@@ -177,6 +177,23 @@ const AdminEditClassNotificationPage = ({ params }) => {
               </select>
               {errors.section && (
                 <p className="text-red-500">{errors.section.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block mb-2">Select Subject</label>
+              <select
+                {...register("subject", { required: "Subject is required" })}
+                className="border border-gray-300 p-2 rounded w-full"
+              >
+                <option value="">Select a subject</option>
+                {subjects.map((subject, index) => (
+                  <option key={index} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
+              {errors.subject && (
+                <p className="text-red-500">{errors.subject.message}</p>
               )}
             </div>
           </>

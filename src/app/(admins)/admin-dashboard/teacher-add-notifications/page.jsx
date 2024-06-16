@@ -5,55 +5,43 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-const AdminAddClassNotificationPage = () => {
-  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+const TeacherAddClassNotificationPage = () => {
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm();
   const { data: session } = useSession();
-  const [teachers, setTeachers] = useState([]);
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const [adminId, setAdminId] = useState("");
-  const selectedTeacher = watch("teacher");
   const imageFile = watch("image");
-
+console.log(session)
   useEffect(() => {
-    setAdminId(session?._id);
-  }, [session]);
+    const fetchTeacherData = async () => {
+      if (session?._id) {
+        const teacherId = session._id;
+        console.log(teacherId)
+        try {
+          const response = await axios.get(`/api/admin/delete-get-edit-teacher/${teacherId}`);
+          const teacherData = response.data.teacher;
+          console.log("teacherData", teacherData);
+          setClasses(teacherData.classes);
+          setSections(teacherData.section);
+          setSubjects(teacherData.subjects);
+          setValue("teacher", teacherId);
+        } catch (error) {
+          console.error("Error fetching teacher data:", error);
+        }
+      }
+    };
 
-  useEffect(() => {
-    axios
-      .get("/api/admin/all-teachers")
-      .then((response) => {
-        setTeachers(response.data.teachers);
-      })
-      .catch((error) => {
-        console.error("Error fetching teachers:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (selectedTeacher) {
-      axios
-        .get(`/api/admin/delete-get-edit-teacher/${selectedTeacher}`)
-        .then((response) => {
-          setClasses(response.data.teacher.classes);
-          setSections(response.data.teacher.section);
-          setSubjects(response.data.teacher.subjects); // Assuming the API returns subjects
-        })
-        .catch((error) => {
-          console.error("Error fetching classes:", error);
-        });
-    }
-  }, [selectedTeacher]);
-
+    fetchTeacherData();
+  }, [session, setValue]);
+  console.log(classes)
   const onSubmit = async (data) => {
     const formData = {
       title: data.title,
       content: data.content,
-      admin: adminId,
       addedBy: "teacher",
       notificationFor: "class",
-      teacher: data.teacher,
+      teacher: session?._id,
       class: data.class,
       section: data.section,
       subject: data.subject, 
@@ -63,40 +51,31 @@ const AdminAddClassNotificationPage = () => {
       formData.image = imageFile[0];
     }
 
-    console.log(formData);
-
-    const response = await axios.post("/api/admin/admin-add-notification", formData);
-    if (response.data.success) {
-      alert("Notification added successfully");
-    } else {
+    try {
+      const response = await axios.post("/api/admin/admin-add-notification", formData);
+      if (response.data.success) {
+        alert("Notification added successfully");
+        reset();
+      } else {
+        alert("Notification adding failed");
+      }
+    } catch (error) {
+      console.error("Error adding notification:", error);
       alert("Notification adding failed");
     }
-    reset();
   };
 
   return (
     <div className="p-4 mt-24 px-10">
       <h1 className="text-2xl font-bold mb-4">Add Class Notification</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block mb-2">Select Teacher</label>
-          <select
-            {...register("teacher", { required: "Teacher is required" })}
-            className="border border-gray-300 p-2 rounded w-full"
-          >
-            <option value="">Select a teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-          {errors.teacher && (
-            <p className="text-red-500">{errors.teacher.message}</p>
-          )}
-        </div>
+        {session?.user && (
+          <div>
+            <p className="mb-2"><strong>Teacher:</strong> {session.user.name}</p>
+          </div>
+        )}
 
-        {selectedTeacher && (
+        {classes.length > 0 && (
           <>
             <div>
               <label className="block mb-2">Select Class</label>
@@ -192,4 +171,4 @@ const AdminAddClassNotificationPage = () => {
   );
 };
 
-export default AdminAddClassNotificationPage;
+export default TeacherAddClassNotificationPage;

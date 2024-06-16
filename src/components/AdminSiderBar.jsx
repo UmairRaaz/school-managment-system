@@ -173,9 +173,15 @@ const Sidebar = () => {
       color: 'blue',
     },
     {
-      href: '/admin-dashboard/add-notifications',
+      href: '/admin-dashboard/teacher-add-notifications',
       icon: FaUserGraduate,
       label: 'Add Notification',
+      color: 'blue',
+    },
+    {
+      href: '/admin-dashboard/teacher-view-notifications',
+      icon: FaUserGraduate,
+      label: 'All Notification',
       color: 'blue',
     },
     {
@@ -206,7 +212,7 @@ const Sidebar = () => {
       color: 'blue',
     },
     {
-      href: '/student-dashboard/notifications',
+      href: '/admin-dashboard/student-notifications',
       icon: FaUserGraduate,
       label: 'Notifications',
       color: 'blue',

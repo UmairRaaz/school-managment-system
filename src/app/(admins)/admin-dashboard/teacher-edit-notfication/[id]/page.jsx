@@ -4,99 +4,117 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const AdminAddClassNotificationPage = () => {
-  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+const TeacherEditClassNotificationPage = ({ params }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const { data: session } = useSession();
-  const [teachers, setTeachers] = useState([]);
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const [adminId, setAdminId] = useState("");
-  const selectedTeacher = watch("teacher");
+  const [loading, setLoading] = useState(true);
   const imageFile = watch("image");
+  const router = useRouter();
+  const [notification, setNotification] = useState(null);
+  const { id } = params;
 
   useEffect(() => {
-    setAdminId(session?._id);
+    const fetchTeacherData = async () => {
+      if (session?._id) {
+        const teacherId = session._id;
+        try {
+          const response = await axios.get(`/api/admin/delete-get-edit-teacher/${teacherId}`);
+          const teacherData = response.data.teacher;
+          setClasses(teacherData.classes);
+          setSections(teacherData.section);
+          setSubjects(teacherData.subjects);
+        } catch (error) {
+          console.error("Error fetching teacher data:", error);
+        }
+      }
+    };
+
+    fetchTeacherData();
   }, [session]);
 
-  useEffect(() => {
-    axios
-      .get("/api/admin/all-teachers")
-      .then((response) => {
-        setTeachers(response.data.teachers);
-      })
-      .catch((error) => {
-        console.error("Error fetching teachers:", error);
-      });
-  }, []);
+  const getNotification = async () => {
+    try {
+      const response = await axios.get(`/api/admin/delete-edit-get-notification/${id}`);
+      const notificationData = response.data.notification;
+      setNotification(notificationData);
+      reset(notificationData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching the notification:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (selectedTeacher) {
-      axios
-        .get(`/api/admin/delete-get-edit-teacher/${selectedTeacher}`)
-        .then((response) => {
-          setClasses(response.data.teacher.classes);
-          setSections(response.data.teacher.section);
-          setSubjects(response.data.teacher.subjects); // Assuming the API returns subjects
-        })
-        .catch((error) => {
-          console.error("Error fetching classes:", error);
-        });
+    getNotification();
+  }, [id]);
+
+  useEffect(() => {
+    if (notification) {
+      setValue("class", notification.class);
+      setValue("section", notification.section);
+      setValue("subject", notification.subject);
+      setValue("title", notification.title);
+      setValue("content", notification.content);
     }
-  }, [selectedTeacher]);
+  }, [notification, setValue]);
 
   const onSubmit = async (data) => {
     const formData = {
       title: data.title,
       content: data.content,
-      admin: adminId,
       addedBy: "teacher",
       notificationFor: "class",
-      teacher: data.teacher,
+      teacher: session?._id,
       class: data.class,
       section: data.section,
-      subject: data.subject, 
+      subject: data.subject,
     };
 
     if (imageFile && imageFile.length > 0) {
       formData.image = imageFile[0];
     }
 
-    console.log(formData);
-
-    const response = await axios.post("/api/admin/admin-add-notification", formData);
-    if (response.data.success) {
-      alert("Notification added successfully");
-    } else {
-      alert("Notification adding failed");
+    try {
+      const response = await axios.put(`/api/admin/delete-edit-get-notification/${id}`, formData);
+      if (response.data.success) {
+        router.push("/admin-dashboard/adminview-all-class-notification");
+      } else {
+        alert("Notification update failed");
+      }
+    } catch (error) {
+      console.error("Error updating notification:", error);
+      alert("Notification update failed");
     }
-    reset();
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-4 mt-24 px-10">
-      <h1 className="text-2xl font-bold mb-4">Add Class Notification</h1>
+      <h1 className="text-2xl font-bold mb-4">Edit Class Notification</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block mb-2">Select Teacher</label>
-          <select
-            {...register("teacher", { required: "Teacher is required" })}
-            className="border border-gray-300 p-2 rounded w-full"
-          >
-            <option value="">Select a teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-          {errors.teacher && (
-            <p className="text-red-500">{errors.teacher.message}</p>
-          )}
-        </div>
+        {session?.user && (
+          <div>
+            <p className="mb-2"><strong>Teacher:</strong> {session.user.name}</p>
+          </div>
+        )}
 
-        {selectedTeacher && (
+        {classes.length > 0 && (
           <>
             <div>
               <label className="block mb-2">Select Class</label>
@@ -192,4 +210,4 @@ const AdminAddClassNotificationPage = () => {
   );
 };
 
-export default AdminAddClassNotificationPage;
+export default TeacherEditClassNotificationPage;
