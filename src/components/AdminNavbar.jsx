@@ -71,7 +71,7 @@ export default function AdminNavbar() {
                     )}
                     {userDetails.role === "teacher" && (
                       <Link href={`/admin-dashboard/view-teacher/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                      <FaCog className="mr-2 text-blue-500" /> Account Settings
+                      <FaCog className="mr-2 text-blue-500" /> Profile 
                     </Link>
                     )}
                     {userDetails.role === "student" && (

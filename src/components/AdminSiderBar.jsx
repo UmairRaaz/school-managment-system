@@ -2,6 +2,16 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { MdAttachMoney } from "react-icons/md";
+import { IoIosNotifications } from "react-icons/io";
+import { AiFillNotification } from "react-icons/ai";
+import { FaAward } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
+
+
+
+
+
 import {
   FaUserGraduate,
   FaAngleRight,
@@ -104,7 +114,8 @@ const Sidebar = () => {
     },
     {
       href: "/",
-      icon: FaLifeRing,
+     
+      icon: MdAttachMoney,
       label: "Fees",
       color: "blue",
       hasDropdown: true,
@@ -117,31 +128,45 @@ const Sidebar = () => {
       ],
 
     },
-    {
-      href: "/",
-      icon: FaShoppingCart,
-      label: "Result",
-      color: "blue",
-      hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-supports", label: "All Support" }],
-    },
+   
    
     {
       href: "/",
-      icon: FaLifeRing,
-      label: "Notification",
+      icon: IoIosNotifications,
+      label: "Class Notification",
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [
         { href: "/admin-dashboard/admin-add-class-notification", label: "Add Class Notification" },
-        { href: "/admin-dashboard/admin-add-public-notification", label: "Add Public Notification" },
-        { href: "/admin-dashboard/adminview-all-public-notification", label: "All Public Notification" },
-        { href: "/admin-dashboard/adminview-all-class-notification", label: "All Class Notification" },
+        { href: "/admin-dashboard/adminview-all-class-notification", label: "Manage Notification" },
       ],
     },
     {
+      href: "/",
+      icon: AiFillNotification,
+      label: "Public Notification",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        { href: "/admin-dashboard/admin-add-public-notification", label: "Add Public Notification" },
+        { href: "/admin-dashboard/adminview-all-public-notification", label: "Manage Notification" },
+    
+      ],
+    },
+    {
+      href: "/",
+      icon: FaAward,
+      label: "Result",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [{ href: "/admin/all-supports", label: "Add Result" },
+        { href: "/admin/all-supports", label: "Manage Result" },
+      ],
+      
+    },
+    {
       href: "/api/auth/signout",
-      icon: FaUsers,
+      icon: MdLogout,
       label: "Logout",
       color: "red",
     },
@@ -149,41 +174,50 @@ const Sidebar = () => {
 
   const teacherNavLinks = [
     {
-      href: '/',
+      href: "/admin-dashboard",
       icon: FaTachometerAlt,
-      label: 'Account View',
-      color: 'blue',
+      label: "Dashboard",
+      color: "blue",
     },
+
     {
-      href: `/admin-dashboard/take-attendance/${userDetails?.id}`,
-      icon: FaUserGraduate,
-      label: 'Take Attendance',
-      color: 'blue',
+      href: "/",
+      icon: FaBoxes,
+      label: "Attendance",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        { href: `/admin-dashboard/take-attendance/${userDetails?.id}`, label: "Take Attendance" },
+        { href: `/admin-dashboard/view-attendance`, label: "View Attendance" },
+      ],
     },
+
     {
-      href: `/admin-dashboard/view-attendance`,
-      icon: FaUserGraduate,
-      label: 'View Attendance',
-      color: 'blue',
+      href: "/",
+      icon: IoIosNotifications,
+      label: "Class Notification",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        { href: '/admin-dashboard/teacher-add-notifications' , label: "Add Class Notification" },
+        { href: '/admin-dashboard/teacher-view-notifications' , label: "Manage Notification" },
+      ],
     },
+
     {
-      href: '/admin-dashboard/add-result',
-      icon: FaUserGraduate,
-      label: 'Add Result',
-      color: 'blue',
+      href: "/",
+      icon: FaAward,
+      label: "Result",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [{ href: "/admin/all-supports", label: "Add Result" },
+        { href: "/admin/all-supports", label: "Manage Result" },
+      ],
+      
     },
-    {
-      href: '/admin-dashboard/teacher-add-notifications',
-      icon: FaUserGraduate,
-      label: 'Add Notification',
-      color: 'blue',
-    },
-    {
-      href: '/admin-dashboard/teacher-view-notifications',
-      icon: FaUserGraduate,
-      label: 'All Notification',
-      color: 'blue',
-    },
+    
+   
+  
     {
       href: '/api/auth/signout',
       icon: FaUsers,

@@ -37,6 +37,16 @@ const TeacherList = () => {
     router.push(`/admin-dashboard/view-teacher/${id}`)
   };
 
+  const getShortContent = (content) => {
+    if (typeof content === 'string') {
+      const words = content.split(' ');
+      return words.slice(0, 1).join(' ') + (words.length > 1 ? ' ...' : '');
+    } else if (Array.isArray(content)) {
+      return content.slice(0, 1).join(', ') + (content.length > 1 ? ' ...' : '');
+    }
+    return '';
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">All Teachers</h1>
@@ -60,8 +70,8 @@ const TeacherList = () => {
                 <td className="py-3 px-6 text-left">{teacher.username}</td>
                 <td className="py-3 px-6 text-left">{teacher.email}</td>
                 <td className="py-3 px-6 text-left">{teacher.phoneNumber}</td>
-                <td className="py-3 px-6 text-left">{teacher.classes.join(', ')}</td>
-                <td className="py-3 px-6 text-left">{teacher.subjects.join(', ')}</td>
+                <td className="py-3 px-6 text-left"> {getShortContent(teacher.classes)}</td>
+                <td className="py-3 px-6 text-left"> {getShortContent(teacher.subjects)}</td>
                 <td className="py-3 px-6 text-center flex justify-center">
                   <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(teacher._id)} />
                   <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />

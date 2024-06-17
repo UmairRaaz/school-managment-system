@@ -265,15 +265,15 @@ const ViewAttendance = () => {
         </h1>
         <div className="text-[8px] mb-6 flex flex-col sm:flex-row gap-4 items-end mt-10">
           <div className="flex-grow">
-            <label className="block text-[8px] font-medium text-gray-700 mb-2">
+            <label className="block text-[12px] font-medium text-gray-700 mb-2">
               Select Teacher
             </label>
             <select
               value={selectedTeacher}
               onChange={handleTeacherChange}
-              className="border text-[8px] p-2 w-full rounded-md shadow-sm"
+              className="border text-[12px] p-2 w-full rounded-md shadow-sm"
             >
-              <option value="" className='text-[8px]'>Select a teacher</option>
+              <option value="" className='text-[12px]'>Select a teacher</option>
               {teachers.map((teacher) => (
                 <option key={teacher._id} value={teacher._id}>
                   {teacher.name}
@@ -283,15 +283,16 @@ const ViewAttendance = () => {
           </div>
           {classes.length > 0 && (
             <div className="flex-grow">
-              <label className="block text-[8px] font-medium text-gray-700 mb-2">
+              <label className="block text-[12px] font-medium text-gray-700 mb-2">
                 Select Class
               </label>
               <select
+              
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
-                className=" border p-2 w-full rounded-md shadow-sm"
+                className=" text-[12px] border p-2 w-full rounded-md shadow-sm"
               >
-                <option value="" className='text-[8px]'>Select a class</option>
+                <option value="" className='text-[12px]'>Select a class</option>
                 {classes.map((cls) => (
                   <option key={cls} value={cls}>
                     {cls}
@@ -302,15 +303,15 @@ const ViewAttendance = () => {
           )}
           {sections.length > 0 && (
             <div className="flex-grow">
-              <label className="block text-[8px] font-medium text-gray-700 mb-2">
+              <label className="block text-[12px] font-medium text-gray-700 mb-2">
                 Select Section
               </label>
               <select
                 value={selectedSection}
                 onChange={(e) => setSelectedSection(e.target.value)}
-                className="border p-2 w-full rounded-md shadow-sm"
+                className="text-[12px] border p-2 w-full rounded-md shadow-sm"
               >
-                <option value="" className='text-[8px]'>Select a section</option>
+                <option value="" className='text-[12px]'>Select a section</option>
                 {sections.map((section) => (
                   <option key={section} value={section}>
                     {section}
@@ -321,15 +322,15 @@ const ViewAttendance = () => {
           )}
           {subjects.length > 0 && (
             <div className="flex-grow">
-              <label className="block text-[8px] font-medium text-gray-700 mb-2">
+              <label className="block text-[12px] font-medium text-gray-700 mb-2">
                 Select Subject
               </label>
               <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
-                className="border p-2 w-full rounded-md shadow-sm"
+                className="text-[12px] border p-2 w-full rounded-md shadow-sm"
               >
-                <option value="" className='text-[8px]'>Select a subject</option>
+                <option value="" className='text-[12px]'>Select a subject</option>
                 {subjects.map((subject) => (
                   <option key={subject} value={subject}>
                     {subject}
@@ -339,14 +340,14 @@ const ViewAttendance = () => {
             </div>
           )}
           <div className="flex-grow">
-            <label className="block text-[8px] font-medium text-gray-700 mb-2">
+            <label className="block text-[12px] font-medium text-gray-700 mb-2">
               Select Month
             </label>
             <input
               type="month"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="border p-2 w-full rounded-md shadow-sm"
+              className=" text-[12px] border p-2 w-full rounded-md shadow-sm"
             />
           </div>
           <button
