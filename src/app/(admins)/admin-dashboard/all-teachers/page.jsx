@@ -6,8 +6,9 @@ import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 const TeacherList = () => {
   const [teachers, setTeachers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
-  
+
   useEffect(() => {
     fetchTeachers();
   }, []);
@@ -24,17 +25,18 @@ const TeacherList = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/api/admin/delete-get-edit-teacher/${id}`);
-      fetchTeachers(); 
+      fetchTeachers();
     } catch (error) {
       console.error("Error deleting teacher:", error);
     }
   };
 
   const handleEdit = (id) => {
-    router.push(`/admin-dashboard/edit-teacher/${id}`)
+    router.push(`/admin-dashboard/edit-teacher/${id}`);
   };
+
   const handleView = (id) => {
-    router.push(`/admin-dashboard/view-teacher/${id}`)
+    router.push(`/admin-dashboard/view-teacher/${id}`);
   };
 
   const getShortContent = (content) => {
@@ -47,9 +49,29 @@ const TeacherList = () => {
     return '';
   };
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredTeachers = teachers.filter(teacher =>
+    teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    teacher.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    teacher.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">All Teachers</h1>
+      <div className="flex flex-col md:flex-row justify-start mb-4">
+    <input
+        type="text"
+        className="border rounded p-2 w-full md:w-1/2 text-xs mb-2 md:mb-0 md:mr-2"
+        placeholder="Search by name, username, or email"
+        value={searchTerm}
+        onChange={handleSearch}
+    />
+</div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg">
           <thead className="bg-black text-white">
@@ -64,14 +86,14 @@ const TeacherList = () => {
             </tr>
           </thead>
           <tbody className="text-gray-700 text-xs">
-            {teachers.map((teacher) => (
+            {filteredTeachers.map((teacher) => (
               <tr key={teacher._id} className="border-b border-gray-200 hover:bg-gray-100">
                 <td className="py-3 px-6 text-left">{teacher.name}</td>
                 <td className="py-3 px-6 text-left">{teacher.username}</td>
                 <td className="py-3 px-6 text-left">{teacher.email}</td>
                 <td className="py-3 px-6 text-left">{teacher.phoneNumber}</td>
-                <td className="py-3 px-6 text-left"> {getShortContent(teacher.classes)}</td>
-                <td className="py-3 px-6 text-left"> {getShortContent(teacher.subjects)}</td>
+                <td className="py-3 px-6 text-left">{getShortContent(teacher.classes)}</td>
+                <td className="py-3 px-6 text-left">{getShortContent(teacher.subjects)}</td>
                 <td className="py-3 px-6 text-center flex justify-center">
                   <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(teacher._id)} />
                   <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(teacher._id)} />

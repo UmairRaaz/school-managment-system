@@ -11,15 +11,32 @@ const AddStudentForm = () => {
     reset,
   } = useForm();
   const onSubmit = async (data) => {
-    const response = await axios.post("/api/admin/add-student", data);
-    console.log(data);
-    if (response.data.success) {
-      alert("student added successfully");
-      reset();
-    } else {
-      alert("username is taken");
+    try {
+      const response = await axios.post("/api/admin/add-student", data);
+      console.log(data);
+      if (response.data.success) {
+        alert("Student added successfully");
+        reset();
+      } else {
+        alert("Username is taken");
+      }
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error("Response error:", error.response.data);
+        alert(`Error: ${error.response.data.message || "Request failed"}`);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("Request error:", error.request);
+        alert("Error: No response from server");
+      } else {
+        // Something else caused the error
+        console.error("Error:", error.message);
+        alert(`Error: ${error.message}`);
+      }
     }
   };
+  
 
   return (
     <div className="max-w-4xl mx-auto mt-20 p-2">
