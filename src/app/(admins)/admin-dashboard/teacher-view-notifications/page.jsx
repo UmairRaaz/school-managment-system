@@ -7,6 +7,7 @@ import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 const TeacherViewClassNotificationPage = () => {
   const [classNotifications, setClassNotifications] = useState([]);
+  const [classFilter, setClassFilter] = useState(null); // State to hold selected class filter
   const router = useRouter();
 
   useEffect(() => {
@@ -51,9 +52,32 @@ const TeacherViewClassNotificationPage = () => {
     return words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
   };
 
+  const handleFilterChange = (event) => {
+    const selectedClass = event.target.value;
+    setClassFilter(selectedClass);
+  };
+
+  const filteredNotifications = classFilter
+    ? classNotifications.filter((notification) => notification.class === classFilter)
+    : classNotifications;
+
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">Class Notifications</h1>
+      <div className="flex justify-end mb-4">
+        <select
+          onChange={handleFilterChange}
+          value={classFilter || ""}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
+          <option value="">All Classes</option>
+          {[...Array(10).keys()].map((num) => (
+            <option key={num + 1} value={num + 1}>
+              Class {num + 1}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg">
           <thead className="bg-black text-white">
@@ -67,12 +91,14 @@ const TeacherViewClassNotificationPage = () => {
             </tr>
           </thead>
           <tbody className="text-gray-700 text-xs">
-            {classNotifications.length === 0 ? (
+            {filteredNotifications.length === 0 ? (
               <tr>
-                <td colSpan="6" className="py-3 px-6 text-center text-gray-500">No class notifications available</td>
+                <td colSpan="6" className="py-3 px-6 text-center text-gray-500">
+                  No class notifications available
+                </td>
               </tr>
             ) : (
-              classNotifications.map((notification) => (
+              filteredNotifications.map((notification) => (
                 <tr key={notification._id} className="border-b border-gray-200 hover:bg-gray-100">
                   <td className="py-3 px-6 text-left">{notification.title}</td>
                   <td className="py-3 px-6 text-left">{getShortContent(notification.content)}</td>
@@ -80,9 +106,18 @@ const TeacherViewClassNotificationPage = () => {
                   <td className="py-3 px-6 text-left">Teacher Name</td>
                   <td className="py-3 px-6 text-left">{notification.class}</td>
                   <td className="py-3 px-6 text-center flex justify-center">
-                    <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(notification._id)} />
-                    <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(notification._id)} />
-                    <FaTrash className="text-red-500 hover:text-red-700 mx-2 cursor-pointer" onClick={() => handleDelete(notification._id)} />
+                    <FaEye
+                      className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer"
+                      onClick={() => handleView(notification._id)}
+                    />
+                    <FaEdit
+                      className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer"
+                      onClick={() => handleEdit(notification._id)}
+                    />
+                    <FaTrash
+                      className="text-red-500 hover:text-red-700 mx-2 cursor-pointer"
+                      onClick={() => handleDelete(notification._id)}
+                    />
                   </td>
                 </tr>
               ))

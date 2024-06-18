@@ -255,7 +255,7 @@ const AttendancePage = ({ params }) => {
               </div>
               <button
                 type="submit"
-                className="bg-black hover:bg-blue-600 text-white py-2 px-2 text-xs rounded-md shadow-md transition duration-300 ease-in-out"
+                className="bg-black hover:bg-blue-600 text-white py-3 px-2 text-xs rounded-md shadow-md transition duration-300 ease-in-out"
                 style={{ whiteSpace: "nowrap" }}
               >
                 Get Students
@@ -339,7 +339,7 @@ const AttendancePage = ({ params }) => {
                   </div>
                   <button
                     onClick={handleAttendanceSubmit}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 text-xs rounded-md shadow-lg transition duration-300 ease-in-out"
+                    className="bg-black hover:bg-gray-600 text-white py-1 px-2 text-xs rounded-md shadow-lg transition duration-300 ease-in-out"
                   >
                     Submit Attendance
                   </button>

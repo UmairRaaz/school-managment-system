@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 const AllStudentsPage = () => {
-    const [student, setStudent] = useState([])
+    const [students, setStudents] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedClass, setSelectedClass] = useState('');
     const router = useRouter();
 
     useEffect(() => {
@@ -15,7 +17,7 @@ const AllStudentsPage = () => {
     const fetchStudents = async () => {
         try {
             const response = await axios.get('/api/admin/all-students');
-            setStudent(response.data.students);
+            setStudents(response.data.students);
         } catch (error) {
             console.error("Error fetching Students:", error);
         }
@@ -33,13 +35,51 @@ const AllStudentsPage = () => {
     const handleEdit = (id) => {
         router.push(`/admin-dashboard/edit-student/${id}`)
     };
+
     const handleView = (id) => {
         router.push(`/admin-dashboard/view-student/${id}`)
     };
 
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleClassChange = (event) => {
+        setSelectedClass(event.target.value);
+    };
+
+    const filteredStudents = students.filter((student) => {
+        return (
+            (selectedClass === '' || student.AdmissionClass === selectedClass) &&
+            (student.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            student.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            student.FatherName.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+    });
+
     return (
         <div className="max-w-6xl mx-auto p-8 mt-10">
             <h1 className="text-3xl my-4 text-center">All Students</h1>
+            <div className="flex flex-col md:flex-row justify-between mb-4">
+    <input
+        type="text"
+        className="border p-2 rounded mb-2 md:mb-0 md:mr-2 w-full md:w-auto"
+        placeholder="Search by name, username"
+        value={searchQuery}
+        onChange={handleSearch}
+    />
+    <select
+        className="border p-2 rounded w-full md:w-auto"
+        value={selectedClass}
+        onChange={handleClassChange}
+    >
+        <option value="">All Classes</option>
+        {[...Array(10).keys()].map(i => (
+            <option key={i + 1} value={`${i + 1}`}>{`Class ${i + 1}`}</option>
+        ))}
+    </select>
+</div>
+
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-md rounded-lg">
                     <thead className="bg-black text-white">
@@ -54,7 +94,7 @@ const AllStudentsPage = () => {
                         </tr>
                     </thead>
                     <tbody className="text-gray-700 text-xs">
-                        {student.map((student) => (
+                        {filteredStudents.map((student) => (
                             <tr key={student._id} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left">{student.username}</td>
                                 <td className="py-3 px-6 text-left">{student.SID}</td>
