@@ -1,3 +1,4 @@
+'use client'
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { format, parseISO, addDays, startOfMonth, endOfMonth } from "date-fns";
