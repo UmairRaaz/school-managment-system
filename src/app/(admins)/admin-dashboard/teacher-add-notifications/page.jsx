@@ -11,6 +11,7 @@ const TeacherAddClassNotificationPage = () => {
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [teacherName, setTeacherName] = useState([])
   const imageFile = watch("image");
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const TeacherAddClassNotificationPage = () => {
           setClasses(teacherData.classes);
           setSections(teacherData.section);
           setSubjects(teacherData.subjects);
+          setTeacherName(teacherData.name);
           setValue("teacher", teacherId);
         } catch (error) {
           console.error("Error fetching teacher data:", error);
@@ -40,6 +42,7 @@ const TeacherAddClassNotificationPage = () => {
       addedBy: "teacher",
       notificationFor: "class",
       teacher: session?._id,
+      teacherName : teacherName,
       class: data.class,
       section: data.section,
       subject: data.subject,

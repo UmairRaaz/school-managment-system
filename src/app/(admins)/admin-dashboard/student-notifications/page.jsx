@@ -61,6 +61,7 @@ const StudentViewNotification = () => {
           {notifications.map((notification, index) => (
             <li key={index} className="p-4 border border-gray-300 rounded-lg">
               <h2 className="text-lg font-semibold">{notification.title}</h2>
+              <p>Teacher : {notification.teacherName}</p>
               <p>{notification.content}</p>
             </li>
           ))}

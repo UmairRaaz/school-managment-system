@@ -72,8 +72,8 @@ const PublicNotificationsPage = () => {
                             <tr key={notification._id} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left">{notification.title}</td>
                                 <td className="py-3 px-6 text-left">{getShortContent(notification.content)}</td>
-                                <td className="py-3 px-6 text-left">{notification.addedBy}</td>
-                                <td className="py-3 px-6 text-left">{notification.notificationFor}</td>
+                                <td className="py-3 px-6 text-left">{notification.createdDate}</td>
+                                <td className="py-3 px-6 text-left">{notification.createdDay}</td>
                                 <td className="py-3 px-6 text-center flex justify-center">
                                     <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(notification._id)} />
                                     <FaEdit className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer" onClick={() => handleEdit(notification._id)} />

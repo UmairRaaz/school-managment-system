@@ -72,6 +72,7 @@ const NotificationSectionWithModal = () => {
               className="block text-black text-sm py-2 hover:bg-blue-100 hover:shadow-lg transition duration-300 ease-in-out w-full text-left rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {notification.content}
+              <span className="ml-8">{notification.createdDate}, {notification.createdDay}</span>
             </button>
           ))}
         </div>
@@ -90,6 +91,9 @@ const NotificationSectionWithModal = () => {
               </h2>
               <p className="text-white text-sm">
                 {currentNotification.content}
+              </p>
+              <p className="text-white text-xs mt-2 flex gap-4 items-center">
+                Notification Uploaded at {currentNotification.createdDate} || {currentNotification.createdDay}
               </p>
             </div>
             {currentNotification.image && (

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const notificationSchema = new mongoose.Schema({
     addedBy: {
         type: String,
@@ -9,6 +8,9 @@ const notificationSchema = new mongoose.Schema({
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'TeacherModel',
+    },
+    teacherName:{
+        type: String,
     },
     admin: {
         type: mongoose.Schema.Types.ObjectId,
@@ -34,10 +36,23 @@ const notificationSchema = new mongoose.Schema({
     image: {
         type: String,
     },
-    notificationFor:{
+    notificationFor: {
         type: String,
         required: true,
+    },
+    createdDate: {
+        type: String,
+    },
+    createdDay: {
+        type: String,
     }
-})
+}, { timestamps: true });
 
-export const NotificationModel = mongoose.models?.NotificationModel || mongoose.model("NotificationModel", notificationSchema)
+notificationSchema.pre('save', function (next) {
+    const now = new Date();
+    this.createdDate = now.toISOString().substring(0, 10);
+    this.createdDay = now.toLocaleString('en-US', { weekday: 'long' });
+    next();
+});
+
+export const NotificationModel = mongoose.models?.NotificationModel || mongoose.model("NotificationModel", notificationSchema);

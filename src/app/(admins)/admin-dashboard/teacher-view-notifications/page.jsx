@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 const TeacherViewClassNotificationPage = () => {
   const [classNotifications, setClassNotifications] = useState([]);
+  const { data: session, status } = useSession();
   const [classFilter, setClassFilter] = useState(null); // State to hold selected class filter
   const router = useRouter();
-
+  console.log();
   useEffect(() => {
     fetchNotifications();
   }, []);
@@ -29,7 +31,9 @@ const TeacherViewClassNotificationPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`/api/admin/delete-edit-get-notification/${id}`);
+      const response = await axios.delete(
+        `/api/admin/delete-edit-get-notification/${id}`
+      );
       if (response.data.success) {
         alert("Notification Deleted");
         fetchNotifications();
@@ -48,17 +52,19 @@ const TeacherViewClassNotificationPage = () => {
   };
 
   const getShortContent = (content) => {
-    const words = content.split(' ');
-    return words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
+    const words = content.split(" ");
+    return words.slice(0, 2).join(" ") + (words.length > 2 ? "..." : "");
   };
 
   const handleFilterChange = (event) => {
     const selectedClass = event.target.value;
     setClassFilter(selectedClass);
   };
-
+  console.log(classNotifications);
   const filteredNotifications = classFilter
-    ? classNotifications.filter((notification) => notification.class === classFilter)
+    ? classNotifications.filter(
+        (notification) => notification.class === classFilter
+      )
     : classNotifications;
 
   return (
@@ -99,25 +105,38 @@ const TeacherViewClassNotificationPage = () => {
               </tr>
             ) : (
               filteredNotifications.map((notification) => (
-                <tr key={notification._id} className="border-b border-gray-200 hover:bg-gray-100">
+                <tr
+                  key={notification._id}
+                  className="border-b border-gray-200 hover:bg-gray-100"
+                >
                   <td className="py-3 px-6 text-left">{notification.title}</td>
-                  <td className="py-3 px-6 text-left">{getShortContent(notification.content)}</td>
-                  <td className="py-3 px-6 text-left">17-6-2024</td>
-                  <td className="py-3 px-6 text-left">Teacher Name</td>
+                  <td className="py-3 px-6 text-left">
+                    {getShortContent(notification.content)}
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    {notification.createdDate}
+                  </td>
+                  <td className="py-3 px-6 text-left">
+                    {notification.teacherName}
+                  </td>
                   <td className="py-3 px-6 text-left">{notification.class}</td>
                   <td className="py-3 px-6 text-center flex justify-center">
                     <FaEye
                       className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer"
                       onClick={() => handleView(notification._id)}
                     />
-                    <FaEdit
-                      className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer"
-                      onClick={() => handleEdit(notification._id)}
-                    />
-                    <FaTrash
-                      className="text-red-500 hover:text-red-700 mx-2 cursor-pointer"
-                      onClick={() => handleDelete(notification._id)}
-                    />
+                    {session.user.name === notification.teacherName && (
+                      <>
+                        <FaEdit
+                          className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer"
+                          onClick={() => handleEdit(notification._id)}
+                        />
+                        <FaTrash
+                          className="text-red-500 hover:text-red-700 mx-2 cursor-pointer"
+                          onClick={() => handleDelete(notification._id)}
+                        />
+                      </>
+                    )}
                   </td>
                 </tr>
               ))

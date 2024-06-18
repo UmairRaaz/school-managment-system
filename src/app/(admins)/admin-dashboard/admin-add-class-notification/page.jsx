@@ -12,6 +12,7 @@ const AdminAddClassNotificationPage = () => {
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [teacherName, setteacherName] = useState("")
   const [adminId, setAdminId] = useState("");
   const selectedTeacher = watch("teacher");
   const imageFile = watch("image");
@@ -39,6 +40,7 @@ const AdminAddClassNotificationPage = () => {
           setClasses(response.data.teacher.classes);
           setSections(response.data.teacher.section);
           setSubjects(response.data.teacher.subjects);
+          setteacherName(response.data.teacher.name)
         })
         .catch((error) => {
           console.error("Error fetching classes:", error);
@@ -52,6 +54,7 @@ const AdminAddClassNotificationPage = () => {
       content: data.content,
       admin: adminId,
       addedBy: "teacher",
+      teacherName : teacherName,
       notificationFor: "class",
       teacher: data.teacher,
       class: data.class,

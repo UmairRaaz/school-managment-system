@@ -21,6 +21,7 @@ const AdminEditClassNotificationPage = ({ params }) => {
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]); 
   const [adminId, setAdminId] = useState("");
+  const [teacherName, setteacherName] = useState("")
   const [loading, setLoading] = useState(true);
   const selectedTeacher = watch("teacher");
   const imageFile = watch("image");
@@ -68,6 +69,7 @@ const AdminEditClassNotificationPage = ({ params }) => {
           setClasses(response.data.teacher.classes);
           setSections(response.data.teacher.section);
           setSubjects(response.data.teacher.subjects); 
+          setteacherName(response.data.teacher.name)
           
           if (notification) {
             setValue("class", notification.class);
@@ -93,6 +95,7 @@ const AdminEditClassNotificationPage = ({ params }) => {
       content: data.content,
       admin: adminId,
       addedBy: "teacher",
+      teacherName : teacherName,
       notificationFor: "class",
       teacher: data.teacher,
       class: data.class,

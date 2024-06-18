@@ -43,7 +43,7 @@ const TeacherViewClassNotificationPage = () => {
     };
 
     const handleEdit = async (id) => {
-        router.push(`/admin-dashboard/teacher-edit-notfication/${id}`);
+        router.push(`/admin-dashboard/admin-edit-class-notifciation/${id}`);
     };
 
     const handleView = async (id) => {
@@ -102,8 +102,8 @@ const TeacherViewClassNotificationPage = () => {
                             <tr key={notification._id} className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6 text-left">{notification.title}</td>
                                 <td className="py-3 px-6 text-left">{getShortContent(notification.content)}</td>
-                                <td className="py-3 px-6 text-left">{notification.date}</td>
-                                <td className="py-3 px-6 text-left">Hamza</td>
+                                <td className="py-3 px-6 text-left">{notification.createdDate}</td>
+                                <td className="py-3 px-6 text-left">{notification.teacherName}</td>
                                 <td className="py-3 px-6 text-left">{notification.class}</td>
                                 <td className="py-3 px-6 text-center flex justify-center">
                                     <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" onClick={() => handleView(notification._id)} />

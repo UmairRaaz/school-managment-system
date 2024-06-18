@@ -32,7 +32,7 @@ const AdminPreviewNotification = ({ params }) => {
         <div className=" text-white py-10">
             <div className="max-w-full mx-auto p-8 mt-10 ">
                 <div className="p-6">
-                    <h1 className="text-lg  mb-4 text-blue-500">Admin Preview Notification Details</h1>
+                    <h1 className="text-lg  mb-4 text-blue-500">Preview Notification Details</h1>
                     <div className="mb-6">
                         <h2 className="text-lg text-black font-semibold mb-2">Title</h2>
                         <p className="text-sm text-gray-700">{notification.title}</p>
@@ -43,21 +43,24 @@ const AdminPreviewNotification = ({ params }) => {
                     </div>
                     <div className="mb-8">
                         <h2 className="text-lg text-black font-semibold mb-2">Date</h2>
-                        <p className="text-sm text-gray-700">17-6-2024</p>
+                        <p className="text-sm text-gray-700">{notification.createdDate}</p>
                     </div>
                     <div className="mb-8">
                         <h2 className="text-lg text-black font-semibold mb-2">Day</h2>
-                        <p className="text-sm text-gray-700">Monday</p>
+                        <p className="text-sm text-gray-700">{notification.createdDay}</p>
                     </div>
-                    <div className="mb-6">
+                    {notification.teacherName && (
+                        <div className="mb-6">
                         <h2 className="text-lg text-black font-semibold mb-2">Added By</h2>
-                        <p className="text-sm text-gray-700">{notification.addedBy} name aae yahan </p>
+                        <p className="text-sm text-gray-700">{notification.teacherName} </p>
                     </div>
+                    )}
+                    
                   
                     {notification.notificationFor && (
                         <div className="mb-6">
                             <h2 className="text-lg text-black font-semibold mb-2">Notification For</h2>
-                            <p className="text-sm text-gray-700">{notification.notificationFor} 6 is tarah class mention ho</p>
+                            <p className="text-sm text-gray-700">Class {notification.class}</p>
                         </div>
                     )}
                     {notification.section && (
