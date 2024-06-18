@@ -12,16 +12,14 @@ const TeacherAddClassNotificationPage = () => {
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const imageFile = watch("image");
-console.log(session)
+
   useEffect(() => {
     const fetchTeacherData = async () => {
       if (session?._id) {
         const teacherId = session._id;
-        console.log(teacherId)
         try {
           const response = await axios.get(`/api/admin/delete-get-edit-teacher/${teacherId}`);
           const teacherData = response.data.teacher;
-          console.log("teacherData", teacherData);
           setClasses(teacherData.classes);
           setSections(teacherData.section);
           setSubjects(teacherData.subjects);
@@ -34,7 +32,7 @@ console.log(session)
 
     fetchTeacherData();
   }, [session, setValue]);
-  console.log(classes)
+
   const onSubmit = async (data) => {
     const formData = {
       title: data.title,
@@ -44,7 +42,7 @@ console.log(session)
       teacher: session?._id,
       class: data.class,
       section: data.section,
-      subject: data.subject, 
+      subject: data.subject,
     };
 
     if (imageFile && imageFile.length > 0) {
@@ -66,19 +64,36 @@ console.log(session)
   };
 
   return (
-    <div className="p-4 mt-24 px-10">
-      <h1 className="text-2xl font-bold mb-4">Add Class Notification</h1>
+    <div className="max-w-full p-4 mt-24 px-10">
+      <h2 className="text-sm flex justify-start text-blue-600 mb-6">Add Class Notification</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {session?.user && (
           <div>
-            <p className="mb-2"><strong>Teacher:</strong> {session.user.name}</p>
+             <h2 className="text-xs font-semibold mb-4 text-blue-600 mt-10">
+              Teacher Details
+            </h2>
+            <div className="mb-6 p-4 bg-gray-100 rounded-lg shadow-inner">
+              <p className="text-xs">
+                <strong>Name:</strong> {session.user.name}
+              </p>
+              <p className="text-xs">
+                <strong>Email:</strong> {session.user.email}
+              </p>
+            </div>
           </div>
         )}
 
+
+           
+
+
+
+
         {classes.length > 0 && (
           <>
-            <div>
-              <label className="block mb-2">Select Class</label>
+             <div className=" flex-col grid grid-cols-3 sm:flex-row gap-4 flex-grow w-full">
+             <div className="flex-grow">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Class</label>
               <select
                 {...register("class", { required: "Class is required" })}
                 className="border border-gray-300 p-2 rounded w-full"
@@ -95,7 +110,7 @@ console.log(session)
               )}
             </div>
             <div>
-              <label className="block mb-2">Select Section</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Section</label>
               <select
                 {...register("section", { required: "Section is required" })}
                 className="border border-gray-300 p-2 rounded w-full"
@@ -112,7 +127,7 @@ console.log(session)
               )}
             </div>
             <div>
-              <label className="block mb-2">Select Subject</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Subject</label>
               <select
                 {...register("subject", { required: "Subject is required" })}
                 className="border border-gray-300 p-2 rounded w-full"
@@ -128,11 +143,13 @@ console.log(session)
                 <p className="text-red-500">{errors.subject.message}</p>
               )}
             </div>
+            </div>
+              
           </>
         )}
 
         <div>
-          <label className="block mb-2">Title</label>
+          <label className="text-sm block mb-2">Title</label>
           <input
             type="text"
             {...register("title", { required: "Title is required" })}
@@ -144,7 +161,7 @@ console.log(session)
         </div>
 
         <div>
-          <label className="block mb-2">Content</label>
+          <label className="text-sm block mb-2">Content</label>
           <textarea
             {...register("content", { required: "Content is required" })}
             className="border border-gray-300 p-2 rounded w-full"
@@ -155,7 +172,7 @@ console.log(session)
         </div>
 
         <div>
-          <label className="block mb-2">Image (optional)</label>
+          <label className="text-sm block mb-2">Image (optional)</label>
           <input
             type="file"
             {...register("image")}
@@ -163,7 +180,7 @@ console.log(session)
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="px-12 py-2 w-full text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out">
           Submit
         </button>
       </form>

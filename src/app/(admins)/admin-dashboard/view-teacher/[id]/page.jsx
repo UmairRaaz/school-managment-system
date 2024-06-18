@@ -3,6 +3,8 @@ import axios from 'axios'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FaUser, FaEnvelope, FaPhone, FaChalkboardTeacher, FaBook } from 'react-icons/fa'
+import { FaLock } from "react-icons/fa";
+
 
 const TeacherPreviewPage = ({ params }) => {
     const [teacher, setTeacherDetails] = useState({})
@@ -52,11 +54,17 @@ const TeacherPreviewPage = ({ params }) => {
                                 <span className="ml-2 text-sm md:text-base">{teacher.username}</span>
                             </div>
                             <div className="flex items-center text-gray-700">
+                                <FaLock className="text-indigo-500 mr-2 md:mr-3" />
+                                <span className="font-semibold text-sm md:text-base">Password:</span>
+                                <span className="ml-2 text-sm md:text-base">{teacher.password}</span>
+                            </div>
+                            <hr className="my-4" />
+                            <div className="flex items-center text-gray-700">
                                 <FaEnvelope className="text-indigo-500 mr-2 md:mr-3" />
                                 <span className="font-semibold text-sm md:text-base">Email:</span>
                                 <span className="ml-2 text-sm md:text-base">{teacher.email}</span>
                             </div>
-                            <hr className="my-4" />
+                           
                             <div className="flex items-center text-gray-700">
                                 <FaPhone className="text-indigo-500 mr-2 md:mr-3" />
                                 <span className="font-semibold text-sm md:text-base">Phone Number:</span>

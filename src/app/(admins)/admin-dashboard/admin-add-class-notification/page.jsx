@@ -38,7 +38,7 @@ const AdminAddClassNotificationPage = () => {
         .then((response) => {
           setClasses(response.data.teacher.classes);
           setSections(response.data.teacher.section);
-          setSubjects(response.data.teacher.subjects); // Assuming the API returns subjects
+          setSubjects(response.data.teacher.subjects);
         })
         .catch((error) => {
           console.error("Error fetching classes:", error);
@@ -56,14 +56,12 @@ const AdminAddClassNotificationPage = () => {
       teacher: data.teacher,
       class: data.class,
       section: data.section,
-      subject: data.subject, 
+      subject: data.subject,
     };
 
     if (imageFile && imageFile.length > 0) {
       formData.image = imageFile[0];
     }
-
-    console.log(formData);
 
     const response = await axios.post("/api/admin/admin-add-notification", formData);
     if (response.data.success) {
@@ -75,85 +73,87 @@ const AdminAddClassNotificationPage = () => {
   };
 
   return (
-    <div className="p-4 mt-24 px-10">
-      <h1 className="text-2xl font-bold mb-4">Add Class Notification</h1>
+    <div className="max-w-full p-4 mt-24 px-10">
+      <h2 className="text-sm flex justify-start text-blue-400 mb-6">Add Class Notification</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block mb-2">Select Teacher</label>
-          <select
-            {...register("teacher", { required: "Teacher is required" })}
-            className="border border-gray-300 p-2 rounded w-full"
-          >
-            <option value="">Select a teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-          {errors.teacher && (
-            <p className="text-red-500">{errors.teacher.message}</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label className="text-sm block mb-2">Select Teacher</label>
+            <select
+              {...register("teacher", { required: "Teacher is required" })}
+              className="border border-gray-300 p-2 rounded w-full"
+            >
+              <option value="">Select a teacher</option>
+              {teachers.map((teacher) => (
+                <option key={teacher._id} value={teacher._id}>
+                  {teacher.name}
+                </option>
+              ))}
+            </select>
+            {errors.teacher && (
+              <p className="text-red-500">{errors.teacher.message}</p>
+            )}
+          </div>
+
+          {selectedTeacher && (
+            <>
+              <div>
+                <label className="text-sm block mb-2">Select Class</label>
+                <select
+                  {...register("class", { required: "Class is required" })}
+                  className="border border-gray-300 p-2 rounded w-full"
+                >
+                  <option value="">Select a class</option>
+                  {classes.map((cls, index) => (
+                    <option key={index} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+                {errors.class && (
+                  <p className="text-red-500">{errors.class.message}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-sm block mb-2">Select Section</label>
+                <select
+                  {...register("section", { required: "Section is required" })}
+                  className="border border-gray-300 p-2 rounded w-full"
+                >
+                  <option value="">Select a section</option>
+                  {sections.map((sect, index) => (
+                    <option key={index} value={sect}>
+                      {sect}
+                    </option>
+                  ))}
+                </select>
+                {errors.section && (
+                  <p className="text-red-500">{errors.section.message}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-sm block mb-2">Select Subject</label>
+                <select
+                  {...register("subject", { required: "Subject is required" })}
+                  className="border border-gray-300 p-2 rounded w-full"
+                >
+                  <option value="">Select a subject</option>
+                  {subjects.map((subject, index) => (
+                    <option key={index} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
+                </select>
+                {errors.subject && (
+                  <p className="text-red-500">{errors.subject.message}</p>
+                )}
+              </div>
+            </>
           )}
         </div>
 
-        {selectedTeacher && (
-          <>
-            <div>
-              <label className="block mb-2">Select Class</label>
-              <select
-                {...register("class", { required: "Class is required" })}
-                className="border border-gray-300 p-2 rounded w-full"
-              >
-                <option value="">Select a class</option>
-                {classes.map((cls, index) => (
-                  <option key={index} value={cls}>
-                    {cls}
-                  </option>
-                ))}
-              </select>
-              {errors.class && (
-                <p className="text-red-500">{errors.class.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="block mb-2">Select Section</label>
-              <select
-                {...register("section", { required: "Section is required" })}
-                className="border border-gray-300 p-2 rounded w-full"
-              >
-                <option value="">Select a section</option>
-                {sections.map((sect, index) => (
-                  <option key={index} value={sect}>
-                    {sect}
-                  </option>
-                ))}
-              </select>
-              {errors.section && (
-                <p className="text-red-500">{errors.section.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="block mb-2">Select Subject</label>
-              <select
-                {...register("subject", { required: "Subject is required" })}
-                className="border border-gray-300 p-2 rounded w-full"
-              >
-                <option value="">Select a subject</option>
-                {subjects.map((subject, index) => (
-                  <option key={index} value={subject}>
-                    {subject}
-                  </option>
-                ))}
-              </select>
-              {errors.subject && (
-                <p className="text-red-500">{errors.subject.message}</p>
-              )}
-            </div>
-          </>
-        )}
-
         <div>
-          <label className="block mb-2">Title</label>
+          <label className="text-sm block mb-2">Title</label>
           <input
             type="text"
             {...register("title", { required: "Title is required" })}
@@ -165,7 +165,7 @@ const AdminAddClassNotificationPage = () => {
         </div>
 
         <div>
-          <label className="block mb-2">Content</label>
+          <label className="text-sm block mb-2">Content</label>
           <textarea
             {...register("content", { required: "Content is required" })}
             className="border border-gray-300 p-2 rounded w-full"
@@ -176,7 +176,7 @@ const AdminAddClassNotificationPage = () => {
         </div>
 
         <div>
-          <label className="block mb-2">Image (optional)</label>
+          <label className="text-sm block mb-2">Image (optional)</label>
           <input
             type="file"
             {...register("image")}
@@ -184,7 +184,7 @@ const AdminAddClassNotificationPage = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="px-12 py-2 w-full text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out">
           Submit
         </button>
       </form>

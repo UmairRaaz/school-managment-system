@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const AdminAddPublicNotificationPage = () => {
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
@@ -28,8 +29,6 @@ const AdminAddPublicNotificationPage = () => {
       formData.image = imageFile[0];
     }
 
-    console.log(formData);
-
     const response = await axios.post("/api/admin/admin-add-notification", formData);
     if (response.data.success) {
       alert("Notification added successfully");
@@ -40,11 +39,11 @@ const AdminAddPublicNotificationPage = () => {
   };
 
   return (
-    <div className="p-4 mt-24 px-10">
-      <h1 className="text-2xl font-bold mb-4">Add Public Notification</h1>
+    <div className="max-w-full  p-4 mt-24 px-10">
+      <h2 className="text-sm flex justify-start text-blue-400  mb-6 text-center">Add Public Notification</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block mb-2">Title</label>
+          <label className="text-sm block mb-2">Title</label>
           <input
             type="text"
             {...register("title", { required: "Title is required" })}
@@ -56,7 +55,7 @@ const AdminAddPublicNotificationPage = () => {
         </div>
 
         <div>
-          <label className="block mb-2">Content</label>
+          <label className="text-sm block mb-2">Content</label>
           <textarea
             {...register("content", { required: "Content is required" })}
             className="border border-gray-300 p-2 rounded w-full"
@@ -67,7 +66,7 @@ const AdminAddPublicNotificationPage = () => {
         </div>
 
         <div>
-          <label className="block mb-2">Image (optional)</label>
+          <label className="text-sm block mb-2">Image (optional)</label>
           <input
             type="file"
             {...register("image")}
@@ -75,7 +74,7 @@ const AdminAddPublicNotificationPage = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="px-12 py-2 w-full text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out">
           Submit
         </button>
       </form>
