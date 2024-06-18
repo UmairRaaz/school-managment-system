@@ -9,6 +9,7 @@ import ContactPage from "@/components/ContactPage";
 import StudentAllCard from "@/components/StudentCard"
 
 
+
 export default async function Home() {
 
   const session = await auth();
@@ -18,6 +19,7 @@ export default async function Home() {
       <AboutUs/>
       <StudentAllCard/>
       <NotificationSection />
+     
      
       <ContactPage/>
 
