@@ -265,12 +265,14 @@ const ViewAttendance = () => {
         </h1>
         <div className="text-[8px] mb-6 flex flex-col sm:flex-row gap-4 items-end mt-10">
           <div className="flex-grow">
+
             <label className="block text-[12px] font-medium text-gray-700 mb-2">
               Select Teacher
             </label>
             <select
               value={selectedTeacher}
               onChange={handleTeacherChange}
+
               className="border text-[12px] p-2 w-full rounded-md shadow-sm"
             >
               <option value="" className='text-[12px]'>Select a teacher</option>
