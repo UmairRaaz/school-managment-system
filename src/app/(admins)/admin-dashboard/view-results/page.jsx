@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { FaDownload } from "react-icons/fa";
+import { GiTrophyCup } from 'react-icons/gi'
 
 const ViewResultCard = () => {
   const componentRef = useRef();
@@ -37,8 +38,8 @@ const ViewResultCard = () => {
   });
 
   const mockData = {
-    schoolName: "Mehran School",
-    schoolAddress: "123 Main Street, City, Country",
+    schoolName: "The Roots English School",
+    schoolAddress: "123 Main Street, Jamshoro, Pakistan",
     schoolLogo: "../school.jpeg", // Replace with your school logo URL
     studentName: "Moon Khan",
     fatherName: "Rustam Khan",
@@ -100,16 +101,27 @@ const ViewResultCard = () => {
         ref={componentRef}
       >
         {/* Header with School Logo and Name */}
-        <div className="overflow-x-auto print:overflow-visible bg-gradient-to-r from-purple-700 to-indigo-700 text-white p-4 flex justify-between items-center print:bg-black print:text-white print:rounded-t-lg">
+        <div className="overflow-x-auto print:overflow-visible bg-gradient-to-r from-gray-700 to-cyan-700 text-white p-4 flex justify-between items-center print:bg-black print:text-white print:rounded-t-lg">
           <div className="flex items-center">
             <div>
-              <h2 className="text-lg font-semibold">{mockData.schoolName}</h2>
-              <p className="text-sm">{mockData.schoolAddress}</p>
+              <h2 className="text-3xl font-semibold ">{mockData.schoolName}</h2>
+              <p className="text-sm mt-4">{mockData.schoolAddress}</p>
             </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold">Result Card</h1>
-          </div>
+          <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
+              <img
+                src={mockData.schoolLogo}
+                alt="School Logo"
+                className="object-cover w-full h-full border border-black rounded-md"
+              />
+            </div>
+          {/* <div>
+              <h2 className="text-3xl font-semibold px-2">
+                <GiTrophyCup className="inline-block mr-2 text-yellow-300 text-8xl" />
+                
+              </h2>
+              
+            </div> */}
         </div>
 
         {/* Student Information */}
@@ -134,13 +146,21 @@ const ViewResultCard = () => {
               
             </div>
 
-            <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
+            <div>
+              <h2 className="text-3xl font-semibold px-8 py-8 flex items-center justify-center">
+                <GiTrophyCup className="inline-block mr-2 text-yellow-400 text-8xl" />
+                
+              </h2>
+              
+            </div> 
+
+            {/* <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
               <img
                 src={mockData.schoolLogo}
                 alt="School Logo"
                 className="object-cover w-full h-full border border-black rounded-md"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
