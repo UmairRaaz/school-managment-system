@@ -159,8 +159,9 @@ const Sidebar = () => {
       label: "Result",
       color: "blue",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin-dashboard/add-results", label: "Add Result" },
-        { href: "/admin-dashboard/view-results", label: "Manage Result" },
+      dropdownLinks: [
+        { href: "/admin-dashboard/add-results", label: "Add Result" },
+        { href: "/admin-dashboard/all-results", label: "All Result" },
       ],
       
     },
@@ -203,21 +204,18 @@ const Sidebar = () => {
         { href: '/admin-dashboard/teacher-view-notifications' , label: "Manage Notification" },
       ],
     },
-
     {
       href: "/",
       icon: FaAward,
       label: "Result",
       color: "blue",
       hasDropdown: true,
-      dropdownLinks: [{ href: "/admin/all-supports", label: "Add Result" },
-        { href: "/admin/all-supports", label: "Manage Result" },
+      dropdownLinks: [
+        { href: "/admin-dashboard/add-results", label: "Add Result" },
+        { href: "/admin-dashboard/all-results", label: "All Result" },
       ],
       
     },
-    
-   
-  
     {
       href: '/api/auth/signout',
       icon: FaUsers,
@@ -244,6 +242,17 @@ const Sidebar = () => {
       icon: FaUserGraduate,
       label: 'View Attendance',
       color: 'blue',
+    },
+    {
+      href: "/",
+      icon: FaAward,
+      label: "Result",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        { href: "/admin-dashboard/all-results", label: "All Result" },
+      ],
+      
     },
     {
       href: '/admin-dashboard/student-notifications',

@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useState } from "react";
+import axios from "axios";
+import React from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 const calculateGrade = (percentage) => {
   if (percentage >= 80) return "A1";
@@ -12,96 +14,106 @@ const calculateGrade = (percentage) => {
 };
 
 const Form = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    fatherName: "",
-    class: "",
-    section: "",
-    rollNumber: "",
-    cast: "",
-    age: "",
-    date: "",
-    subjects: Array(10).fill({ name: "", totalMarks: 0, minMarks: 0, obtainedMarks: 0 }),
+  const { register, handleSubmit, control, watch } = useForm({
+    defaultValues: {
+      name: "",
+      fatherName: "",
+      class: "",
+      section: "",
+      rollNumber: "",
+      cast: "",
+      age: "",
+      date: "",
+      note: "",
+      subjects: Array(10).fill({ name: "", totalMarks: 0, minMarks: 0, obtainedMarks: 0 }),
+    }
   });
 
-  const handleChange = (e, index, field) => {
-    const updatedSubjects = formData.subjects.map((subject, i) => 
-      i === index ? { ...subject, [field]: e.target.value } : subject
-    );
-    setFormData({ ...formData, subjects: updatedSubjects });
+  const { fields, replace } = useFieldArray({
+    control,
+    name: "subjects",
+  });
+
+  const watchSubjects = watch("subjects");
+  
+  const onSubmit = async(data) => {
+    const filteredData = {
+      ...data,
+      subjects: data.subjects.filter(subject => subject.name.trim() !== "" || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0),
+    };
+    const response = await axios.post("/api/admin/add-result", filteredData)
+    if(response.data.success){
+      alert("result added successfully")
+    }
   };
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const totalMarks = formData.subjects.reduce((sum, subject) => sum + Number(subject.totalMarks), 0);
-  const totalObtainedMarks = formData.subjects.reduce((sum, subject) => sum + Number(subject.obtainedMarks), 0);
+  const totalMarks = watchSubjects.reduce((sum, subject) => sum + Number(subject.totalMarks), 0);
+  const totalObtainedMarks = watchSubjects.reduce((sum, subject) => sum + Number(subject.obtainedMarks), 0);
   const percentage = totalMarks > 0 ? ((totalObtainedMarks / totalMarks) * 100).toFixed(2) : 0;
   const grade = calculateGrade(percentage);
 
   return (
     <div className="container mx-auto p-2 text-[8px] mt-20 px-10">
-      <h1 className="text-xs  mb-2 text-blue-600 pt-10">Add Result Card</h1>
-      <form className="space-y-2">
+      <h1 className="text-xs mb-2 text-blue-600 pt-10">Add Result Card</h1>
+      <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-wrap justify-between gap-2">
           <div className="flex-grow">
             <label className="block">Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("name")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Father Name:</label>
-            <input type="text" name="fatherName" value={formData.fatherName} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("fatherName")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Class:</label>
-            <input type="text" name="class" value={formData.class} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("class")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Section:</label>
-            <input type="text" name="section" value={formData.section} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("section")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Roll Number:</label>
-            <input type="text" name="rollNumber" value={formData.rollNumber} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("rollNumber")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Cast:</label>
-            <input type="text" name="cast" value={formData.cast} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("cast")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Age:</label>
-            <input type="text" name="age" value={formData.age} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("age")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Date:</label>
-            <input type="date" name="date" value={formData.date} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="date" {...register("date")} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Note:</label>
-            <input type="text" name="note" value={formData.note} onChange={handleInputChange} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("note")} className="w-full p-1 border text-[8px]" />
           </div>
         </div>
 
-        {formData.subjects.map((subject, index) => (
-          <div key={index} className="border p-2 mb-2">
+        {fields.map((field, index) => (
+          <div key={field.id} className="border p-2 mb-2">
             <h2 className="text-[8px]">Subject {index + 1}</h2>
             <div className="flex flex-wrap justify-between gap-2">
               <div className="flex-grow">
                 <label className="block">Name:</label>
-                <input type="text" value={subject.name} onChange={(e) => handleChange(e, index, "name")} className="w-full p-1 border text-[8px]" />
+                <input type="text" {...register(`subjects.${index}.name`)} className="w-full p-1 border text-[8px]" />
               </div>
               <div className="flex-grow">
                 <label className="block">Total Marks:</label>
-                <input type="number" value={subject.totalMarks} onChange={(e) => handleChange(e, index, "totalMarks")} className="w-full p-1 border text-[8px]" />
+                <input type="number" {...register(`subjects.${index}.totalMarks`)} className="w-full p-1 border text-[8px]" />
               </div>
               <div className="flex-grow">
                 <label className="block">Min Marks:</label>
-                <input type="number" value={subject.minMarks} onChange={(e) => handleChange(e, index, "minMarks")} className="w-full p-1 border text-[8px]" />
+                <input type="number" {...register(`subjects.${index}.minMarks`)} className="w-full p-1 border text-[8px]" />
               </div>
               <div className="flex-grow">
                 <label className="block">Obtained Marks:</label>
-                <input type="number" value={subject.obtainedMarks} onChange={(e) => handleChange(e, index, "obtainedMarks")} className="w-full p-1 border text-[8px]" />
+                <input type="number" {...register(`subjects.${index}.obtainedMarks`)} className="w-full p-1 border text-[8px]" />
               </div>
             </div>
           </div>
@@ -129,13 +141,13 @@ const Form = () => {
           </div>
         </div>
         <div className="flex items-center justify-between">
-              <button
-                type="submit"
-                className="px-6 py-2 w-full text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out"
-              >
-                Add Result
-              </button>
-            </div>
+          <button
+            type="submit"
+            className="px-6 py-2 w-full text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out"
+          >
+            Add Result
+          </button>
+        </div>
       </form>
     </div>
   );
