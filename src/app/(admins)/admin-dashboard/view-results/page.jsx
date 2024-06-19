@@ -115,13 +115,7 @@ const ViewResultCard = () => {
                 className="object-cover w-full h-full border border-black rounded-md"
               />
             </div>
-          {/* <div>
-              <h2 className="text-3xl font-semibold px-2">
-                <GiTrophyCup className="inline-block mr-2 text-yellow-300 text-8xl" />
-                
-              </h2>
-              
-            </div> */}
+         
         </div>
 
         {/* Student Information */}
@@ -154,13 +148,7 @@ const ViewResultCard = () => {
               
             </div> 
 
-            {/* <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-              <img
-                src={mockData.schoolLogo}
-                alt="School Logo"
-                className="object-cover w-full h-full border border-black rounded-md"
-              />
-            </div> */}
+           
           </div>
         </div>
 
