@@ -101,7 +101,7 @@ const AdminPreviewNotification = ({ params }) => {
                         <img
                             src="/not.jpg"
                             alt="Background"
-                            className="absolute inset-0 w-full h-full object-fit  "
+                            className="absolute inset-0 w-full h-full object-contain  "
                         />
                     </div>
 
