@@ -7,7 +7,12 @@ import { useSession } from "next-auth/react";
 
 const AllResults = () => {
   const [results, setResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchName, setSearchName] = useState("");
+  const [searchRollNumber, setSearchRollNumber] = useState("");
+  const [searchClass, setSearchClass] = useState("");
+  const [searchMonthYear, setSearchMonthYear] = useState("");
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -16,6 +21,7 @@ const AllResults = () => {
       try {
         const response = await axios.get("/api/admin/get-all-results");
         setResults(response.data.results);
+        setFilteredResults(response.data.results);
       } catch (error) {
         console.error("Failed to fetch results", error);
       } finally {
@@ -25,6 +31,22 @@ const AllResults = () => {
 
     getResults();
   }, []);
+
+  useEffect(() => {
+    const filtered = results.filter((result) => {
+      const resultDate = new Date(result.date);
+      const [searchMonth, searchYear] = searchMonthYear.split("-");
+      return (
+        (searchName === "" || result.name.toLowerCase().includes(searchName.toLowerCase())) &&
+        (searchRollNumber === "" || result.rollNumber.includes(searchRollNumber)) &&
+        (searchClass === "" || result.class === searchClass) &&
+        (searchMonthYear === "" ||
+          (resultDate.getMonth() + 1 === parseInt(searchMonth) &&
+           resultDate.getFullYear() === parseInt(searchYear)))
+      );
+    });
+    setFilteredResults(filtered);
+  }, [searchName, searchRollNumber, searchClass, searchMonthYear, results]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -68,6 +90,36 @@ const AllResults = () => {
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">All Results</h1>
 
+      <div className="mb-4 flex flex-col sm:flex-row items-center justify-between">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          className="mb-2 sm:mb-0 p-2 border rounded w-full sm:w-1/4"
+        />
+        <input
+          type="text"
+          placeholder="Search by roll number"
+          value={searchRollNumber}
+          onChange={(e) => setSearchRollNumber(e.target.value)}
+          className="mb-2 sm:mb-0 p-2 border rounded w-full sm:w-1/4"
+        />
+        <select
+          value={searchClass}
+          onChange={(e) => setSearchClass(e.target.value)}
+          className="mb-2 sm:mb-0 p-2 border rounded w-full sm:w-1/4"
+        >
+          <option value="">All Classes</option>
+          {[...Array(10)].map((_, i) => (
+            <option key={i} value={i + 1}>
+              Class {i + 1}
+            </option>
+          ))}
+        </select>
+       
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg">
           <thead className="bg-black text-white">
@@ -86,7 +138,7 @@ const AllResults = () => {
                 <td colSpan="6" className="py-3 px-6 text-center">Loading results...</td>
               </tr>
             ) : (
-              results.map((result) => (
+              filteredResults.map((result) => (
                 <tr key={result._id} className="border-b border-gray-200 hover:bg-gray-100">
                   <td className="py-3 px-6 text-left">{result.rollNumber}</td>
                   <td className="py-3 px-6 text-left">{result.name}</td>
