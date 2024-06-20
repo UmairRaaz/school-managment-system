@@ -161,7 +161,7 @@ const Sidebar = () => {
       hasDropdown: true,
       dropdownLinks: [
         { href: "/admin-dashboard/add-results", label: "Add Result" },
-        { href: "/admin-dashboard/all-results", label: "All Result" },
+        { href: "/admin-dashboard/all-results", label: "Manage Result" },
       ],
       
     },
