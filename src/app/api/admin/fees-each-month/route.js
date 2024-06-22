@@ -7,19 +7,26 @@ export async function GET() {
     try {
         dbConnect()
         const now = new Date();
-        const month = now.toLocaleString('default', { month: 'long' }); 
-        const year = now.getFullYear(); 
+        const month = now.toLocaleString('default', { month: 'long' });
+        const year = now.getFullYear();
         const students = await StudentModel.find({});
 
         const feePromises = students.map(async student => {
             const existingFee = await FeeModel.findOne({ studentId: student._id, month, year });
             if (!existingFee) {
-                return FeeModel.create({ 
+                let monthlyFee = 0;
+                if (student.CurrentClass >= 1 && student.CurrentClass <= 5) {
+                    monthlyFee = 1000;
+                } else if (student.CurrentClass >= 6 && student.CurrentClass <= 10) {
+                    monthlyFee = 2000;
+                }
+                return FeeModel.create({
                     studentId: student._id,
                     month,
                     year,
-                    date: new Date(year, now.getMonth(), 1), 
-                    isPaid: false
+                    date: new Date(year, now.getMonth(), 1),
+                    isPaid: false,
+                    MonthlyFee: monthlyFee
                 });
             }
         });

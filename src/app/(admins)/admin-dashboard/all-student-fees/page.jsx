@@ -7,17 +7,14 @@ import Link from "next/link";
 
 const AllStudentsFees = () => {
   const [fees, setFees] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
-  const [feesLoading, setFeesLoading] = useState(false); // Fees loading state
+  const [loading, setLoading] = useState(false); 
+  const [feesLoading, setFeesLoading] = useState(false); 
   const router = useRouter();
 
   useEffect(() => {
     handleGetFees();
   }, []);
 
-
-
- 
   const handleAddFees = async () => {
     try {
       setFeesLoading(true); 
@@ -40,6 +37,40 @@ const AllStudentsFees = () => {
       console.error("Error fetching fees:", error);
     } finally {
       setFeesLoading(false); 
+    }
+  };
+
+  const handleDeleteFees = async (id) => {
+    try {
+      const response = await axios.delete(`/api/admin/fees-get-edit-delete/${id}`);
+      if(response.data.success){
+        alert("Fees Deleted")
+        handleGetFees()
+      }
+    } catch (error) {
+      console.error("Error deleting fees:", error);
+    } finally {
+      setFeesLoading(false); 
+    }
+  };
+
+  const handleEditFees = (id) => {
+    router.push(`/admin-dashboard/admin-edit-fees/${id}`);
+  };
+
+  const handleFeeStatusChange = async (id, newStatus) => {
+    try {
+      setFeesLoading(true);
+      const response = await axios.put(`/api/admin/fees-get-edit-delete/${id}`, {
+        isPaid: newStatus
+      });
+      if (response.data.success) {
+        handleGetFees(); 
+      }
+    } catch (error) {
+      console.error("Error updating fee status:", error);
+    } finally {
+      setFeesLoading(false);
     }
   };
 
@@ -91,18 +122,27 @@ const AllStudentsFees = () => {
                   <td className="py-3 px-6 text-left">{fee.studentId.Section}</td>
                   <td className="py-3 px-6 text-left">{fee.studentId.MobileNumber}</td>
                   <td className="py-3 px-6 text-left">{fee.month}</td>
-                  <td className="py-3 px-6 text-left">{fee.isPaid ? "Paid" : "Not Paid"}</td>
+                  <td className="py-3 px-6 text-left">
+                    <select
+                      value={fee.isPaid ? "Paid" : "Not Paid"}
+                      onChange={(e) => handleFeeStatusChange(fee._id, e.target.value === "Paid")}
+                      className="border border-gray-300 rounded-md p-1"
+                    >
+                      <option value="Paid">Paid</option>
+                      <option value="Not Paid">Not Paid</option>
+                    </select>
+                  </td>
                   <td className="py-3 px-6 text-center flex justify-center">
-                    <Link href="/admin-dashboard/view-student-fees">
+                    <Link href={`/admin-dashboard/view-student-fees/${fee._id}`}>
                       <FaEye className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer" />
                     </Link>
                     <FaEdit
                       className="text-yellow-500 hover:text-yellow-700 mx-2 cursor-pointer"
-                      onClick={() => handleEdit(fee.studentId._id)}
+                      onClick={() => handleEditFees(fee._id)}
                     />
                     <FaTrash
                       className="text-red-500 hover:text-red-700 mx-2 cursor-pointer"
-                      onClick={() => handleDelete(fee.studentId._id)}
+                      onClick={() => handleDeleteFees(fee._id)}
                     />
                   </td>
                 </tr>
