@@ -244,6 +244,12 @@ const Sidebar = () => {
       color: 'blue',
     },
     {
+      href: `/admin-dashboard/student-view-fees`,
+      icon: FaUserGraduate,
+      label: 'View Fees',
+      color: 'blue',
+    },
+    {
       href: "/",
       icon: FaAward,
       label: "Result",
