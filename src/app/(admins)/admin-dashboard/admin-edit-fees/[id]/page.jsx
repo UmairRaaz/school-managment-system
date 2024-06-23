@@ -9,13 +9,17 @@ function EditAdminFee({ params }) {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedStudent, setSelectedStudent] = useState("");
+  const [selectedClass, setSelectedClass] = useState("");
+  const [defaultStudentName, setDefaultStudentName] = useState("");
   const router = useRouter();
   const { id } = params;
 
   useEffect(() => {
     const fetchFeeDetails = async () => {
       try {
-        const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
+        const response = await axios.get(
+          `/api/admin/fees-get-edit-delete/${id}`
+        );
         const feeData = response.data.fees;
         setValue("studentId", feeData.studentId);
         setSelectedStudent(feeData.studentId._id);
@@ -26,16 +30,29 @@ function EditAdminFee({ params }) {
         setValue("tuition", feeData.TuitionFee);
         setValue("discount", feeData.Discount);
         setValue("penalty", feeData.Penalty);
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching fee details:", error);
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchFeeDetails();
   }, [id, setValue]);
-
+  const fetchStudents = async (studentclass) => {
+    try {
+      console.log(studentclass);
+      const response = await axios.get(
+        `/api/admin/students-by-class/${studentclass}`
+      );
+      setStudents(response.data.students);
+      console.log(response.data.students);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     if (!loading && selectedStudent) {
       const fetchStudents = async () => {
@@ -49,9 +66,12 @@ function EditAdminFee({ params }) {
 
       const fetchStudentDetails = async () => {
         try {
-          const response = await axios.get(`/api/admin/delete-edit-get-student/${selectedStudent}`);
+          const response = await axios.get(
+            `/api/admin/delete-edit-get-student/${selectedStudent}`
+          );
           const student = response.data.student;
           setValue("studentName", student.Name);
+          setDefaultStudentName(student.Name); 
           setValue("fatherName", student.FatherName);
           setValue("rollNo", student.SID);
           setValue("className", student.CurrentClass);
@@ -71,9 +91,12 @@ function EditAdminFee({ params }) {
     setSelectedStudent(studentId);
 
     try {
-      const response = await axios.get(`/api/admin/delete-edit-get-student/${studentId}`);
+      const response = await axios.get(
+        `/api/admin/delete-edit-get-student/${studentId}`
+      );
       const student = response.data.student;
-      setValue("studentName", student.Name);
+      setValue("studentName", student.Name); 
+      setDefaultStudentName(student.Name);
       setValue("fatherName", student.FatherName);
       setValue("rollNo", student.SID);
       setValue("className", student.CurrentClass);
@@ -97,7 +120,10 @@ function EditAdminFee({ params }) {
         month: new Date(data.date).toLocaleString("default", { month: "long" }),
         year: new Date(data.date).getFullYear(),
       };
-      const response = await axios.put(`/api/admin/fees-get-edit-delete/${id}`, feeData);
+      const response = await axios.put(
+        `/api/admin/fees-get-edit-delete/${id}`,
+        feeData
+      );
       if (response.data.success) {
         alert("Fee updated successfully");
         router.push("/admin-dashboard/all-student-fees");
@@ -107,8 +133,25 @@ function EditAdminFee({ params }) {
     }
   };
 
-  const feeValues = watch(["admission", "monthly", "tuition", "discount", "penalty"]);
-  const total = (parseFloat(feeValues[0]) || 0) + (parseFloat(feeValues[1]) || 0) + (parseFloat(feeValues[2]) || 0) - (parseFloat(feeValues[3]) || 0) + (parseFloat(feeValues[4]) || 0);
+  const handleClassChange = (e) => {
+    const classId = e.target.value;
+    setSelectedClass(classId);
+    fetchStudents(classId);
+  };
+
+  const feeValues = watch([
+    "admission",
+    "monthly",
+    "tuition",
+    "discount",
+    "penalty",
+  ]);
+  const total =
+    (parseFloat(feeValues[0]) || 0) +
+    (parseFloat(feeValues[1]) || 0) +
+    (parseFloat(feeValues[2]) || 0) -
+    (parseFloat(feeValues[3]) || 0) +
+    (parseFloat(feeValues[4]) || 0);
 
   useEffect(() => {
     setValue("total", total.toFixed(2));
@@ -125,12 +168,30 @@ function EditAdminFee({ params }) {
           <div className="flex justify-start text-center text-sm text-blue-500 mb-4">
             Edit Class Fees
           </div>
-          <div className="flex justify-start text-center text-sm text-blue-500 mt-4">
-            Student Information
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label htmlFor="studentId" className="text-xs block text-gray-700">
+              <label htmlFor="classId" className="text-xs block text-gray-700">
+                Class
+              </label>
+              <select
+                id="classId"
+                name="classId"
+                onChange={handleClassChange}
+                className="mt-1 p-2 border border-gray-300 rounded"
+              >
+                <option value="">Select a class</option>
+                {[...Array(10).keys()].map((_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    Class {index + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="studentId"
+                className="text-xs block text-gray-700"
+              >
                 Student
               </label>
               <select
@@ -147,8 +208,16 @@ function EditAdminFee({ params }) {
                 ))}
               </select>
             </div>
+          </div>
+          <div className="flex justify-start text-center text-sm text-blue-500 mt-4">
+            Student Information
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="flex flex-col">
-              <label htmlFor="studentName" className="text-xs block text-gray-700">
+              <label
+                htmlFor="studentName"
+                className="text-xs block text-gray-700"
+              >
                 Student Name
               </label>
               <input
@@ -156,11 +225,15 @@ function EditAdminFee({ params }) {
                 id="studentName"
                 name="studentName"
                 className="mt-1 p-2 border border-gray-300 rounded"
+                value={defaultStudentName} // Set default value here
                 {...register("studentName", { required: true })}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="fatherName" className="text-xs block text-gray-700">
+              <label
+                htmlFor="fatherName"
+                className="text-xs block text-gray-700"
+              >
                 Father Name
               </label>
               <input
@@ -184,7 +257,10 @@ function EditAdminFee({ params }) {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="className" className="text-xs block text-gray-700">
+              <label
+                htmlFor="className"
+                className="text-xs block text-gray-700"
+              >
                 Class
               </label>
               <input
@@ -208,7 +284,10 @@ function EditAdminFee({ params }) {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="feeDescription" className="text-xs block text-gray-700">
+              <label
+                htmlFor="feeDescription"
+                className="text-xs block text-gray-700"
+              >
                 Fee Description
               </label>
               <input
@@ -220,7 +299,10 @@ function EditAdminFee({ params }) {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="feeStatus" className="text-xs block text-gray-700">
+              <label
+                htmlFor="feeStatus"
+                className="text-xs block text-gray-700"
+              >
                 Fee Status
               </label>
               <select
@@ -251,7 +333,10 @@ function EditAdminFee({ params }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="flex flex-col">
-              <label htmlFor="admission" className="text-xs block text-gray-700">
+              <label
+                htmlFor="admission"
+                className="text-xs block text-gray-700"
+              >
                 Admission Fee
               </label>
               <input

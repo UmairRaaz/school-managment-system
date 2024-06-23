@@ -3,12 +3,18 @@ import { FeeModel } from "@/models/feesModel";
 import { StudentModel } from "@/models/studentModel";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(req) {
     try {
-        dbConnect()
-        const now = new Date();
-        const month = now.toLocaleString('default', { month: 'long' });
-        const year = now.getFullYear();
+        await dbConnect();
+        const body = await req.json()
+
+        const  {month, year} = body
+        
+
+        if (!month || !year) {
+            return NextResponse.json({ message: "Month and year are required", success: false }, { status: 400 });
+        }
+
         const students = await StudentModel.find({});
 
         const feePromises = students.map(async student => {
@@ -24,7 +30,7 @@ export async function GET() {
                     studentId: student._id,
                     month,
                     year,
-                    date: new Date(year, now.getMonth(), 1),
+                    date: new Date(year, new Date().getMonth(month), 1), 
                     isPaid: false,
                     MonthlyFee: monthlyFee
                 });
@@ -33,7 +39,7 @@ export async function GET() {
 
         await Promise.all(feePromises);
 
-        const allFees = await FeeModel.find({}).populate('studentId', 'SID Name Section CurrentClass MobileNumber');
+        const allFees = await FeeModel.find({ month, year }).populate('studentId', 'SID Name Section CurrentClass MobileNumber');
         return NextResponse.json({
             message: "Fee records generated successfully",
             allFees: allFees,

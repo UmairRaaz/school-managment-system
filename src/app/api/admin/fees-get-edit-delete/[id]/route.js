@@ -35,13 +35,13 @@ export async function PUT(req, { params }) {
         await dbConnect();
         const { id } = params;
         const body = await req.json();
-
+        console.log(body)
         const updateFees = await FeeModel.findByIdAndUpdate(
             id,
             body,
             { new: true }
         );
-        console.log(updateFees)
+        // console.log(updateFees)
         return NextResponse.json({ message: 'Fees Edited Successfully', success: true }, { status: 200 });
     } catch (error) {
         console.error('Error Editing notification details:', error);

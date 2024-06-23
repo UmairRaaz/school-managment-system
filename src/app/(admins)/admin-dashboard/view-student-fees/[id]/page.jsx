@@ -17,7 +17,9 @@ const Fees = ({ params }) => {
   const getFeesDetails = async () => {
     try {
       const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
-      setFeesData(response.data.fees);
+      const fees = response.data.fees;
+      fees.date = formatDate(fees.date);
+      setFeesData(fees);
     } catch (error) {
       console.error('Error fetching fees details:', error);
     } finally {
@@ -28,6 +30,11 @@ const Fees = ({ params }) => {
   useEffect(() => {
     getFeesDetails();
   }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
 
   const calculateFee = (currentClass) => {
     if (currentClass >= 1 && currentClass <= 5) {
@@ -89,10 +96,10 @@ const Fees = ({ params }) => {
                     <span className="font-semibold">Fee Description:</span> Monthly Fee
                   </p>
                   <p className="mb-2 text-xs">
-                    <span className="font-semibold">Fee Status:</span> Not Paid
+                    <span className="font-semibold">Fee Status:</span> {feesData.isPaid ? "Paid" : "Unpaid"}
                   </p>
                   <p className="mb-2 text-xs">
-                    <span className="font-semibold">Date:</span> 2024-06-11
+                    <span className="font-semibold">Date:</span> {feesData.date}
                   </p>
                 </section>
                 <section>
