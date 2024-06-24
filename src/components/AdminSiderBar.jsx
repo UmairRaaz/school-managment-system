@@ -244,12 +244,6 @@ const Sidebar = () => {
       color: 'blue',
     },
     {
-      href: `/admin-dashboard/student-view-fees`,
-      icon: FaUserGraduate,
-      label: 'View Fees',
-      color: 'blue',
-    },
-    {
       href: `/admin-dashboard/student-all-fees`,
       icon: FaUserGraduate,
       label: 'Your Fees Data',
