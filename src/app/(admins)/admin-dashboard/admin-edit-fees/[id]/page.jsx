@@ -295,7 +295,7 @@ function EditAdminFee({ params }) {
                 id="feeDescription"
                 name="feeDescription"
                 className="mt-1 p-2 border border-gray-300 rounded"
-                {...register("feeDescription", { required: true })}
+                {...register("feeDescription")}
               />
             </div>
             <div className="flex flex-col">
@@ -344,7 +344,7 @@ function EditAdminFee({ params }) {
                 id="admission"
                 name="admission"
                 className="mt-1 p-2 border border-gray-300 rounded"
-                {...register("admission", { required: true })}
+                {...register("admission")}
               />
             </div>
             <div className="flex flex-col">
@@ -368,7 +368,7 @@ function EditAdminFee({ params }) {
                 id="tuition"
                 name="tuition"
                 className="mt-1 p-2 border border-gray-300 rounded"
-                {...register("tuition", { required: true })}
+                {...register("tuition")}
               />
             </div>
             <div className="flex flex-col">
@@ -380,7 +380,7 @@ function EditAdminFee({ params }) {
                 id="discount"
                 name="discount"
                 className="mt-1 p-2 border border-gray-300 rounded"
-                {...register("discount", { required: true })}
+                {...register("discount")}
               />
             </div>
             <div className="flex flex-col">
@@ -392,7 +392,7 @@ function EditAdminFee({ params }) {
                 id="penalty"
                 name="penalty"
                 className="mt-1 p-2 border border-gray-300 rounded"
-                {...register("penalty", { required: true })}
+                {...register("penalty")}
               />
             </div>
             <div className="flex flex-col">
@@ -405,7 +405,7 @@ function EditAdminFee({ params }) {
                 name="total"
                 readOnly
                 className="mt-1 p-2 border border-gray-300 rounded bg-gray-100"
-                {...register("total", { required: true })}
+                {...register("total")}
               />
             </div>
           </div>

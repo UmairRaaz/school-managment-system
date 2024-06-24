@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
@@ -6,7 +6,12 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const PasswordInput = ({ register, errors, showPassword, togglePasswordVisibility }) => {
+const PasswordInput = ({
+  register,
+  errors,
+  showPassword,
+  togglePasswordVisibility,
+}) => {
   return (
     <div className="flex flex-col">
       <label htmlFor="password" className="text-xs block text-gray-700">
@@ -105,11 +110,11 @@ const AdminProfileEditForm = () => {
   };
 
   const handleFormSubmit = async (data) => {
+    console.log(data)
     try {
       if (userDetails && userDetails.username) {
-        const response = await axios.post("/api/admin/edit-admin-details", {
+        const response = await axios.put(`/api/admin/edit-admin-details/${userDetails._id}`, {
           ...data,
-          username: userDetails.username,
         });
         if (response.data.success) {
           alert("Information updated successfully");
@@ -156,7 +161,9 @@ const AdminProfileEditForm = () => {
             <p className="text-sm mb-2">
               Password:{" "}
               <span className="inline-flex items-center">
-                {showPassword ? profile.password : "*".repeat(profile.password.length)}
+                {showPassword
+                  ? profile.password
+                  : "*".repeat(profile.password.length)}
                 <button
                   type="button"
                   className="ml-2 text-sm"
@@ -171,13 +178,12 @@ const AdminProfileEditForm = () => {
               Phone Number: {profile.phoneNumber}
             </p>
             <button
-  onClick={handleEditClick}
-  className={`px-12 py-2 ml-4 text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out 
-              ${isEditing ? 'block md:inline-block' : 'inline-block '}`}
->
-  {isEditing ? "Cancel" : "Edit Profile"}
-</button>
-
+              onClick={handleEditClick}
+              className={`px-12 py-2 ml-4 text-black font-semibold hover:bg-black hover:text-white border border-black transition-all duration-300 ease-in-out 
+              ${isEditing ? "block md:inline-block" : "inline-block "}`}
+            >
+              {isEditing ? "Cancel" : "Edit Profile"}
+            </button>
           </div>
         </div>
 
@@ -216,12 +222,17 @@ const AdminProfileEditForm = () => {
                   } rounded`}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">Email is required.</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    Email is required.
+                  </p>
                 )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="username" className="text-xs block text-gray-700">
+                <label
+                  htmlFor="username"
+                  className="text-xs block text-gray-700"
+                >
                   Username
                 </label>
                 <input
@@ -233,7 +244,9 @@ const AdminProfileEditForm = () => {
                   } rounded`}
                 />
                 {errors.username && (
-                  <p className="text-red-500 text-xs mt-1">Username is required.</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    Username is required.
+                  </p>
                 )}
               </div>
 
@@ -264,24 +277,28 @@ const AdminProfileEditForm = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="phoneNumber" className="text-xs block text-gray-700">
+                <label
+                  htmlFor="phoneNumber"
+                  className="text-xs block text-gray-700"
+                >
                   Phone Number
                 </label>
                 <input
                   type="text"
                   id="phoneNumber"
-                  {...register("phoneNumber", {                   required: true,
-                  })}
+                  {...register("phoneNumber", { required: true })}
                   className={`mt-1 p-2 border ${
                     errors.phoneNumber ? "border-red-500" : "border-gray-300"
                   } rounded`}
                 />
                 {errors.phoneNumber && (
-                  <p className="text-red-500 text-xs mt-1">Phone Number is required.</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    Phone Number is required.
+                  </p>
                 )}
               </div>
             </div>
-  
+
             <div className="flex items-center justify-between">
               <button
                 type="submit"
@@ -292,11 +309,9 @@ const AdminProfileEditForm = () => {
             </div>
           </form>
         )}
-  
-        </div>
       </div>
-    );
-  };
-  
-  export default AdminProfileEditForm;
-  
+    </div>
+  );
+};
+
+export default AdminProfileEditForm;

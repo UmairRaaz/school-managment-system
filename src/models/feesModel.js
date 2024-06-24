@@ -7,15 +7,15 @@ const FeeSchema = new Schema({
   studentId: { type: Schema.Types.ObjectId, ref: 'StudentModel', required: true },
   isPaid: { type: Boolean, default: false },
   date: { type: Date },
-  AdmissionFee : {type: Number, default: 0},
-  MonthlyFee : {type: Number},
-  TuitionFee : {type: Number, default: 0},
-  Discount : {type: Number, default: 0},
-  FeeDescription: {type: String, default: "Monthly Fee"},
-  Penalty : {type: Number, default: 0},
+  AdmissionFee: { type: Number, default: 0 },
+  MonthlyFee: { type: Number },
+  TuitionFee: { type: Number, default: 0 },
+  Discount: { type: Number, default: 0 },
+  FeeDescription: { type: String, default: "Monthly Fee" },
+  Penalty: { type: Number, default: 0 },
   month: { type: String, required: true },
   year: { type: Number, required: true },
-  serialNumber: { type: Number, unique: true } 
+  serialNumber: { type: Number, unique: true }
 });
 
 FeeSchema.pre('save', async function (next) {
@@ -23,7 +23,8 @@ FeeSchema.pre('save', async function (next) {
   
   if (!this.date) {
     const monthIndex = new Date(Date.parse(this.month + " 1, " + this.year)).getMonth();
-    this.date = new Date(this.year, monthIndex);
+    const lastDayOfMonth = new Date(this.year, monthIndex + 1, 0).getDate();
+    this.date = new Date(this.year, monthIndex, lastDayOfMonth);
   }
 
   if (this.isNew) {
@@ -42,5 +43,6 @@ FeeSchema.pre('save', async function (next) {
     next();
   }
 });
+
 
 export const FeeModel = mongoose.models?.FeeModel || mongoose.model('FeeModel', FeeSchema);

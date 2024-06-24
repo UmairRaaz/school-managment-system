@@ -6,24 +6,23 @@ import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 
 const AllStudentsFees = () => {
-  const currentMonth = new Date().toLocaleString('default', { month: 'long' }); 
-  const currentYear = new Date().getFullYear(); 
+  const currentDate = new Date().toISOString().split('T')[0];
 
   const [fees, setFees] = useState([]);
   const [loading, setLoading] = useState(false); 
   const [feesLoading, setFeesLoading] = useState(false); 
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth); 
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
   const router = useRouter();
-
+  console.log("selectedDate", selectedDate)
+  
   useEffect(() => {
     handleGetFees();
-  }, [selectedMonth, selectedYear]);
+  }, [selectedDate]);
 
   const handleAddFees = async () => {
     try {
       setFeesLoading(true); 
-      const response = await axios.post("/api/admin/fees-each-month", { month: selectedMonth, year: selectedYear });
+      const response = await axios.post("/api/admin/fees-each-month", { date: selectedDate });
       console.log(response.data.allFees);
     } catch (error) {
       console.error("Error adding fees:", error);
@@ -35,7 +34,7 @@ const AllStudentsFees = () => {
   const handleGetFees = async () => {
     try {
       setFeesLoading(true); 
-      const response = await axios.post(`/api/admin/get-all-fees`, { month: selectedMonth, year: selectedYear });
+      const response = await axios.post(`/api/admin/get-all-fees`, { date: selectedDate });
       console.log(response.data.allFees);
       setFees(response.data.allFees);
     } catch (error) {
@@ -79,48 +78,29 @@ const AllStudentsFees = () => {
     }
   };
 
-  const months = [
-    "January", "February", "March", "April", "May", "June", 
-    "July", "August", "September", "October", "November", "December"
-  ];
-
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">All Fees</h1>
       <div className="flex gap-4">
-        <select 
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
+        <input 
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
           className="border border-gray-300 rounded-md px-4 py-2 text-sm my-4"
-        >
-          <option value="">Select Month</option>
-          {months.map((month, index) => (
-            <option key={index} value={month}>{month}</option>
-          ))}
-        </select>
-        <select 
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-          className="border border-gray-300 rounded-md px-4 py-2 text-sm my-4"
-        >
-          {[...Array(5)].map((_, i) => {
-            const year = new Date().getFullYear() - i;
-            return <option key={year} value={year}>{year}</option>
-          })}
-        </select>
+        />
         <button
           type="button"
           onClick={handleAddFees}
           className="bg-black text-white rounded-md px-4 py-2 text-sm my-4"
-          disabled={!selectedMonth || !selectedYear}
+          disabled={!selectedDate}
         >
-          {feesLoading ? "Adding Fees..." : "Add Monthly Fees"}
+          {feesLoading ? "Adding Fees..." : "Add Fees"}
         </button>
         <button
           type="button"
           onClick={handleGetFees}
           className="bg-black text-white rounded-md px-4 py-2 text-sm my-4"
-          disabled={!selectedMonth || !selectedYear}
+          disabled={!selectedDate}
         >
           {feesLoading ? "Fetching Fees..." : "Get Fees"}
         </button>
@@ -140,7 +120,7 @@ const AllStudentsFees = () => {
                   <th className="py-3 px-6 text-left">Class</th>
                   <th className="py-3 px-6 text-left">Section</th>
                   <th className="py-3 px-6 text-left">Mobile Number</th>
-                  <th className="py-3 px-6 text-left">Month</th>
+                  <th className="py-3 px-6 text-left">Date</th>
                   <th className="py-3 px-6 text-left">Fee Status</th>
                   <th className="py-3 px-6 text-center rounded-tr-lg">Actions</th>
                 </tr>
@@ -156,7 +136,7 @@ const AllStudentsFees = () => {
                     <td className="py-3 px-6 text-left">{fee.studentId.CurrentClass}</td>
                     <td className="py-3 px-6 text-left">{fee.studentId.Section}</td>
                     <td className="py-3 px-6 text-left">{fee.studentId.MobileNumber}</td>
-                    <td className="py-3 px-6 text-left">{fee.month}</td>
+                    <td className="py-3 px-6 text-left">{new Date(fee.date).toISOString().split('T')[0]}</td>
                     <td className="py-3 px-6 text-left">
                       <select
                         value={fee.isPaid ? "Paid" : "Not Paid"}

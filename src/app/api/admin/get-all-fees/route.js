@@ -7,14 +7,18 @@ export async function POST(req) {
         await dbConnect();
         const body = await req.json();
 
-        const { month, year } = body;
+        const { date } = body;
 
-        if (!month || !year) {
+        if (!date) {
             return NextResponse.json(
-                { message: "Month and year are required", success: false },
+                { message: "Date is required", success: false },
                 { status: 400 }
             );
         }
+
+        const dateObject = new Date(date);
+        const month = dateObject.toLocaleString('default', { month: 'long' });
+        const year = dateObject.getFullYear();
 
         const allFees = await FeeModel.find({ month: month, year: year }).populate(
             "studentId",
@@ -31,4 +35,3 @@ export async function POST(req) {
         return NextResponse.json({ message: "Fetching Fees Failed", success: false }, { status: 500 });
     }
 }
-

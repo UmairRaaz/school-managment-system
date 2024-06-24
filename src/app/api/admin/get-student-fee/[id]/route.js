@@ -8,7 +8,7 @@ export async function GET(req, { params }) {
     try {
         await dbConnect();
         const { id } = params;
-        const fee = await FeeModel.findOne({studentId: id  }).populate('studentId', 'SID Name Section CurrentClass MobileNumber');
+        const fee = await FeeModel.find({studentId: id  }).populate('studentId', 'SID Name Section CurrentClass MobileNumber');
 
         return NextResponse.json({ message: 'fee  found', fee: fee, success: true }, { status: 200 });
     } catch (error) {

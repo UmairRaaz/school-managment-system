@@ -2,18 +2,26 @@ import dbConnect from "@/libs/dbConnect";
 import { AdminModel } from "@/models/userModel";
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function PUT(req, { params }) {
     try {
         await dbConnect();
         const body = await req.json();
-        const { name, role, email, phoneNumber, username } = body;
-        const user = await AdminModel.findOneAndUpdate(
-            { username },
-            { name, role, email, phoneNumber },
+        const { id } = params;
+        const { name, role, email, phoneNumber, username, password } = body;
+
+        // Check if the new username is already taken by another user
+        const existingUser = await AdminModel.findOne({ username });
+
+        if (existingUser && existingUser._id.toString() !== id) {
+            return NextResponse.json({ message: "Username is already taken", success: false }, { status: 409 });
+        }
+
+        // Proceed with the update if username is not taken
+        const user = await AdminModel.findByIdAndUpdate(
+            id,
+            { name, role, email, phoneNumber, username, password },
             { new: true }
         );
-
-        console.log("updated user", user);
 
         if (user) {
             return NextResponse.json({ message: "User updated", success: true }, { status: 200 });
