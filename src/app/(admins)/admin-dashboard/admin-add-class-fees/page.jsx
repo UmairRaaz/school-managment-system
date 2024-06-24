@@ -98,7 +98,7 @@ function AdminAddClassFees() {
     <div className="min-h-screen flex flex-col items-center justify-center mt-10 pt-10">
       <div className="bg-white p-8 w-full">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex justify-start text-center text-sm text-blue-500 mb-4">
+          <div className="flex justify-center text-center text-lg text-black mb-4">
             Add Class Fees
           </div>
           <div className="flex justify-start text-center text-sm text-blue-500 mt-4">
