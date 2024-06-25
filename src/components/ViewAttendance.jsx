@@ -1,13 +1,8 @@
 'use client'
-<<<<<<< HEAD
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { format, parseISO, addDays, startOfMonth, endOfMonth } from "date-fns";
-=======
+
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { format, parseISO, addDays, startOfMonth, endOfMonth } from 'date-fns';
->>>>>>> d4a259c93907f038c0207a9835697bcffd4fa0b9
 import { FiEye } from 'react-icons/fi';
 import { useReactToPrint } from 'react-to-print';
 import { enUS } from 'date-fns/locale';
