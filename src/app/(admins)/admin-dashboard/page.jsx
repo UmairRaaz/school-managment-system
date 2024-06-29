@@ -5,6 +5,7 @@ import TeacherDashboard from '@/components/TeacherDashboard';
 import StudentDashboard from '@/components/StudentDashboard';
 import { useSession } from 'next-auth/react';
 import React from 'react';
+import ImageUpload from '@/components/ImageUpload';
 
 const DashboardPage = () => {
   const { data: session, status } = useSession();

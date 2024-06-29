@@ -61,11 +61,12 @@ const AdminProfileEditForm = () => {
     image: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-
+  console.log(imageFile)
   useEffect(() => {
     if (status === "authenticated") {
       setUserDetails(session);
@@ -109,13 +110,38 @@ const AdminProfileEditForm = () => {
     setIsEditing(!isEditing);
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfile((prevProfile) => ({ ...prevProfile, image: reader.result }));
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleFormSubmit = async (data) => {
-    console.log(data)
     try {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
       if (userDetails && userDetails.username) {
-        const response = await axios.put(`/api/admin/edit-admin-details/${userDetails._id}`, {
-          ...data,
-        });
+        const response = await axios.put(
+          `/api/admin/edit-admin-details/${userDetails._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         if (response.data.success) {
           alert("Information updated successfully");
           setProfile(data);
@@ -191,6 +217,7 @@ const AdminProfileEditForm = () => {
           <form
             onSubmit={handleSubmit(handleFormSubmit)}
             className="mt-8 space-y-4 max-w-md mx-auto"
+            encType="multipart/form-data"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col">
@@ -296,6 +323,20 @@ const AdminProfileEditForm = () => {
                     Phone Number is required.
                   </p>
                 )}
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="image" className="text-xs block text-gray-700">
+                  Profile Image
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  {...register("image")}
+                  onChange={handleImageChange}
+                  className="mt-1 p-2 border border-gray-300 rounded"
+                />
               </div>
             </div>
 
