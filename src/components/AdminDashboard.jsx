@@ -27,6 +27,8 @@ import { FcBusinessman } from "react-icons/fc";
 import { FcAssistant } from "react-icons/fc";
 import { IoIosNotifications } from "react-icons/io";
 import { PiMicrophoneStageFill } from "react-icons/pi";
+import { FaArrowsAltH } from "react-icons/fa";
+
 
 const AdminDashboard = () => {
   const [totalStudents, setTotalStudents] = useState(500);
@@ -89,10 +91,18 @@ const AdminDashboard = () => {
     <button onClick={() => setFilter("Financial")} className="py-2 px-2 bg-green-500 text-white rounded-lg">Financial</button>
     <button onClick={() => setFilter("Student")} className="py-2 px-2 bg-purple-500 text-white rounded-lg">Student</button>
     <button onClick={() => setFilter("Staff")} className="py-2 px-2 bg-red-500 text-white rounded-lg">Staff</button>
-    <button onClick={() => setFilter("Notification")} className="py-2 px-2 bg-yellow-500 text-white rounded-lg">Notification</button>
+    <button onClick={() => setFilter("Notification")} className="py-2 px-2 bg-yellow-500 text-white rounded-lg">Notification </button>
+    
+   
+    
   </div>
 
+  
+
+  
+
   <div className="flex flex-wrap justify-end gap-2">
+ 
   <button onClick={() => setTimeFilter("Daily")} className="py-2 px-8 bg-red-500 text-white rounded-lg">All</button>
   <button onClick={() => setTimeFilter("Daily")} className="py-2 px-2 bg-teal-500 text-white rounded-lg">Today</button>
   
@@ -123,6 +133,21 @@ const AdminDashboard = () => {
 </div>
 
   <button onClick={() => setTimeFilter("Date-wise")} className="py-2 px-2 bg-green-500 text-white rounded-lg">Date-Input</button>
+
+  <div className="relative">
+  <select onChange={(e) => setTimeFilter(e.target.value)} className="appearance-none py-2 px-2 bg-orange-500 text-white rounded-lg">
+    <option value="Class">Class</option>
+    {Array.from({ length: 10 }, (_, i) => (
+      <option key={i + 1} value={`Class-${i + 1}`}>{`Class ${i + 1}`}</option>
+    ))}
+  </select>
+  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12l-6-6H4l6 6 6-6h-1l-6 6 6 6h1l-6-6z"/></svg>
+  </div>
+</div>
+
+
+
 </div>
 
 </div>
