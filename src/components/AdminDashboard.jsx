@@ -93,13 +93,38 @@ const AdminDashboard = () => {
   </div>
 
   <div className="flex flex-wrap justify-end gap-2">
-  <button onClick={() => setTimeFilter("Daily")} className="py-2 px-8  bg-red-500  text-white rounded-lg">All</button>
-    <button onClick={() => setTimeFilter("Daily")} className="py-2 px-2 bg-teal-500 text-white rounded-lg">Daily</button>
-    <button onClick={() => setTimeFilter("Weekly")} className="py-2 px-2 bg-cyan-500 text-white rounded-lg">Weekly</button>
-    <button onClick={() => setTimeFilter("Monthly")} className="py-2 px-2 bg-orange-500 text-white rounded-lg">Monthly</button>
-    <button onClick={() => setTimeFilter("Yearly")} className="py-2 px-2 bg-purple-500 text-white rounded-lg">Yearly</button>
-    <button onClick={() => setTimeFilter("Date-wise")} className="py-2 px-2 bg-green-500 text-white rounded-lg">Date-Input </button>
+  <button onClick={() => setTimeFilter("Daily")} className="py-2 px-8 bg-red-500 text-white rounded-lg">All</button>
+  <button onClick={() => setTimeFilter("Daily")} className="py-2 px-2 bg-teal-500 text-white rounded-lg">Today</button>
+  
+  {/* Monthly Dropdown */}
+  <div className="relative">
+    <select onChange={(e) => setTimeFilter(e.target.value)} className="appearance-none py-2 px-2 bg-orange-500 text-white rounded-lg">
+      <option value="Monthly">Month</option>
+      {Array.from({ length: 12 }, (_, i) => (
+        <option key={i} value={`Monthly-${i + 1}`}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+      ))}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12l-6-6H4l6 6 6-6h-1l-6 6 6 6h1l-6-6z"/></svg>
+    </div>
   </div>
+
+  {/* Yearly Dropdown */}
+  <div className="relative">
+  <select onChange={(e) => setTimeFilter(e.target.value)} className="appearance-none py-2 px-8 bg-purple-500 text-white rounded-lg">
+    <option value="Yearly">Year</option>
+    {Array.from({ length: new Date().getFullYear() - 2019 + 1 }, (_, i) => (
+      <option key={i} value={`Yearly-${2019 + i}`}>{2019 + i}</option>
+    )).reverse()} {/* Reverse to display latest year first */}
+  </select>
+  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12l-6-6H4l6 6 6-6h-1l-6 6 6 6h1l-6-6z"/></svg>
+  </div>
+</div>
+
+  <button onClick={() => setTimeFilter("Date-wise")} className="py-2 px-2 bg-green-500 text-white rounded-lg">Date-Input</button>
+</div>
+
 </div>
 
 
