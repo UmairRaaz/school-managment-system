@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const StudentEditForm = ({ studentDetails }) => {
@@ -11,6 +12,15 @@ const StudentEditForm = ({ studentDetails }) => {
     formState: { errors },
     setValue,
   } = useForm();
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -19,9 +29,8 @@ const StudentEditForm = ({ studentDetails }) => {
 
     return `${year}-${month}-${day}`;
   };
-
   React.useEffect(() => {
-    if (studentDetails) {      
+    if (studentDetails) {
       Object.keys(studentDetails).forEach((key) => {
         if (
           key === "AdmissionDate" ||
@@ -34,17 +43,29 @@ const StudentEditForm = ({ studentDetails }) => {
         }
       });
     }
-    console.log(studentDetails["SID"])
   }, [studentDetails, setValue]);
   const router = useRouter();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
       const response = await axios.put(
         `/api/admin/delete-edit-get-student/${studentDetails._id}`,
-        data
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+
       console.log(response);
       if (response.data.success) {
         alert("Student Edited Successfully");
@@ -53,8 +74,8 @@ const StudentEditForm = ({ studentDetails }) => {
         alert("Username is taken");
       }
     } catch (error) {
-      console.error("Error editing teacher:", error);
-      alert("Username is taken");
+      console.error("Error editing student:", error);
+      alert("An error occurred. Please try again.");
     }
   };
   return (
@@ -66,6 +87,30 @@ const StudentEditForm = ({ studentDetails }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-4 p-4 max-w-4xl mx-auto sm:grid-cols-5"
       >
+        <Image
+          src={imagePreview || studentDetails.image || "/placeholder.jpg"}
+          alt="Profile"
+          width={100}
+          height={100}
+          className="rounded-md border border-black"
+        />
+        {/* StudentImage */}
+        <div className="flex flex-col">
+          <label htmlFor="image" className="text-xs block text-gray-700">
+            Profile Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            {...register("image", {required: true})}
+            onChange={handleImageChange}
+            className="mt-1 p-2 border border-gray-300 rounded"
+          />
+          {errors.image && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
         <div>
           <label
             htmlFor="username"
@@ -879,22 +924,6 @@ const StudentEditForm = ({ studentDetails }) => {
             id="Arrears"
             step="any"
             {...register("Arrears", { required: false })}
-            className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
-          />
-        </div>
-
-        {/* StudentImage */}
-        <div>
-          <label
-            htmlFor="image"
-            className="block text-xs font-medium text-gray-700"
-          >
-            Student Image
-          </label>
-          <input
-            type="text"
-            id="image"
-            {...register("image", { required: false })}
             className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
           />
         </div>

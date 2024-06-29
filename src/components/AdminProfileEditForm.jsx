@@ -62,11 +62,12 @@ const AdminProfileEditForm = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); 
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-  console.log(imageFile)
+
   useEffect(() => {
     if (status === "authenticated") {
       setUserDetails(session);
@@ -85,6 +86,7 @@ const AdminProfileEditForm = () => {
             username: data.username || "",
             password: data.password || "",
             phoneNumber: data.phoneNumber || "",
+            image: data.image || "",
           });
           setProfile({
             name: data.name || "",
@@ -104,8 +106,8 @@ const AdminProfileEditForm = () => {
     if (userDetails) {
       fetchUserDetails();
     }
-  }, [session, status, userDetails, reset]);
-
+  }, [session, status, userDetails, imageFile, reset]);
+  console.log(profile)
   const handleEditClick = async () => {
     setIsEditing(!isEditing);
   };
@@ -113,15 +115,10 @@ const AdminProfileEditForm = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfile((prevProfile) => ({ ...prevProfile, image: reader.result }));
-    };
     if (file) {
-      reader.readAsDataURL(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
-
   const handleFormSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -135,12 +132,7 @@ const AdminProfileEditForm = () => {
       if (userDetails && userDetails.username) {
         const response = await axios.put(
           `/api/admin/edit-admin-details/${userDetails._id}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          formData
         );
         if (response.data.success) {
           alert("Information updated successfully");
@@ -173,7 +165,7 @@ const AdminProfileEditForm = () => {
           <div className="flex justify-center md:w-1/2 mb-6 md:mb-0">
             <div className="relative w-36 h-36 md:w-56 md:h-56 overflow-hidden rounded-md border-2 border-gray-300 hover:border-black transform hover:scale-105 transition duration-300 ease-in-out">
               <Image
-                src={profile.image || "/moon.jpg"}
+                src={imagePreview || profile.image || "/moon.jpg"}
                 alt="Profile"
                 layout="fill"
                 objectFit="cover"

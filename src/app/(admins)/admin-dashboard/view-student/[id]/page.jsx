@@ -42,7 +42,7 @@ const StudentPreviewPage = ({ params }) => {
             <div className="md:col-span-1 flex justify-center md:justify-end items-start md:order-2 order-1 mt-6">
               <div className="text-center md:text-center">
                 <Image
-                  src={student.StudentImage || "/images/profile/moon.jpg"}
+                  src={student.image || "/placeholder.jpg"}
                   width={128}
                   height={128}
                   alt="Student"

@@ -1,5 +1,6 @@
 
 
+import { uploads } from '@/libs/cloudinary';
 import dbConnect from '@/libs/dbConnect';
 import { StudentModel } from '@/models/studentModel';
 import { TeacherModel } from '@/models/teacherModel';
@@ -30,38 +31,75 @@ export async function GET(req, { params }) {
     }
 }
 
+
 export async function PUT(req, { params }) {
     try {
         await dbConnect();
         const { id } = params;
-        const body = await req.json();
-  
+        const formData = await req.formData();
+        let formDataObject = {};
 
-        // Retrieve the current teacher record
-        const currentStudent = await StudentModel.findById(id);
-        if (!currentStudent) {
+        for (const [key, value] of formData.entries()) {
+            if (formDataObject[key]) {
+                if (!Array.isArray(formDataObject[key])) {
+                    formDataObject[key] = [formDataObject[key]];
+                }
+                formDataObject[key].push(value);
+            } else {
+                formDataObject[key] = value;
+            }
+        }
+
+        let imageLink = formDataObject.image; 
+
+        const currentStudent = await StudentModel.findById(formData._id);
+        if (!currentTeacher) {
             return NextResponse.json({ message: 'Student not found', success: false }, { status: 404 });
         }
 
         // Check if the username is being changed
-        if (body.username && body.username !== currentStudent.username) {
+        if (username && username !== currentStudent.username) {
             // Check if the new username is already taken
-            const usernameTaken = await StudentModel.findOne({ username: body.username });
+            const usernameTaken = await StudentModel.findOne({ username });
             if (usernameTaken) {
                 return NextResponse.json({ message: 'Username is already taken', success: false }, { status: 400 });
             }
         }
 
-        // Update the teacher details
+        if (formDataObject.image && typeof formDataObject.image === 'object') {
+            const { image } = formDataObject;
+            let uploadedImage;
+
+
+            if (Array.isArray(image)) {
+                uploadedImage = await uploads(image[1], "image");
+                imageLink = uploadedImage.secure_url;
+            } else {
+                uploadedImage = await uploads(image, "image");
+                imageLink = uploadedImage.secure_url;
+            }
+
+
+            formDataObject.image = uploadedImage;
+        }
+
         const updatedStudent = await StudentModel.findByIdAndUpdate(
             id,
-            body,
+            { ...formDataObject, image: imageLink },
             { new: true }
         );
-        console.log(updatedStudent)
-        return NextResponse.json({ message: 'Student Edited Successfully', success: true }, { status: 200 });
+
+        // Return a success response with JSON
+        return NextResponse.json(
+            { message: 'Student Edited Successfully', success: true },
+            { status: 200 }
+        );
     } catch (error) {
+        // Handle errors and return an error response with JSON
         console.error('Error Editing Student details:', error);
-        return NextResponse.json({ message: 'Student Editing failed', success: false }, { status: 500 });
+        return NextResponse.json(
+            { message: 'Student Editing failed', success: false },
+            { status: 500 }
+        );
     }
 }

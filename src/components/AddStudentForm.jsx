@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
-import React from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const AddStudentForm = () => {
@@ -10,34 +11,54 @@ const AddStudentForm = () => {
     formState: { errors },
     reset,
   } = useForm();
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const onSubmit = async (data) => {
+    const formData = new FormData();
+    for (let key in data) {
+      formData.append(key, data[key]);
+    }
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
     try {
-      const response = await axios.post("/api/admin/add-student", data);
-      console.log(data);
+      const response = await axios.post("/api/admin/add-student", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       if (response.data.success) {
         alert("Student added successfully");
         reset();
+        setImagePreview(null);
       } else {
         alert("Username is taken");
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
         console.error("Response error:", error.response.data);
         alert(`Error: ${error.response.data.message || "Request failed"}`);
       } else if (error.request) {
-        // Request was made but no response was received
         console.error("Request error:", error.request);
         alert("Error: No response from server");
       } else {
-        // Something else caused the error
         console.error("Error:", error.message);
         alert(`Error: ${error.message}`);
       }
     }
   };
-  
-
+  console.log(imageFile);
   return (
     <div className="max-w-4xl mx-auto mt-20 p-2">
       <h1 className="text-sm flex justify-start items-start text-red-500 mb-10 text-center ml-3">
@@ -46,7 +67,32 @@ const AddStudentForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-4 p-4 max-w-4xl mx-auto sm:grid-cols-5"
+        encType="multipart/form-data"
       >
+        <Image
+          src={imagePreview || "/placeholder.jpg"}
+          alt="Profile"
+          width={100}
+          height={100}
+          className="rounded-md border border-black"
+        />
+        {/* StudentImage */}
+        <div className="flex flex-col">
+          <label htmlFor="image" className="text-xs block text-gray-700">
+            Profile Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            {...register("image", {required: true})}
+            onChange={handleImageChange}
+            className="mt-1 p-2 border border-gray-300 rounded"
+          />
+           {errors.username && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
         <div>
           <label
             htmlFor="username"
@@ -860,22 +906,6 @@ const AddStudentForm = () => {
             id="Arrears"
             step="any"
             {...register("Arrears", { required: false })}
-            className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
-          />
-        </div>
-
-        {/* StudentImage */}
-        <div>
-          <label
-            htmlFor="image"
-            className="block text-xs font-medium text-gray-700"
-          >
-            Student Image
-          </label>
-          <input
-            type="text"
-            id="image"
-            {...register("image", { required: false })}
             className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
           />
         </div>
