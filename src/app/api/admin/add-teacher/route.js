@@ -23,7 +23,7 @@ export async function POST(req) {
   
       let uploadedImage;
       if (formDataObject.image && formDataObject.image instanceof Object) {
-        uploadedImage = await uploads(formDataObject.image, "image"); // Example function uploads(imageFile, "image")
+        uploadedImage = await uploads(formDataObject.image, "image"); 
       }
   
       // Extract necessary fields from formDataObject
@@ -36,12 +36,12 @@ export async function POST(req) {
       }
   
       // Hash the password
-      const hashedPassword = await hash(password, 10);
+     
   
       // Create new teacher data
       const newTeacherData = {
         username,
-        password: hashedPassword,
+        password,
         name,
         email,
         phoneNumber,

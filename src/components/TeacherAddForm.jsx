@@ -36,10 +36,9 @@ const TeacherForm = () => {
     }
   };
   const onSubmit = async (data) => {
-    // Prepare FormData
+ 
     const formData = new FormData();
-  
-    // Append fields to FormData
+
     for (let key in data) {
       if (Array.isArray(data[key])) {
         formData.append(key, data[key].join(','));

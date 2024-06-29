@@ -57,16 +57,16 @@ const TeacherEditForm = ({ teacherDetails }) => {
   
     // Create FormData object
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((item) => formData.append(key, item));
+    for (let key in data) {
+      if (Array.isArray(data[key])) {
+        formData.append(key, data[key].join(','));
       } else {
-        formData.append(key, value);
+        formData.append(key, data[key]);
       }
-    });
-    formData.append("id", teacherId)
-    console.log("FormData:", formData); // Logging FormData for verification
-  
+    }
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
     try {
       // Make PUT request using axios with FormData
       const response = await axios.put(
