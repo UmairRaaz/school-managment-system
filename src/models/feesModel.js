@@ -15,18 +15,24 @@ const FeeSchema = new Schema({
   Penalty: { type: Number, default: 0 },
   month: { type: String, required: true },
   year: { type: Number, required: true },
-  serialNumber: { type: Number, unique: true }
+  serialNumber: { type: Number, unique: true },
+  totalFee: { type: Number }
 });
 
 FeeSchema.pre('save', async function (next) {
   const fee = this;
-  
+
+  // Calculate the date if not provided
   if (!this.date) {
     const monthIndex = new Date(Date.parse(this.month + " 1, " + this.year)).getMonth();
     const lastDayOfMonth = new Date(this.year, monthIndex + 1, 0).getDate();
     this.date = new Date(this.year, monthIndex, lastDayOfMonth);
   }
 
+  // Calculate totalFee
+  this.totalFee = (this.AdmissionFee || 0) + (this.MonthlyFee || 0) + (this.TuitionFee || 0) + (this.Penalty || 0) - (this.Discount || 0);
+
+  // Handle serialNumber for new documents
   if (this.isNew) {
     try {
       const counter = await CounterModel.findOneAndUpdate(
@@ -43,6 +49,5 @@ FeeSchema.pre('save', async function (next) {
     next();
   }
 });
-
 
 export const FeeModel = mongoose.models?.FeeModel || mongoose.model('FeeModel', FeeSchema);

@@ -31,6 +31,9 @@ const ResultSchema = new Schema({
     required: true,
     trim: true
   },
+  image: {
+    type: String,
+  },
   fatherName: {
     type: String,
     required: true,

@@ -116,7 +116,7 @@ const ViewResultCard = ({params}) => {
       </div>
     );
   }
-
+  console.log(result)
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex flex-col justify-end items-end print:bg-white print:p-4 print:shadow-none print:my-0 mt-20 print-container">
       <button
@@ -159,7 +159,7 @@ const ViewResultCard = ({params}) => {
           <div className="flex flex-wrap justify-between gap-4">
             <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
               <img
-                src="/moon.jpg"
+                src={result.image || "/placeholder.jpg"}
                 alt="Student"
                 className="object-cover w-full h-full border border-black rounded-md"
               />
