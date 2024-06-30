@@ -103,13 +103,10 @@ const StudentEditForm = ({ studentDetails }) => {
             type="file"
             id="image"
             accept="image/*"
-            {...register("image", {required: true})}
+            {...register("image")}
             onChange={handleImageChange}
             className="mt-1 p-2 border border-gray-300 rounded"
           />
-          {errors.image && (
-            <span className="text-red-500">This field is required</span>
-          )}
         </div>
         <div>
           <label

@@ -1,9 +1,6 @@
-
-
 import { uploads } from '@/libs/cloudinary';
 import dbConnect from '@/libs/dbConnect';
 import { StudentModel } from '@/models/studentModel';
-import { TeacherModel } from '@/models/teacherModel';
 import { NextResponse } from 'next/server';
 
 export async function DELETE(req, { params }) {
@@ -50,26 +47,24 @@ export async function PUT(req, { params }) {
             }
         }
 
-        let imageLink = formDataObject.image; 
-
-        const currentStudent = await StudentModel.findById(formData._id);
-        if (!currentTeacher) {
+    console.log(formDataObject)
+        const currentStudent = await StudentModel.findById(id);
+        if (!currentStudent) {
             return NextResponse.json({ message: 'Student not found', success: false }, { status: 404 });
         }
 
-        // Check if the username is being changed
-        if (username && username !== currentStudent.username) {
-            // Check if the new username is already taken
+        if (formDataObject.username && formDataObject.username !== currentStudent.username) {
+          
             const usernameTaken = await StudentModel.findOne({ username });
             if (usernameTaken) {
                 return NextResponse.json({ message: 'Username is already taken', success: false }, { status: 400 });
             }
         }
 
+        let imageLink = currentStudent.image; 
         if (formDataObject.image && typeof formDataObject.image === 'object') {
             const { image } = formDataObject;
             let uploadedImage;
-
 
             if (Array.isArray(image)) {
                 uploadedImage = await uploads(image[1], "image");
@@ -78,9 +73,9 @@ export async function PUT(req, { params }) {
                 uploadedImage = await uploads(image, "image");
                 imageLink = uploadedImage.secure_url;
             }
-
-
-            formDataObject.image = uploadedImage;
+            // formDataObject.image = uploadedImage;
+            // const uploadedImage = await uploads(formDataObject.image, "image");
+            // imageLink = uploadedImage.secure_url;  
         }
 
         const updatedStudent = await StudentModel.findByIdAndUpdate(
