@@ -7,7 +7,6 @@ export async function GET() {
 
   try {
     const notifications = await NotificationModel.find({});
-    console.log(notifications)
     return NextResponse.json({ message: "notifications fetched successfully", success: true, notifications: notifications });
   } catch (error) {
     return NextResponse.json({ message: "Failed to fetch notifications", success: false }, { status: 500 });

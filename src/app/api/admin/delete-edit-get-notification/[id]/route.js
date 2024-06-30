@@ -1,5 +1,6 @@
 
 
+import { uploads } from '@/libs/cloudinary';
 import dbConnect from '@/libs/dbConnect';
 import { NotificationModel } from '@/models/notificationModel';
 
@@ -23,7 +24,7 @@ export async function GET(req, { params }) {
         await dbConnect();
         const { id } = params;
         const notification = await NotificationModel.findOne({ _id: id });
-        console.log("GET Notifction DETAILS : ", notification)
+        // console.log("GET Notifction DETAILS : ", notification)
         return NextResponse.json({ message: 'notification Fetched Successfully', notification: notification, success: true }, { status: 200 });
     } catch (error) {
         console.error('Error fetching notification details:', error);
@@ -35,18 +36,48 @@ export async function PUT(req, { params }) {
     try {
         await dbConnect();
         const { id } = params;
-        const body = await req.json();
-        console.log(id, body)
-        // // Update the notification details
+        const formData = await req.formData();
+        const formDataObject = {};
+        for (const [key, value] of formData.entries()) {
+            if (formDataObject[key]) {
+                if (!Array.isArray(formDataObject[key])) {
+                    formDataObject[key] = [formDataObject[key]];
+                }
+                formDataObject[key].push(value);
+            } else {
+                formDataObject[key] = value;
+            }
+        }
+
+        console.log("formDataObject", formDataObject)
+        const currentNotification = await NotificationModel.findById(id);
+        let imageLink = currentNotification.image || ""; 
+
+        if (formDataObject.removeImage === "true") {
+            imageLink = "";
+        } else if (formDataObject.image && typeof formDataObject.image === 'object') {
+            const { image } = formDataObject;
+            let uploadedImage;
+
+            if (Array.isArray(image)) {
+                uploadedImage = await uploads(image[1], "image");
+                imageLink = uploadedImage.secure_url;
+            } else {
+                uploadedImage = await uploads(image, "image");
+                imageLink = uploadedImage.secure_url;
+            }
+        }
+
         const updateNotification = await NotificationModel.findByIdAndUpdate(
             id,
-            body,
+            { ...formDataObject, image: imageLink },
             { new: true }
         );
-        console.log(updateNotification)
-        return NextResponse.json({ message: 'notification Edited Successfully', success: true }, { status: 200 });
+
+        return NextResponse.json({ message: 'Notification edited successfully', success: true }, { status: 200 });
     } catch (error) {
-        console.error('Error Editing notification details:', error);
-        return NextResponse.json({ message: 'notification Editing failed', success: false }, { status: 500 });
+        console.error('Error editing notification details:', error);
+        return NextResponse.json({ message: 'Notification editing failed', success: false }, { status: 500 });
     }
 }
+

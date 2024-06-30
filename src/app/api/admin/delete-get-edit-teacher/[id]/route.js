@@ -23,7 +23,7 @@ export async function GET(req, { params }) {
         await dbConnect();
         const { id } = params;
         const teacher = await TeacherModel.findOne({ _id: id });
-        console.log("GET TEACHER DETAILS : ", teacher)
+        // console.log("GET TEACHER DETAILS : ", teacher)
         return NextResponse.json({ message: 'Teacher Fetched Successfully', teacher: teacher, success: true }, { status: 200 });
     } catch (error) {
         console.error('Error fetching teacher details:', error);

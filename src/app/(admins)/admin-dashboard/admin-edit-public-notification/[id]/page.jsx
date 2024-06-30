@@ -12,9 +12,12 @@ const AdminEditPublicNotificationPage = ({ params }) => {
   const [adminId, setAdminId] = useState("");
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
-  const imageFile = watch("image");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [removeImage, setRemoveImage] = useState(false);
   const { id } = params;
-const router = useRouter()
+  const router = useRouter();
+
   useEffect(() => {
     setAdminId(session?._id);
   }, [session]);
@@ -24,6 +27,9 @@ const router = useRouter()
       const response = await axios.get(`/api/admin/delete-edit-get-notification/${id}`);
       const notificationData = response.data.notification;
       setNotification(notificationData);
+      if (notificationData.image) {
+        setImagePreview(notificationData.image);
+      }
       reset(notificationData);
       setLoading(false);
     } catch (error) {
@@ -43,23 +49,50 @@ const router = useRouter()
     }
   }, [notification, setValue]);
 
-  const onSubmit = async (data) => {
-    const formData = {
-      title: data.title,
-      content: data.content,
-      admin: adminId,
-      addedBy: "admin",
-      notificationFor: "public",
-    };
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
 
-    if (imageFile && imageFile.length > 0) {
-      formData.image = imageFile[0];
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    setRemoveImage(true);
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("admin", adminId);
+    formData.append("addedBy", "admin");
+    formData.append("notificationFor", "public");
+
+    if (imageFile) {
+      formData.append("image", imageFile);
     }
 
-    const response = await axios.put(`/api/admin/delete-edit-get-notification/${id}`, formData);
-    if (response.data.success) {
+    if (removeImage) {
+      formData.append("removeImage", "true");
+    }
+
+    try {
+      const response = await axios.put(`/api/admin/delete-edit-get-notification/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.data.success) {
         router.push("/admin-dashboard/adminview-all-public-notification");
-    } else {
+      } else {
+        alert("Notification update failed");
+      }
+    } catch (error) {
+      console.error("Error updating notification:", error);
       alert("Notification update failed");
     }
   };
@@ -100,8 +133,21 @@ const router = useRouter()
           <input
             type="file"
             {...register("image")}
+            onChange={handleImageChange}
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {imagePreview && (
+            <div className="mt-2">
+              <img src={imagePreview} alt="Preview" className="max-w-xs rounded mb-2" />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
         </div>
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">

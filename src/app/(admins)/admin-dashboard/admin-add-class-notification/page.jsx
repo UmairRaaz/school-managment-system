@@ -63,6 +63,11 @@ const AdminAddClassNotificationPage = () => {
     }
   };
 
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -223,7 +228,16 @@ const AdminAddClassNotificationPage = () => {
             className="mt-1 p-2 border border-gray-300 rounded"
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Preview" className="mt-2" />
+            <div className="mt-2">
+              <img src={imagePreview} alt="Preview" className="mb-2" />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Remove Image
+              </button>
+            </div>
           )}
         </div>
 

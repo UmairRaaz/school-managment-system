@@ -23,6 +23,12 @@ const AdminAddPublicNotificationPage = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
+
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -92,7 +98,14 @@ const AdminAddPublicNotificationPage = () => {
           />
           {imagePreview && (
             <div className="mt-2">
-              <img src={imagePreview} alt="Preview" className="max-w-xs rounded" />
+              <img src={imagePreview} alt="Preview" className="max-w-xs rounded mb-2" />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Remove Image
+              </button>
             </div>
           )}
         </div>

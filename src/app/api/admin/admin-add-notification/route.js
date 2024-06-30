@@ -22,24 +22,21 @@ export async function POST(req) {
                 formDataObject[key] = value;
             }
         }
-
-     
-        const { image } = formDataObject;
-        let notificationImage;
-
-        // Assuming image is stored as an array; adjust index as needed
-        if (Array.isArray(image) && image.length > 0) {
-            notificationImage = image[1];
-        } else {
-            notificationImage = image;
-        }
-        console.log(notificationImage)
-        if (notificationImage) {
-            const uploadedImage = await uploads(notificationImage, "image");
-            formDataObject.image = uploadedImage.secure_url;
+        console.log(formDataObject)
+        if (formDataObject.image) {
+            const { image } = formDataObject;
+            let notificationImage;
+            if (Array.isArray(image) && image.length > 0) {
+                notificationImage = image[1];  
+            } else {
+                notificationImage = image;
+            }
+            if (notificationImage) {
+                const uploadedImage = await uploads(notificationImage, "image");
+                formDataObject.image = uploadedImage.secure_url;
+            }
         }
 
-        // Create notification with formDataObject
         const notification = await NotificationModel.create(formDataObject);
         console.log(notification);
 
