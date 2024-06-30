@@ -20,6 +20,8 @@ const TeacherEditClassNotificationPage = ({ params }) => {
   const [sections, setSections] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [removeImage, setRemoveImage] = useState(false);
   const imageFile = watch("image");
   const router = useRouter();
   const [notification, setNotification] = useState(null);
@@ -50,6 +52,7 @@ const TeacherEditClassNotificationPage = ({ params }) => {
       const notificationData = response.data.notification;
       setNotification(notificationData);
       reset(notificationData);
+      setImagePreview(notificationData.image);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching the notification:", error);
@@ -71,20 +74,37 @@ const TeacherEditClassNotificationPage = ({ params }) => {
     }
   }, [notification, setValue]);
 
-  const onSubmit = async (data) => {
-    const formData = {
-      title: data.title,
-      content: data.content,
-      addedBy: "teacher",
-      notificationFor: "class",
-      teacher: session?._id,
-      class: data.class,
-      section: data.section,
-      subject: data.subject,
-    };
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      setValue("image", file);
+      setRemoveImage(false);
+    }
+  };
 
-    if (imageFile && imageFile.length > 0) {
-      formData.image = imageFile[0];
+  const handleRemoveImage = () => {
+    setImagePreview(null);
+    setRemoveImage(true);
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("addedBy", "teacher");
+    formData.append("notificationFor", "class");
+    formData.append("teacher", session?._id);
+    formData.append("class", data.class);
+    formData.append("section", data.section);
+    formData.append("subject", data.subject);
+
+    if (imageFile && !removeImage) {
+      formData.append("image", imageFile[0]);
+    }
+
+    if (removeImage) {
+      formData.append("removeImage", "true");
     }
 
     try {
@@ -198,8 +218,21 @@ const TeacherEditClassNotificationPage = ({ params }) => {
           <input
             type="file"
             {...register("image")}
+            onChange={handleImageChange} // This should handle image preview
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {imagePreview && (
+            <div className="mt-2">
+              <img src={imagePreview} alt="Preview" className="max-w-xs rounded" />
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
         </div>
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">

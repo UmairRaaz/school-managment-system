@@ -44,6 +44,11 @@ const TeacherAddClassNotificationPage = () => {
     }
   };
 
+  const handleRemoveImage = () => {
+    setImagePreview(null);
+    setImageFile(null);
+  };
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -158,6 +163,7 @@ const TeacherAddClassNotificationPage = () => {
           {imagePreview && (
             <div className="mt-2">
               <img src={imagePreview} alt="Preview" className="max-w-xs rounded" />
+              <button type="button" onClick={handleRemoveImage} className="mt-2 px-4 py-2 bg-red-600 text-white rounded">Remove Image</button>
             </div>
           )}
         </div>
