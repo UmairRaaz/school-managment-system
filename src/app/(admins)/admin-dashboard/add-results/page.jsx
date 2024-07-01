@@ -65,6 +65,7 @@ const Form = () => {
       setValue('class', student.CurrentClass);
       setValue('section', student.Section);
       setValue('cast', student.Caste);
+      setValue('age', student.age);
     } catch (error) {
       console.error('Error fetching student details:', error);
     }
@@ -78,15 +79,34 @@ const Form = () => {
   const watchSubjects = watch("subjects");
 
   const onSubmit = async (data) => {
+    const hasAtLeastOneSubject = data.subjects.some(subject => 
+      subject.name.trim() !== "" || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0
+    );
+
+    if (!hasAtLeastOneSubject) {
+      alert("Please enter details for at least one subject.");
+      return;
+    }
+
+    const totalMarks = data.subjects.reduce((sum, subject) => sum + Number(subject.totalMarks), 0);
+    const totalObtainedMarks = data.subjects.reduce((sum, subject) => sum + Number(subject.obtainedMarks), 0);
+    const percentage = totalMarks > 0 ? ((totalObtainedMarks / totalMarks) * 100).toFixed(2) : 0;
+    const isPass = percentage >= 40;
+
     const filteredData = {
       ...data,
-      subjects: data.subjects.filter(subject => subject.name.trim() !== "" || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0),
+      subjects: data.subjects.filter(subject => 
+        subject.name.trim() !== "" || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0
+      ),
+      isPass,
     };
 
     const response = await axios.post("/api/admin/add-result", filteredData);
     if (response.data.success) {
       alert("Result added successfully");
       reset();
+    } else {
+      alert("Add Complete Details");
     }
   };
 
@@ -158,15 +178,15 @@ const Form = () => {
           </div>
           <div className="flex-grow">
             <label className="block">Age:</label>
-            <input type="text" {...register("age")} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("age", { required: true })} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Date:</label>
-            <input type="date" {...register("date")} className="w-full p-1 border text-[8px]" />
+            <input type="date" {...register("date", { required: true })} className="w-full p-1 border text-[8px]" />
           </div>
           <div className="flex-grow">
             <label className="block">Note:</label>
-            <input type="text" {...register("note")} className="w-full p-1 border text-[8px]" />
+            <input type="text" {...register("note", { required: true })} className="w-full p-1 border text-[8px]" />
           </div>
         </div>
 

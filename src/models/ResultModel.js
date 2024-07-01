@@ -80,6 +80,10 @@ const ResultSchema = new Schema({
       },
       message: 'At least one subject should be filled.'
     }
+  },
+  isPass: {
+    type: Boolean,
+    required: true
   }
 });
 

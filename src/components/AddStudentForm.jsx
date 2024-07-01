@@ -208,6 +208,25 @@ const AddStudentForm = () => {
           )}
         </div>
 
+        {/* Age */}
+        <div>
+          <label
+            htmlFor="age"
+            className="block text-xs font-medium text-gray-700"
+          >
+            Age
+          </label>
+          <input
+            type="text"
+            id="age"
+            {...register("age", { required: true })}
+            className="mt-1 block w-full p-1 border border-gray-300 rounded-md text-xs"
+          />
+          {errors.age && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+
         {/* AdmissionDate */}
         <div>
           <label

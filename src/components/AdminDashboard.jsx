@@ -27,16 +27,42 @@ import { FaArrowsAltH } from "react-icons/fa";
 import axios from "axios";
 
 const AdminDashboard = () => {
-  const [totalStudents, setTotalStudents] = useState(500);
-  const [totalTeachers, setTotalTeachers] = useState(50);
-  const [totalAmount, setTotalAmount] = useState(75000);
-  const [totalAttendanceToday, setTotalAttendanceToday] = useState(350);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [totalPresent, settotalPresent] = useState(0);
+  const [totalTeachers, setTotalTeachers] = useState(0);
+  const [totalPaidFee, settotalPaidFee] = useState(0);
+  const [totalUnpaidFee, settotalUnpaidFee] = useState(0);
+  const [totalResult, settotalResult] = useState(0);
+  const [totalPassStudents, settotalPassStudents] = useState(0);
+  const [totalFailedStudents, settotalFailedStudents] = useState(0);
+  const [totalClassNotification, settotalClassNotification] = useState(0);
+  const [totalPublicNotifications, settotalPublicNotifications] = useState(0)
+  const [totalAttendanceToday, setTotalAttendanceToday] = useState(0);
+  const [totalPaidStudents, settotalPaidStudents] = useState(0)
+  const [toalUnpaidStudents, settoalUnpaidStudents] = useState(0)
   const [filter, setFilter] = useState("All");
   const [timeFilter, setTimeFilter] = useState("All");
 
   const getDashbaorDetails = async () => {
     const response = await axios.get("api/admin/admin-dashboard-details")
-    console.log(response.data.data)
+    let result = response.data.data
+    console.log(result)
+    setTotalAmount(result.totalFeeSum);
+    setTotalStudents(result.totalStudents);
+    settotalPresent(result.totalPresent);
+    setTotalTeachers(result.totalTeachers);
+    settotalPaidFee(result.totalPaidFeeSum);
+    settotalUnpaidFee(result.totalUnpaidFeeSum);
+    settotalResult(result.totalResults);
+    settotalPassStudents(result.passedResults);
+    settotalFailedStudents(result.failedResults);
+    settotalClassNotification(result.totalClassNotifications);
+    settotalPublicNotifications(result.totalPublicNotifications);
+    setTotalAttendanceToday(result.totalAttendance);
+    settotalPaidStudents(result.countPaid);
+    settoalUnpaidStudents(result.countUnpaid);
+
   }
   useEffect(()=>{
     getDashbaorDetails()
@@ -74,70 +100,70 @@ const AdminDashboard = () => {
     {
       category: "Financial",
       name: "Received Amount",
-      value: totalAmount,
+      value: totalPaidFee,
       date: new Date(),
       icon: <GiTakeMyMoney />,
     },
     {
       category: "Financial",
       name: "Pending Amount",
-      value: totalAmount,
+      value: totalUnpaidFee,
       date: new Date(),
       icon: <MdOutlinePending />,
     },
     {
       category: "Financial",
       name: "Paid Students",
-      value: totalAmount,
+      value: totalPaidStudents,
       date: new Date(),
       icon: <FcPaid />,
     },
     {
       category: "Financial",
       name: "Unpaid Students",
-      value: totalAmount,
+      value: toalUnpaidStudents,
       date: new Date(),
       icon: <FaUserSlash />,
     },
     {
       category: "Student",
       name: "Result",
-      value: totalAmount,
+      value: totalResult,
       date: new Date(),
       icon: <FcSimCardChip />,
     },
     {
       category: "Student",
       name: "Passed Student",
-      value: totalAmount,
+      value: totalPassStudents,
       date: new Date(),
       icon: <FcLike />,
     },
     {
       category: "Student",
       name: "Failed Student",
-      value: totalAmount,
+      value: totalFailedStudents,
       date: new Date(),
       icon: <FcDislike />,
     },
     {
       category: "Notification",
       name: "Class Notification",
-      value: totalAmount,
+      value: totalClassNotification,
       date: new Date(),
       icon: <IoIosNotifications />,
     },
     {
       category: "Notification",
       name: "Public Notification",
-      value: totalAmount,
+      value: totalPublicNotifications,
       date: new Date(),
       icon: <PiMicrophoneStageFill />,
     },
     {
       category: "Student",
       name: "Attendance",
-      value: totalAmount,
+      value: totalAttendanceToday,
       date: new Date(),
       icon: <FaBoxes />,
     },

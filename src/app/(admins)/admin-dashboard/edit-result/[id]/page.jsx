@@ -30,7 +30,7 @@ const EditResult = ({ params }) => {
       subjects: Array(10).fill({ name: '', totalMarks: 0, minMarks: 0, obtainedMarks: 0 }),
     },
   });
-  const router = useRouter()
+  const router = useRouter();
   const { fields, replace } = useFieldArray({
     control,
     name: 'subjects',
@@ -64,18 +64,36 @@ const EditResult = ({ params }) => {
   }, [id, reset, replace]);
 
   const onSubmit = async (data) => {
+    const hasAtLeastOneSubject = data.subjects.some(subject => 
+      subject.name.trim() !== '' || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0
+    );
+
+    if (!hasAtLeastOneSubject) {
+      alert("Please enter details for at least one subject.");
+      return;
+    }
+
+    const totalMarks = data.subjects.reduce((sum, subject) => sum + Number(subject.totalMarks), 0);
+    const totalObtainedMarks = data.subjects.reduce((sum, subject) => sum + Number(subject.obtainedMarks), 0);
+    const percentage = totalMarks > 0 ? ((totalObtainedMarks / totalMarks) * 100).toFixed(2) : 0;
+    const isPass = percentage >= 40;
+
     const filteredData = {
       ...data,
       subjects: data.subjects.filter(
         (subject) => subject.name.trim() !== '' || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0
       ),
+      isPass,
     };
+
     try {
       const response = await axios.put(`/api/admin/delete-edit-get-result/${id}`, filteredData);
       if (response.data.success) {
         alert('Result updated successfully');
+        router.push("/admin-dashboard/all-results");
+      } else {
+        alert('Failed to update result');
       }
-      router.push("/admin-dashboard/all-results")
     } catch (error) {
       console.error('Failed to update result', error);
       alert('Failed to update result');

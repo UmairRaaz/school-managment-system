@@ -41,10 +41,17 @@ export async function GET(req) {
                         $sum: {
                             $cond: [{ $eq: ["$isPaid", false] }, "$totalFee", 0]
                         }
+                    },
+                    countPaid: {
+                        $sum: { $cond: [{ $eq: ["$isPaid", true] }, 1, 0] }
+                    },
+                    countUnpaid: {
+                        $sum: { $cond: [{ $eq: ["$isPaid", false] }, 1, 0] }
                     }
                 }
             }
         ]);
+
 
         // Total attendance summary (present and absent)
         const attendanceSummary = await Attendance.aggregate([
@@ -78,13 +85,27 @@ export async function GET(req) {
                 }
             }
         ]);
-
+        const resultSummary = await Result.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: 1 },
+                    passed: { $sum: { $cond: [{ $eq: ["$isPass", true] }, 1, 0] } },
+                    failed: { $sum: { $cond: [{ $eq: ["$isPass", false] }, 1, 0] } }
+                }
+            }
+        ]);
         const totalStudents = studentTotal.length > 0 ? studentTotal[0].total : 0;
         const totalTeachers = teacherTotal.length > 0 ? teacherTotal[0].total : 0;
         const totalResults = resultTotal.length > 0 ? resultTotal[0].total : 0;
+        const passedResults = resultSummary.length > 0 ? resultSummary[0].passed : 0;
+        const failedResults = resultSummary.length > 0 ? resultSummary[0].failed : 0;
+
         const totalFeeSum = feeSummary.length > 0 ? feeSummary[0].totalFee : 0;
         const totalPaidFeeSum = feeSummary.length > 0 ? feeSummary[0].totalPaidFee : 0;
         const totalUnpaidFeeSum = feeSummary.length > 0 ? feeSummary[0].totalUnpaidFee : 0;
+        const countPaid = feeSummary.length > 0 ? feeSummary[0].countPaid : 0;
+        const countUnpaid = feeSummary.length > 0 ? feeSummary[0].countUnpaid : 0;
         const totalAttendance = attendanceSummary.length > 0 ? attendanceSummary[0].totalStudents : 0;
         const totalPresent = attendanceSummary.length > 0 ? attendanceSummary[0].totalPresent : 0;
         const totalAbsent = attendanceSummary.length > 0 ? attendanceSummary[0].totalAbsent : 0;
@@ -92,29 +113,33 @@ export async function GET(req) {
         const totalClassNotifications = notificationSummary.length > 0 ? notificationSummary[0].totalClassNotifications : 0;
         const totalNotifications = notificationSummary.length > 0 ? notificationSummary[0].totalCount : 0;
 
-        return NextResponse.json({ 
-            message: "Data Fetched Successfully", 
-            data: { 
-                totalStudents, 
-                totalTeachers, 
-                totalResults, 
-                totalFeeSum, 
-                totalPaidFeeSum, 
+        return NextResponse.json({
+            message: "Data Fetched Successfully",
+            data: {
+                totalStudents,
+                totalTeachers,
+                totalResults,
+                passedResults,
+                failedResults,
+                totalFeeSum,
+                totalPaidFeeSum,
                 totalUnpaidFeeSum,
                 totalAttendance,
                 totalPresent,
                 totalAbsent,
                 totalPublicNotifications,
                 totalClassNotifications,
-                totalNotifications
-            }, 
-            success: true 
+                totalNotifications,
+                countPaid,
+                countUnpaid,
+            },
+            success: true
         }, { status: 200 });
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ 
-            message: "Data Fetch Failed", 
-            success: false 
+        return NextResponse.json({
+            message: "Data Fetch Failed",
+            success: false
         }, { status: 500 });
     }
 }
