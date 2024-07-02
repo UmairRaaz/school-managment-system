@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
+let mongoose;
+if (typeof window === 'undefined') {
+  mongoose = (await import('mongoose')).default;
+}
 
 const TeacherSchema = new mongoose.Schema({
     username: {
@@ -38,11 +41,11 @@ const TeacherSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default : "teacher"
+        default: "teacher"
     },
-    image : {
+    image: {
         type: String,
     }
 });
 
-export const TeacherModel = mongoose.models?.TeacherModel || mongoose.model("TeacherModel", TeacherSchema);
+export const TeacherModel = mongoose?.models?.TeacherModel || mongoose?.model("TeacherModel", TeacherSchema);
