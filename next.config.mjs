@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    esmExternals: "loose", // <-- add this
-    serverComponentsExternalPackages: ["mongoose"] // <-- and this
+    esmExternals: "loose", // Add this for Mongoose
+    serverComponentsExternalPackages: ["mongoose"] // Add this for Mongoose
   },
-  // and the following to enable top-level await support for Webpack
   webpack: (config) => {
     config.experiments = {
-      topLevelAwait: true
+      topLevelAwait: true,
+      layers: true // Enable layers experiment
     };
     return config;
   },
