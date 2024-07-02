@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
+import { FaEye } from "react-icons/fa";
+
 const StudentAllFees = ({ studentId }) => {
   const [feesData, setFeesData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +59,19 @@ const StudentAllFees = ({ studentId }) => {
                   <td className="py-3 px-6 text-left">{fee.FeeDescription}</td>
                   <td className="py-3 px-6 text-left">
                     {/* Add any actions you need here */}
-                    <Link href={`/admin-dashboard/view-student-fees/${fee._id}`} className="bg-blue-500 text-white px-4 py-2 rounded">View</Link>
+                    
+                  
+  <a href={`/admin-dashboard/view-student-fees/${fee._id}`}>
+    <FaEye
+      className="text-blue-500 hover:text-blue-700 mx-2 cursor-pointer"
+      onClick={() => handleView(result._id)}
+    />
+  </a>
+
+
+
+
+
                   </td>
                 </tr>
               ))}

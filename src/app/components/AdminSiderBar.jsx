@@ -225,30 +225,59 @@ const Sidebar = () => {
   ];
 
   const studentNavLinks = [
+
+
     {
-      href: '/',
+      href: "/admin-dashboard",
       icon: FaTachometerAlt,
-      label: 'Dashboard',
-      color: 'blue',
+      label: "Dashboard",
+      color: "blue",
+    },
+  
+    {
+      href: "/",
+      icon: FaBoxes,
+      label: "Attendance",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+        { href: "/admin-dashboard/admin-view-attendances", label: "View Attendance" },
+       
+       
+      
+      ],
     },
     {
-      href: '/student-dashboard/view-grades',
-      icon: FaUserGraduate,
-      label: 'View Grades',
-      color: 'blue',
+      href: "/",
+     
+      icon: MdAttachMoney,
+      label: "Fees",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+    
+      { href: `/admin-dashboard/student-all-fees`, label: "View Fees" },
+  
+      
+      ],
+
     },
+   
+   
     {
-      href: `/admin-dashboard/view-attendance`,
-      icon: FaUserGraduate,
-      label: 'View Attendance',
-      color: 'blue',
+      href: "/",
+      icon: IoIosNotifications,
+      label: "Class Notification",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+        
+        { href: "/admin-dashboard/adminview-all-class-notification", label: "View Notification" },
+      ],
     },
-    {
-      href: `/admin-dashboard/student-all-fees`,
-      icon: FaUserGraduate,
-      label: 'Your Fees Data',
-      color: 'blue',
-    },
+
     {
       href: "/",
       icon: FaAward,
@@ -256,22 +285,21 @@ const Sidebar = () => {
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [
-        { href: "/admin-dashboard/all-results", label: "All Result" },
+        
+        { href: "/admin-dashboard/all-results", label: "View Results" },
       ],
       
     },
     {
-      href: '/admin-dashboard/student-notifications',
-      icon: FaUserGraduate,
-      label: 'Notifications',
-      color: 'blue',
+      href: "/api/auth/signout",
+      icon: MdLogout,
+      label: "Logout",
+      color: "red",
     },
-    {
-      href: '/api/auth/signout',
-      icon: FaUsers,
-      label: 'Logout',
-      color: 'red',
-    },
+
+
+
+  
   ];
 
   const navLinks =
