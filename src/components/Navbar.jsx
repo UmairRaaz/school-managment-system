@@ -17,10 +17,11 @@ function Navbar() {
   const [userDetails, setUserDetails] = useState({
     id: session?._id || "",
     username: "",
-    image: "/profile.png",
+    image: session?.image || "/profile.png",
     email: "",
     role: session?.role || "",
   });
+
   useEffect(() => {
     if (session) {
       setUserDetails({
@@ -73,7 +74,7 @@ function Navbar() {
       {isLoggedIn ? (
         <>
           <Image
-            src="/profile.png"
+            src={userDetails.image}
             alt="Profile"
             width={40}
             height={40}
@@ -164,7 +165,7 @@ function Navbar() {
       {isLoggedIn ? (
         <>
           <Image
-            src="/profile.png"
+            src={userDetails.image}
             alt="Profile"
             width={32}
             height={32}

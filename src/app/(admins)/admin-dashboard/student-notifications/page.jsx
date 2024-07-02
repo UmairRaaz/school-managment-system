@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 
@@ -11,24 +11,24 @@ const StudentViewNotification = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch student class and section based on session user ID
-  const fetchStudentDetails = async (studentId) => {
-    try {
-      const response = await axios.get(
-        `/api/admin/delete-edit-get-student/${studentId}`
-      );
-      const { Section, CurrentClass } = response.data.student;
-      setStudentClass(CurrentClass);
-      setStudentSection(Section);
-      fetchNotifications(studentSection, studentClass); 
-    } catch (error) {
-      console.error("Error fetching student details:", error);
-    }
-  };
 
+  const fetchStudentDetails = useCallback((studentId) => {
+    axios.get(`/api/admin/delete-edit-get-student/${studentId}`)
+      .then(response => {
+        const { Section, CurrentClass } = response.data.student;
+        setStudentClass(CurrentClass);
+        setStudentSection(Section);
+        fetchNotifications(Section, CurrentClass); 
+      })
+      .catch(error => {
+        console.error("Error fetching student details:", error);
+      });
+  }, [setStudentClass, setStudentSection]);
   // Fetch notifications based on class and section
   const fetchNotifications = async (studentSection, studentClass) => {
     try {
       const response = await axios.get(`/api/admin/getNotifications`);
+      console.log(response.data.notifications)
       const filteredNotifications = response.data.notifications.filter(
         (notification) =>
           notification.class === studentClass &&
@@ -47,7 +47,7 @@ const StudentViewNotification = () => {
     if (session?._id) {
       fetchStudentDetails(session._id);
     }
-  }, [session]);
+  }, [session, fetchStudentDetails]);
 
   if (loading) {
     return <div>Loading...</div>;
