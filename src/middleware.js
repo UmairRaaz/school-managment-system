@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { auth } from "@/app/auth";
 
 export default auth((req) => {
@@ -6,14 +7,15 @@ export default auth((req) => {
 
     if (isLoggedIn && (nextUrl.pathname.startsWith('/admin-auth/login') ||
         nextUrl.pathname.startsWith('/admin-auth/signup'))) {
-        return Response.redirect(new URL('/admin-dashboard', nextUrl));
+        return NextResponse.redirect(new URL('/admin-dashboard', nextUrl.origin));
     }
 
     if (!isLoggedIn && nextUrl.pathname.startsWith('/admin-dashboard')) {
-        return Response.redirect(new URL('/admin-auth/login', nextUrl));
+        return NextResponse.redirect(new URL('/admin-auth/login', nextUrl.origin));
     }
 
     console.log("isLoggedIn", isLoggedIn);
+    return NextResponse.next();
 });
 
 export const config = {
