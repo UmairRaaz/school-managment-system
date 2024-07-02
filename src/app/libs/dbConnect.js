@@ -1,3 +1,4 @@
+// /src/libs/dbConnect.js
 let mongoose;
 let connection = {};
 
@@ -7,7 +8,7 @@ async function dbConnect() {
   }
 
   if (!mongoose) {
-    mongoose = (await import('mongoose')).default;
+    mongoose = await import("mongoose");
   }
 
   if (connection.isConnected) {
@@ -16,12 +17,11 @@ async function dbConnect() {
   }
 
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI || "");
+    const db = await mongoose.default.connect(process.env.MONGODB_URI || "");
     connection.isConnected = db.connections[0].readyState;
     console.log("DB connected successfully");
   } catch (error) {
     console.log("Database connection failed", error);
-    process.exit(1);
   }
 }
 

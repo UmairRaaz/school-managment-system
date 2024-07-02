@@ -1,7 +1,7 @@
-import dbConnect from "@/libs/dbConnect";
-import { StudentModel } from "@/models/studentModel";
-import { TeacherModel } from "@/models/teacherModel";
-import { AdminModel } from "@/models/userModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { StudentModel } from "@/app/models/studentModel";
+import { TeacherModel } from "@/app/models/teacherModel";
+import { AdminModel } from "@/app/models/userModel";
 import NextAuth from "next-auth";
 import CredentialProviders from "next-auth/providers/credentials";
 

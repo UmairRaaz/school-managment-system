@@ -1,5 +1,5 @@
-import dbConnect from "@/libs/dbConnect";
-import { FeeModel } from "@/models/feesModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { FeeModel } from "@/app/models/feesModel";
 
 import { NextResponse } from "next/server";
 

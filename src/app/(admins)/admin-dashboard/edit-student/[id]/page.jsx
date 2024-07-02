@@ -1,5 +1,5 @@
 'use client'
-import StudentEditForm from '@/components/StudentEditForm'
+import StudentEditForm from '@/app/components/StudentEditForm'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 

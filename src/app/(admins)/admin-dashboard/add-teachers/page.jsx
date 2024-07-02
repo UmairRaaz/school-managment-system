@@ -1,4 +1,4 @@
-import TeacherForm from '@/components/TeacherAddForm'
+import TeacherForm from '@/app/components/TeacherAddForm'
 import React from 'react'
 
 const AddTeacherPage = () => {

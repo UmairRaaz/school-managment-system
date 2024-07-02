@@ -1,6 +1,6 @@
-import { uploads } from "@/libs/cloudinary";
-import dbConnect from "@/libs/dbConnect";
-import { AdminModel } from "@/models/userModel";
+import { uploads } from "@/app/libs/cloudinary";
+import dbConnect from "@/app/libs/dbConnect";
+import { AdminModel } from "@/app/models/userModel";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function PUT(NextRequest, { params }) {

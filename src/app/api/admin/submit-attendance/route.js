@@ -1,4 +1,4 @@
-import { Attendance } from "@/models/attendanceModel";
+import { Attendance } from "@/app/models/attendanceModel";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

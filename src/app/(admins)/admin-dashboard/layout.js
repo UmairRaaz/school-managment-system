@@ -1,8 +1,8 @@
 import React from 'react';
 import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
-import Sidebar from '@/components/AdminSiderBar';
-import AdminNavbar from '@/components/AdminNavbar';
+import Sidebar from '@/app/components/AdminSiderBar';
+import AdminNavbar from '@/app/components/AdminNavbar';
 import { auth } from '@/app/auth';
 import { redirect } from 'next/dist/server/api-utils';
 

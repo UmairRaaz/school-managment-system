@@ -1,4 +1,4 @@
-import ViewAttendance from '@/components/ViewAttendance'
+import ViewAttendance from '@/app/components/ViewAttendance'
 import React from 'react'
 
 const ViewAttendancePage = () => {

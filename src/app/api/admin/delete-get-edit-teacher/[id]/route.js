@@ -1,8 +1,8 @@
 
 
-import { uploads } from '@/libs/cloudinary';
-import dbConnect from '@/libs/dbConnect';
-import { TeacherModel } from '@/models/teacherModel';
+import { uploads } from '@/app/libs/cloudinary';
+import dbConnect from '@/app/libs/dbConnect';
+import { TeacherModel } from '@/app/models/teacherModel';
 import { NextResponse } from 'next/server';
 
 export async function DELETE(req, { params }) {

@@ -1,11 +1,11 @@
 'use client';
 
-import AdminDashboard from '@/components/AdminDashboard';
-import TeacherDashboard from '@/components/TeacherDashboard';
-import StudentDashboard from '@/components/StudentDashboard';
+import AdminDashboard from '@/app/components/AdminDashboard';
+import TeacherDashboard from '@/app/components/TeacherDashboard';
+import StudentDashboard from '@/app/components/StudentDashboard';
 import { useSession } from 'next-auth/react';
 import React from 'react';
-import ImageUpload from '@/components/ImageUpload';
+import ImageUpload from '@/app/components/ImageUpload';
 
 const DashboardPage = () => {
   const { data: session, status } = useSession();

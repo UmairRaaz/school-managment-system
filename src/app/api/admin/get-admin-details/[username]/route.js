@@ -1,7 +1,7 @@
 
 
-import dbConnect from '@/libs/dbConnect';
-import { AdminModel } from '@/models/userModel';
+import dbConnect from '@/app/libs/dbConnect';
+import { AdminModel } from '@/app/models/userModel';
 import { NextResponse } from 'next/server';
 
 export async function GET(req, { params }) {

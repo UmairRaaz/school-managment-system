@@ -1,6 +1,6 @@
-import dbConnect from "@/libs/dbConnect";
-import { FeeModel } from "@/models/feesModel";
-import { StudentModel } from "@/models/studentModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { FeeModel } from "@/app/models/feesModel";
+import { StudentModel } from "@/app/models/studentModel";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

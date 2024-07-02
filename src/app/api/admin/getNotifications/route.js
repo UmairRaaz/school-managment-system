@@ -1,5 +1,5 @@
-import dbConnect from "@/libs/dbConnect";
-import { NotificationModel } from "@/models/notificationModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
 
 export async function GET() {

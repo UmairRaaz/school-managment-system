@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { auth } from "../auth";
 import { redirect } from "next/navigation";
-import Hero from "@/components/Hero";
-import AboutUs from "@/components/AboutUs";
-import Footer from "@/components/Footer";
-import NotificationSection from "@/components/NotificationSection";
-import ContactPage from "@/components/ContactPage";
-import StudentAllCard from "@/components/StudentCard"
+import Hero from "@/app/components/Hero";
+import AboutUs from "@/app/components/AboutUs";
+import Footer from "@/app/components/Footer";
+import NotificationSection from "@/app/components/NotificationSection";
+import ContactPage from "@/app/components/ContactPage";
+import StudentAllCard from "@/app/components/StudentCard"
 
 
 

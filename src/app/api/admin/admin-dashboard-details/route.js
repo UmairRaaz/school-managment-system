@@ -1,10 +1,10 @@
-import dbConnect from "@/libs/dbConnect";
-import { StudentModel } from "@/models/studentModel";
-import { TeacherModel } from "@/models/teacherModel";
-import { FeeModel } from "@/models/feesModel";
-import { Result } from "@/models/ResultModel";
-import { Attendance } from "@/models/attendanceModel";
-import { NotificationModel } from "@/models/notificationModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { StudentModel } from "@/app/models/studentModel";
+import { TeacherModel } from "@/app/models/teacherModel";
+import { FeeModel } from "@/app/models/feesModel";
+import { Result } from "@/app/models/ResultModel";
+import { Attendance } from "@/app/models/attendanceModel";
+import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {

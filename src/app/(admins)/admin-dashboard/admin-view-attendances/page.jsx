@@ -1,6 +1,6 @@
 'use client'
 
-import ViewAttendance from "@/components/ViewAttendance"
+import ViewAttendance from "@/app/components/ViewAttendance"
 
 const page = () => {
   return (

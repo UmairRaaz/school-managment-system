@@ -1,8 +1,8 @@
-import dbConnect from "@/libs/dbConnect";
-import { NotificationModel } from "@/models/notificationModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import { uploads } from "@/libs/cloudinary";
+import { uploads } from "@/app/libs/cloudinary";
 
 export async function POST(req) {
     try {

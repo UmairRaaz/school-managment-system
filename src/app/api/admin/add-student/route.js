@@ -1,6 +1,6 @@
-import { uploads } from "@/libs/cloudinary";
-import dbConnect from "@/libs/dbConnect";
-import { StudentModel } from "@/models/studentModel";
+import { uploads } from "@/app/libs/cloudinary";
+import dbConnect from "@/app/libs/dbConnect";
+import { StudentModel } from "@/app/models/studentModel";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

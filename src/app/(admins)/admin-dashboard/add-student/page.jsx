@@ -1,4 +1,4 @@
-import AddStudentForm from '@/components/AddStudentForm'
+import AddStudentForm from '@/app/components/AddStudentForm'
 import React from 'react'
 
 const AddStudentPage = () => {

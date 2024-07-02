@@ -1,5 +1,5 @@
-import dbConnect from "@/libs/dbConnect";
-import { Attendance } from "@/models/attendanceModel";
+import dbConnect from "@/app/libs/dbConnect";
+import { Attendance } from "@/app/models/attendanceModel";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 

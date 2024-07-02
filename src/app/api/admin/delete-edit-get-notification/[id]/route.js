@@ -1,8 +1,8 @@
 
 
-import { uploads } from '@/libs/cloudinary';
-import dbConnect from '@/libs/dbConnect';
-import { NotificationModel } from '@/models/notificationModel';
+import { uploads } from '@/app/libs/cloudinary';
+import dbConnect from '@/app/libs/dbConnect';
+import { NotificationModel } from '@/app/models/notificationModel';
 
 import { NextResponse } from 'next/server';
 
