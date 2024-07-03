@@ -24,7 +24,7 @@ export async function POST(req) {
             "studentId",
             "SID Name Section CurrentClass FatherName MobileNumber"
         );
-        console.log(allFees.length); // Ensure allFees is properly populated here
+        console.log(allFees.length); 
         return NextResponse.json({
             message: "Fee records fetched successfully",
             allFees: allFees,

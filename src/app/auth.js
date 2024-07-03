@@ -4,8 +4,10 @@ import { TeacherModel } from "@/app/models/teacherModel";
 import { AdminModel } from "@/app/models/userModel";
 import NextAuth from "next-auth";
 import CredentialProviders from "next-auth/providers/credentials";
+import { authconfig } from "./auth.config";
 
 export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
+  ...authconfig,
   providers: [
     CredentialProviders({
       name: "credentials",
@@ -56,8 +58,15 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
             console.error("Incorrect password");
             throw new Error("Incorrect password");
           }
-
-          return user;
+          console.log(user)
+          return {
+            _id: user._id,
+            role: user.role,
+            username: user.username,
+            name: user.name, 
+            email: user.email, 
+            image: user.image,
+          };
         } catch (error) {
           console.error("Error during authorization:", error);
           return null;
@@ -72,6 +81,7 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
+        console.log(user)
         token._id = user._id;
         token.role = user.role;
         token.username = user.username;
@@ -91,8 +101,5 @@ export const { auth, handlers: { GET, POST }, signIn } = NextAuth({
       return session;
     },
   },
-  session: {
-    strategy: "jwt",
-    maxAge: 86400,
-  },
+  
 });

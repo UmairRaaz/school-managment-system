@@ -1,9 +1,16 @@
-import { NextResponse } from 'next/server';
-import { auth } from "@/app/auth";
+import { NextResponse } from "next/server"
+import { authconfig } from "./app/auth.config"
+import NextAuth from "next-auth"
 
-export default auth((req) => {
-    const { auth, nextUrl } = req;
-    const isLoggedIn = !!auth;
+const { auth } = NextAuth(authconfig)
+
+
+
+export async function middleware(request) {
+    const {nextUrl} = request
+    const session = await auth()
+    console.log(session)
+    const isLoggedIn = !!session?.user;
 
     if (isLoggedIn && (nextUrl.pathname.startsWith('/admin-auth/login') ||
         nextUrl.pathname.startsWith('/admin-auth/signup'))) {
@@ -16,7 +23,7 @@ export default auth((req) => {
 
     console.log("isLoggedIn", isLoggedIn);
     return NextResponse.next();
-});
+}
 
 export const config = {
     matcher: ["/admin-dashboard/:path*", "/", "/admin-auth/login", "/admin-auth/signup"]

@@ -21,7 +21,6 @@ function Navbar() {
     email: "",
     role: session?.role || "",
   });
-
   useEffect(() => {
     if (session) {
       setUserDetails({
@@ -33,6 +32,7 @@ function Navbar() {
       });
       setIsLoggedIn(true)
     }
+   
   }, [session]);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -41,7 +41,7 @@ function Navbar() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
+  console.log(session)
   const logoutHandler = () => {
     setIsLoggedIn(false);
     router.push("/login");
