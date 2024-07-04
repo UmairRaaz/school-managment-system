@@ -41,7 +41,7 @@ const attendanceSchema = new Schema({
       },
     },
   ],
-});
+}, {timestamps: true});
 
 export const Attendance = mongoose.models.Attendance || mongoose.model('Attendance', attendanceSchema);
 

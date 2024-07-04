@@ -17,7 +17,7 @@ const FeeSchema = new Schema({
   year: { type: Number, required: true },
   serialNumber: { type: Number, unique: true },
   totalFee: { type: Number }
-});
+},{timestamps: true});
 
 FeeSchema.pre('save', async function (next) {
   const fee = this;

@@ -197,7 +197,7 @@ const studentSchema = new mongoose.Schema({
         type: String,
         default:"student"
     }
-});
+}, {timestamps: true});
 
 
 export const StudentModel = mongoose.models?.StudentModel || mongoose.model("StudentModel",studentSchema )

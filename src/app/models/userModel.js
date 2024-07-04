@@ -28,6 +28,6 @@ const AdminSchema = new mongoose.Schema({
     image: {
         type : String
     }
-})
+}, {timestamps: true})
 
 export const AdminModel = mongoose.models?.AdminModel || mongoose.model("AdminModel", AdminSchema)

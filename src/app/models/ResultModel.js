@@ -85,7 +85,7 @@ const ResultSchema = new Schema({
     type: Boolean,
     required: true
   }
-});
+}, {timestamps: true});
 
 
 export const Result = mongoose.models?.Result || mongoose.model('Result', ResultSchema);

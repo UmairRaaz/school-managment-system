@@ -9,7 +9,7 @@ const { auth } = NextAuth(authconfig)
 export async function middleware(request) {
     const {nextUrl} = request
     const session = await auth()
-    console.log(session)
+    console.log("session", session)
     const isLoggedIn = !!session?.user;
 
     if (isLoggedIn && (nextUrl.pathname.startsWith('/admin-auth/login') ||

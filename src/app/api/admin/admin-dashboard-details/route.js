@@ -7,27 +7,37 @@ import { Attendance } from "@/app/models/attendanceModel";
 import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function POST(req) {
+    const filterData = await req.json();
+    console.log(filterData);
+
     try {
         await dbConnect();
 
+        // Determine if filters are provided
+        const hasFilters = Object.values(filterData).some(value => value !== "");
+
         // Total number of students
         const studentTotal = await StudentModel.aggregate([
+            // ...hasFilters ? [{ $match: {CurrentClass: filterData.class} }] : [],
             { $group: { _id: null, total: { $sum: 1 } } }
         ]);
 
         // Total number of teachers
         const teacherTotal = await TeacherModel.aggregate([
+            // ...hasFilters ? [{ $match: filterData }] : [],
             { $group: { _id: null, total: { $sum: 1 } } }
         ]);
 
         // Total number of results
         const resultTotal = await Result.aggregate([
+            // ...hasFilters ? [{ $match: filterData }] : [],
             { $group: { _id: null, total: { $sum: 1 } } }
         ]);
 
         // Total fees summary (including paid and unpaid)
         const feeSummary = await FeeModel.aggregate([
+            // ...hasFilters ? [{ $match: filterData }] : [],
             {
                 $group: {
                     _id: null,
@@ -52,10 +62,10 @@ export async function GET(req) {
             }
         ]);
 
-
         // Total attendance summary (present and absent)
         const attendanceSummary = await Attendance.aggregate([
-            { $unwind: "$students" }, // Deconstruct the students array
+            // ...hasFilters ? [{ $match: filterData }] : [],
+            { $unwind: "$students" }, 
             {
                 $group: {
                     _id: null,
@@ -68,6 +78,7 @@ export async function GET(req) {
 
         // Total notification summary (public and class notifications)
         const notificationSummary = await NotificationModel.aggregate([
+            // ...hasFilters ? [{ $match: filterData }] : [],
             {
                 $group: {
                     _id: null,
@@ -85,7 +96,10 @@ export async function GET(req) {
                 }
             }
         ]);
+
+        // Result summary
         const resultSummary = await Result.aggregate([
+            // ...hasFilters ? [{ $match: filterData }] : [],
             {
                 $group: {
                     _id: null,
@@ -95,6 +109,7 @@ export async function GET(req) {
                 }
             }
         ]);
+
         const totalStudents = studentTotal.length > 0 ? studentTotal[0].total : 0;
         const totalTeachers = teacherTotal.length > 0 ? teacherTotal[0].total : 0;
         const totalResults = resultTotal.length > 0 ? resultTotal[0].total : 0;
