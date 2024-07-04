@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -10,6 +11,20 @@ const ViewResultCard = ({params}) => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const {id} = params;
+=======
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import { FaDownload } from "react-icons/fa";
+import { GiTrophyCup } from "react-icons/gi";
+import axios from "axios";
+
+const ViewResultCard = ({ params }) => {
+  const componentRef = useRef();
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { id } = params;
+>>>>>>> origin/main
 
   const getResult = async () => {
     setLoading(true);
@@ -34,7 +49,11 @@ const ViewResultCard = ({params}) => {
         size: A4;
         margin: 20px;
         margin-top: 100px;
+<<<<<<< HEAD
         padding:100px;
+=======
+        padding: 100px;
+>>>>>>> origin/main
       }
       @media print {
         body {
@@ -103,7 +122,11 @@ const ViewResultCard = ({params}) => {
   // Check if any subject is failed based on 35% criteria
   const isFailed = data.subjects.some(subject => subject.obtainedMarks !== '-' && subject.obtainedMarks < (subject.totalMarks * 0.35));
   const finalGrade = isFailed ? 'Fail' : grade;
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> origin/main
   // Function to get the appropriate color based on the final grade
   const getResultColor = (grade) => {
     return grade === 'Fail' ? 'text-red-600' : 'text-green-600';
@@ -116,9 +139,15 @@ const ViewResultCard = ({params}) => {
       </div>
     );
   }
+<<<<<<< HEAD
   console.log(result)
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex flex-col justify-end items-end print:bg-white print:p-4 print:shadow-none print:my-0 mt-20 print-container">
+=======
+
+  return (
+    <div className="bg-gray-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8 print:bg-white print:p-4 print:shadow-none print:my-0 mt-20 print-container">
+>>>>>>> origin/main
       <button
         onClick={handlePrint}
         className="text-xs mb-4 px-4 py-2 bg-black text-white font-semibold rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105 hover:rotate-2 hover:shadow-2xl flex items-center space-x-2 print:hidden"
@@ -139,6 +168,7 @@ const ViewResultCard = ({params}) => {
             </div>
           </div>
           <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
+<<<<<<< HEAD
               <img
                 src="/school.jpeg"
                 alt="School Logo"
@@ -152,6 +182,14 @@ const ViewResultCard = ({params}) => {
               </h2>
               
             </div> */}
+=======
+            <img
+              src="/school.jpeg"
+              alt="School Logo"
+              className="object-cover w-full h-full border border-black rounded-md"
+            />
+          </div>
+>>>>>>> origin/main
         </div>
 
         {/* Student Information */}
@@ -165,7 +203,11 @@ const ViewResultCard = ({params}) => {
               />
             </div>
 
+<<<<<<< HEAD
             <div className="p-4 flex-grow print:p-2">
+=======
+            <div className="p-4 flex-grow print:p-2 ">
+>>>>>>> origin/main
               <h2 className="text-xl font-bold print:text-xl">{data.name}</h2>
               <p className="text-xs">Father&apos;s Name: {data.fatherName}</p>
               <p className="text-xs">Age: {data.age}</p>
@@ -184,6 +226,7 @@ const ViewResultCard = ({params}) => {
               
             </div> 
 
+<<<<<<< HEAD
             {/* <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
               <img
                 src={data.schoolLogo}
@@ -191,11 +234,18 @@ const ViewResultCard = ({params}) => {
                 className="object-cover w-full h-full border border-black rounded-md"
               />
             </div> */}
+=======
+         
+>>>>>>> origin/main
           </div>
         </div>
 
         {/* Grades and Marks */}
+<<<<<<< HEAD
         <div className="w-full mx-auto rounded-lg flex flex-wrap px-auto mt-10">
+=======
+        <div className="w-full mx-auto rounded-lg flex flex-wrap px-auto mt-10 overflow-x-auto">
+>>>>>>> origin/main
           <table className="min-w-full bg-white shadow-md rounded-lg print:min-w-full print:shadow-none">
             <thead className="bg-gradient-to-r from-gray-800 to-gray-500 text-white">
               <tr>
@@ -208,6 +258,7 @@ const ViewResultCard = ({params}) => {
             </thead>
             <tbody className="text-gray-700">
               {data.subjects.map((subject, index) => (
+<<<<<<< HEAD
                 <tr key={index} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} print:bg-white`}>
                   <td className="px-6 py-2 whitespace-nowrap">{subject.name || '-'}</td>
                   <td className="px-6 py-2 whitespace-nowrap">{subject.totalMarks !== undefined ? subject.totalMarks : '-'}</td>
@@ -253,3 +304,51 @@ const ViewResultCard = ({params}) => {
 };
 
 export default ViewResultCard;
+=======
+                               <tr key={index} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} print:bg-white`}>
+                               <td className="px-6 py-2 whitespace-nowrap">{subject.name || '-'}</td>
+                               <td className="px-6 py-2 whitespace-nowrap">{subject.totalMarks !== undefined ? subject.totalMarks : '-'}</td>
+                               <td className="px-6 py-2 whitespace-nowrap">{subject.minMarks !== undefined ? subject.minMarks : '-'}</td>
+                               <td className={`px-6 py-2 whitespace-nowrap ${subject.obtainedMarks >= subject.minMarks ? "text-green-600" : "text-red-600"}`}>
+                                 {subject.obtainedMarks !== undefined ? subject.obtainedMarks : '-'}
+                               </td>
+                               <td className={`px-6 py-2 whitespace-nowrap ${subject.obtainedMarks !== undefined && subject.obtainedMarks >= subject.minMarks ? "text-green-600" : "text-red-600"}`}>
+                                 {subject.name === '-' ? '-' : subject.obtainedMarks !== undefined && subject.obtainedMarks >= subject.minMarks ? "Pass" : subject.obtainedMarks !== undefined ? "Fail" : '-'}
+                               </td>
+                             </tr>
+                           ))}
+                           {/* Total Marks Row */}
+                           <tr className="bg-gray-200 print:bg-gray-200 ">
+                             <td className="px-6 py-2 font-semibold rounded-tl-md">Total</td>
+                             <td className="px-6 py-2 font-semibold">{totalMarks}</td>
+                             <td className="px-6 py-2 font-semibold"></td>
+                             <td className="px-6 py-2 font-semibold">{totalObtainedMarks}</td>
+                             <td className={`px-6 py-2 font-semibold rounded-tr-md ${getResultColor(finalGrade)}`}>{finalGrade}</td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+             
+                     {/* Additional Info */}
+                     <div className="p-6 bg-gray-100 print:p-2 print:bg-white pt-10 pb-10">
+                       <div className="flex justify-between items-center mb-4">
+                         <div className="text-start">
+                           <p className="text-lg font-semibold print:text-base">Position: 1st </p>
+                           <p className={`text-sm font-semibold print:text-base py-2 ${finalGrade === 'Fail' ? 'text-red-600' : 'text-green-600'}`}>Grade: {finalGrade}</p>
+                           <p className="text-sm font-semibold print:text-base">Percentage: {percentage}%</p>
+                           <p className="text-xs font-semibold print:text-base py-2">Date: 18-06-2024</p>
+                         </div>
+                         <div className="text-right pt-20 print:mt-0">
+                           <p className="text-xs print:text-xs">{mockData.principalSignature}</p>
+                         </div>
+                       </div>
+                       <p className="text-sm print:text-xs">{data.additionalNote}</p>
+                     </div>
+                   </div>
+                 </div>
+               );
+             };
+             
+             export default ViewResultCard;
+             
+>>>>>>> origin/main

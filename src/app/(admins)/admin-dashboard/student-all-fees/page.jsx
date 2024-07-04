@@ -6,7 +6,13 @@ import React, { useState, useEffect } from 'react';
 
 const StudentAllFees = ({ studentId }) => {
   const [feesData, setFeesData] = useState([]);
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true);
+=======
+  const [filteredFeesData, setFilteredFeesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedYear, setSelectedYear] = useState('');
+>>>>>>> origin/main
   const { data: session, status } = useSession(); 
 
   useEffect(() => {
@@ -15,6 +21,10 @@ const StudentAllFees = ({ studentId }) => {
         try {
           const response = await axios.get(`/api/admin/get-student-fee/${session._id}`);
           setFeesData(response.data.fee);
+<<<<<<< HEAD
+=======
+          setFilteredFeesData(response.data.fee); // Initialize filtered data with all fees
+>>>>>>> origin/main
           console.log(response.data.fee);
         } catch (error) {
           console.error('Error fetching fees details:', error);
@@ -27,6 +37,24 @@ const StudentAllFees = ({ studentId }) => {
     getFeesDetails();
   }, [session, status]);
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    // Filter feesData based on selected year
+    if (selectedYear) {
+      const filteredData = feesData.filter(fee => new Date(fee.date).getFullYear().toString() === selectedYear);
+      setFilteredFeesData(filteredData);
+    } else {
+      // If no year selected, show all data
+      setFilteredFeesData(feesData);
+    }
+  }, [selectedYear, feesData]);
+
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
+>>>>>>> origin/main
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -34,8 +62,28 @@ const StudentAllFees = ({ studentId }) => {
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">Student Fees</h1>
+<<<<<<< HEAD
       <div className="overflow-x-auto">
         {feesData.length === 0 ? (
+=======
+
+      {/* Year filter dropdown */}
+      <div className="mb-4">
+        <label htmlFor="year" className="mr-2">Select Year:</label>
+        <select id="year" onChange={handleYearChange} value={selectedYear} className="px-3 py-1 border rounded">
+          <option value="">All</option>
+          {/* Add options dynamically based on available years in feesData within the range */}
+          {[...new Set(feesData.map(fee => new Date(fee.date).getFullYear()))]
+            .filter(year => year >= 2010 && year <= 2024)
+            .map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+        </select>
+      </div>
+
+      <div className="overflow-x-auto">
+        {filteredFeesData.length === 0 ? (
+>>>>>>> origin/main
           <p className="text-center">No Data Available</p>
         ) : (
           <table className="min-w-full bg-white shadow-md rounded-lg">
@@ -49,15 +97,25 @@ const StudentAllFees = ({ studentId }) => {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-xs">
+<<<<<<< HEAD
               {feesData.map((fee) => (
+=======
+              {filteredFeesData.map((fee) => (
+>>>>>>> origin/main
                 <tr key={fee._id} className="border-b border-gray-200 hover:bg-gray-100">
                   <td className="py-3 px-6 text-left">{new Date(fee.date).toLocaleDateString()}</td>
                   <td className="py-3 px-6 text-left">{fee.MonthlyFee}</td>
                   <td className="py-3 px-6 text-left">{fee.isPaid ? "Paid" : "Unpaid"}</td>
                   <td className="py-3 px-6 text-left">{fee.FeeDescription}</td>
                   <td className="py-3 px-6 text-left">
+<<<<<<< HEAD
                     {/* Add any actions you need here */}
                     <Link href={`/admin-dashboard/view-student-fees/${fee._id}`} className="bg-blue-500 text-white px-4 py-2 rounded">View</Link>
+=======
+                  
+                      <a  href={`/admin-dashboard/view-student-fees/${fee._id}`} className="bg-black text-white px-4 py-2 rounded">View</a>
+                  
+>>>>>>> origin/main
                   </td>
                 </tr>
               ))}

@@ -16,6 +16,12 @@ const AllResults = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
+<<<<<<< HEAD
+=======
+  const [selectedYear, setSelectedYear] = useState('');
+  const [filteredFeesData, setFilteredFeesData] = useState([]); // Define filteredFeesData state
+
+>>>>>>> origin/main
   useEffect(() => {
     const getResults = async () => {
       try {
@@ -48,6 +54,20 @@ const AllResults = () => {
     setFilteredResults(filtered);
   }, [searchName, searchRollNumber, searchClass, searchMonthYear, results]);
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    // Filter results based on selected year
+    if (selectedYear) {
+      const filteredData = results.filter(result => new Date(result.date).getFullYear().toString() === selectedYear);
+      setFilteredResults(filteredData);
+    } else {
+      // If no year selected, show all data
+      setFilteredResults(results);
+    }
+  }, [selectedYear, results]);
+
+>>>>>>> origin/main
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -78,6 +98,13 @@ const AllResults = () => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
+
+>>>>>>> origin/main
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -90,6 +117,21 @@ const AllResults = () => {
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-3xl my-4 text-center">All Results</h1>
 
+<<<<<<< HEAD
+=======
+      <div className="mb-4">
+        <label htmlFor="year" className="mr-2">Select Year:</label>
+        <select id="year" onChange={handleYearChange} value={selectedYear} className="px-3 py-1 border rounded">
+          <option value="">All</option>
+          {[...new Set(results.map(result => new Date(result.date).getFullYear()))]
+            .filter(year => year >= 2010 && year <= 2024)
+            .map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+        </select>
+      </div>
+
+>>>>>>> origin/main
       <div className="mb-4 flex flex-col sm:flex-row items-center justify-between">
         <input
           type="text"
@@ -117,7 +159,10 @@ const AllResults = () => {
             </option>
           ))}
         </select>
+<<<<<<< HEAD
        
+=======
+>>>>>>> origin/main
       </div>
 
       <div className="overflow-x-auto">
