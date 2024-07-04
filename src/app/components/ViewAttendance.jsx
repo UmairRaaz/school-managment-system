@@ -230,159 +230,160 @@ const ViewAttendance = () => {
   });
 
   return (
-    <div className="w-full px-4" id="component-to-print">
-    <div className="container" ref={componentRef}>
-      <h1 className="text-xsm flex justify-start items-start text-blue-500 mb-10 text-center">
-        View Attendance
-      </h1>
-      <div className="text-[10px] mb-6 grid grid-cols-1 sm:grid-cols-6 md:grid-cols-4 lg:flex flex-wrap gap-2 items-end mt-10">
-        <div className="flex-grow mb-4 sm:mb-0">
-          <label className="block text-[10px] font-medium text-gray-700 mb-2">
-            Select Teacher
-          </label>
-          <select
-            value={selectedTeacher}
-            onChange={handleTeacherChange}
-            className="border text-[10px] p-2 w-full rounded-md shadow-sm"
-          >
-            <option value="" className="text-[10px]">Select a teacher</option>
-            {teachers.map((teacher) => (
-              <option key={teacher._id} value={teacher._id}>
-                {teacher.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        {classes.length > 0 && (
+    <div className="w-full px-4 h-screen overflow-y-auto" id="component-to-print">
+      <div className="container" ref={componentRef}>
+        <h1 className="text-xsm flex justify-start items-start text-blue-500 mb-10 text-center">
+          View Attendance
+        </h1> 
+        <div className="text-[10px] mb-6 grid grid-cols-1 sm:grid-cols-6 md:grid-cols-4 lg:flex flex-wrap gap-2 items-end mt-10 ">
           <div className="flex-grow mb-4 sm:mb-0">
             <label className="block text-[10px] font-medium text-gray-700 mb-2">
-              Select Class
+              Select Teacher
             </label>
             <select
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-              className="text-[10px] border p-2 w-full rounded-md shadow-sm"
+              value={selectedTeacher}
+              onChange={handleTeacherChange}
+              className="border text-[10px] p-2 w-full rounded-md shadow-sm"
             >
-              <option value="" className="text-[10px]">Select a class</option>
-              {classes.map((cls) => (
-                <option key={cls} value={cls}>
-                  {cls}
+              <option value="" className="text-[10px]">Select a teacher</option>
+              {teachers.map((teacher) => (
+                <option key={teacher._id} value={teacher._id}>
+                  {teacher.name}
                 </option>
               ))}
             </select>
           </div>
-        )}
-        {sections.length > 0 && (
+          {classes.length > 0 && (
+            <div className="flex-grow mb-4 sm:mb-0">
+              <label className="block text-[10px] font-medium text-gray-700 mb-2">
+                Select Class
+              </label>
+              <select
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value)}
+                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
+              >
+                <option value="" className="text-[10px]">Select a class</option>
+                {classes.map((cls) => (
+                  <option key={cls} value={cls}>
+                    {cls}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {sections.length > 0 && (
+            <div className="flex-grow mb-4 sm:mb-0">
+              <label className="block text-[10px] font-medium text-gray-700 mb-2">
+                Select Section
+              </label>
+              <select
+                value={selectedSection}
+                onChange={(e) => setSelectedSection(e.target.value)}
+                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
+              >
+                <option value="" className="text-[10px]">Select a section</option>
+                {sections.map((section) => (
+                  <option key={section} value={section}>
+                    {section}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {subjects.length > 0 && (
+            <div className="flex-grow mb-4 sm:mb-0">
+              <label className="block text-[10px] font-medium text-gray-700 mb-2">
+                Select Subject
+              </label>
+              <select
+                value={selectedSubject}
+                onChange={(e) => setSelectedSubject(e.target.value)}
+                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
+              >
+                <option value="" className="text-[12px]">Select a subject</option>
+                {subjects.map((subject) => (
+                  <option key={subject} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="flex-grow mb-4 sm:mb-0">
             <label className="block text-[10px] font-medium text-gray-700 mb-2">
-              Select Section
+              Select Month
             </label>
-            <select
-              value={selectedSection}
-              onChange={(e) => setSelectedSection(e.target.value)}
+            <input
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
               className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-            >
-              <option value="" className="text-[10px]">Select a section</option>
-              {sections.map((section) => (
-                <option key={section} value={section}>
-                  {section}
-                </option>
-              ))}
-            </select>
+            />
           </div>
-        )}
-        {subjects.length > 0 && (
           <div className="flex-grow mb-4 sm:mb-0">
             <label className="block text-[10px] font-medium text-gray-700 mb-2">
-              Select Subject
+              Search
             </label>
-            <select
-              value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
-              className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-            >
-              <option value="" className="text-[12px]">Select a subject</option>
-              {subjects.map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by name or roll number"
+              className="text-[7px] border p-3 w-full rounded-md shadow-sm"
+            />
           </div>
-        )}
-        <div className="flex-grow mb-4 sm:mb-0">
-          <label className="block text-[10px] font-medium text-gray-700 mb-2">
-            Select Month
-          </label>
-          <input
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-          />
-        </div>
-        <div className="flex-grow mb-4 sm:mb-0">
-          <label className="block text-[10px] font-medium text-gray-700 mb-2">
-            Search
-          </label>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by name or roll number"
-            className="text-[7px] border p-3 w-full rounded-md shadow-sm"
-          />
-        </div>
-        <button
-            onClick={handleFetchAttendance}
-            className="bg-black p-3 text-white text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center mb-4 sm:mb-0 print:hidden"
-            style={{ whiteSpace: 'nowrap' }}
-            disabled={!selectedTeacher || !selectedClass || !selectedSection || !selectedSubject}
-          >
-            View
-            <FiEye className="ml-2" />
-          </button>
           <button
-            onClick={handlePrint}
-            className="bg-black text-white p-3 text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center print:hidden"
-            style={{ whiteSpace: 'nowrap' }}
-            disabled={!attendanceData.length}
-          >
-            PDF
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 ml-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              onClick={handleFetchAttendance}
+              className="bg-black p-3 text-white text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center mb-4 sm:mb-0 print:hidden"
+              style={{ whiteSpace: 'nowrap' }}
+              disabled={!selectedTeacher || !selectedClass || !selectedSection || !selectedSubject}
             >
-              <path
-                fillRule="evenodd"
-                d="M10 2a.75.75 0 01.75.75V6h3a.75.75 0 010 1.5h-3v3.25a.75.75 0 01-1.5 0V7.5H6a.75.75 0 010-1.5h3V2.75A.75.75 0 0110 2zm7.86 7.28a.75.75 0 00-1.06 0L12 14.94V11.5a.75.75 0 00-1.5 0v3.44l-4.78-5.72a.75.75 0 00-1.16.94l6 7.2a.75.75 0 001.16 0l6-7.2a.75.75 0 00.1-.84z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-      </div>
-
-      {loading ? (
-        <div className="text-center py-10">Loading...</div>
-      ) : notFound ? (
-        <div className="text-center py-10">Attendance Data Not Found</div>
-      ) : attendanceData.length > 0 ? (
-        <div className="mt-4">
-          <table className="w-full bg-white border-collapse border">
-            <thead>{renderDays()}</thead>
-            <tbody>{renderAttendanceRows()}</tbody>
-          </table>
+              View
+              <FiEye className="ml-2" />
+            </button>
+            <button
+              onClick={handlePrint}
+              className="bg-black text-white p-3 text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center print:hidden"
+              style={{ whiteSpace: 'nowrap' }}
+              disabled={!attendanceData.length}
+            >
+              PDF
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 ml-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 2a.75.75 0 01.75.75V6h3a.75.75 0 010 1.5h-3v3.25a.75.75 0 01-1.5 0V7.5H6a.75.75 0 010-1.5h3V2.75A.75.75 0 0110 2zm7.86 7.28a.75.75 0 00-1.06 0L12 14.94V11.5a.75.75 0 00-1.5 0v3.44l-4.78-5.72a.75.75 0 00-1.16.94l6 7.2a.75.75 0 001.16 0l6-7.2a.75.75 0 00.1-.84z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
         </div>
-      ) : (
-        <div className="text-center py-10">No Data Found</div>
-      )}
+  
+        {loading ? (
+          <div className="text-center py-10">Loading...</div>
+        ) : notFound ? (
+          <div className="text-center py-10">Attendance Data Not Found</div>
+        ) : attendanceData.length > 0 ? (
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full bg-white border-collapse border">
+              <thead>{renderDays()}</thead>
+              <tbody>{renderAttendanceRows()}</tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-10">No Data Found</div>
+        )}
+      </div>
+      <div className='py-10'> </div>
     </div>
-
-  </div>
-
+   
   );
+  
 };
 
 export default ViewAttendance;

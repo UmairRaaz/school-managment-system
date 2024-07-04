@@ -40,7 +40,7 @@ export default function AdminNavbar() {
         <div className="flex justify-between h-20">
           <div className="flex-shrink-0 flex items-center">
             <Image src="/images/logo/logo.svg" alt="School Logo" width={40} height={40} />
-            <span className="text-xl font-semibold ml-2">{userDetails.role} Panel</span>
+            <span className="text-xl font-semibold ml-2 sm:text-sm">{userDetails.role} Panel</span>
           </div>
           <div className="flex items-center">
             <div className="relative">
@@ -48,7 +48,8 @@ export default function AdminNavbar() {
                 className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                 onClick={toggleDropdown}
               >
-                <span className="text-sm text-between py-2 px-5">{userDetails.username}</span>
+                <span className="text-xs py-2 px-5 sm:text-">{userDetails.username}</span>
+
                 <Image
                   className="h-8 w-8 rounded-full"
                   src={userDetails.image}
@@ -76,7 +77,7 @@ export default function AdminNavbar() {
                     )}
                     {userDetails.role === "student" && (
                       <Link href={`/admin-dashboard/view-student/${userDetails.id}`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                      <FaCog className="mr-2 text-blue-500" /> Account Settings
+                      <FaCog className="mr-2 text-blue-500" /> View Profile
                     </Link>
                     )}
                     

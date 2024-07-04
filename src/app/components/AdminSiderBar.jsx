@@ -225,29 +225,85 @@ const Sidebar = () => {
   ];
 
   const studentNavLinks = [
+
+
+
+
+
+
+
     {
-      href: '/',
+      href: "/admin-dashboard",
       icon: FaTachometerAlt,
-      label: 'Dashboard',
-      color: 'blue',
+      label: "Dashboard",
+      color: "blue",
     },
     {
-      href: '/student-dashboard/view-grades',
+      href: "/",
       icon: FaUserGraduate,
-      label: 'View Grades',
-      color: 'blue',
+      label: "My Profile",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+        { href: "/admin-dashboard/view-student", label: "View Profile" },
+        
+      ],
+    },
+   
+    {
+      href: "/",
+      icon: FaBoxes,
+      label: "Attendance",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+        { href: "/admin-dashboard/admin-view-attendances", label: "View Attendance" },
+      
+       
+      
+      ],
     },
     {
-      href: `/admin-dashboard/view-attendance`,
-      icon: FaUserGraduate,
-      label: 'View Attendance',
-      color: 'blue',
+      href: "/",
+     
+      icon: MdAttachMoney,
+      label: "Fees",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+      { href: "/admin-dashboard/student-all-fees", label: "View Fees" },
+  
+      
+      ],
+
+    },
+   
+   
+    {
+      href: "/",
+      icon: IoIosNotifications,
+      label: "Class Notification",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+        { href: "/admin-dashboard/adminview-all-class-notification", label: "View Class Notification" },
+      ],
     },
     {
-      href: `/admin-dashboard/student-all-fees`,
-      icon: FaUserGraduate,
-      label: 'Your Fees Data',
-      color: 'blue',
+      href: "/",
+      icon: AiFillNotification,
+      label: "Public Notification",
+      color: "blue",
+      hasDropdown: true,
+      dropdownLinks: [
+       
+        { href: "/admin-dashboard/adminview-all-public-notification", label: "View Public Notification" },
+    
+      ],
     },
     {
       href: "/",
@@ -256,16 +312,25 @@ const Sidebar = () => {
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [
-        { href: "/admin-dashboard/all-results", label: "All Result" },
+       
+        { href: "/admin-dashboard/all-results", label: "View Result" },
       ],
       
     },
-    {
-      href: '/admin-dashboard/student-notifications',
-      icon: FaUserGraduate,
-      label: 'Notifications',
-      color: 'blue',
-    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
       href: '/api/auth/signout',
       icon: FaUsers,
@@ -281,100 +346,101 @@ const Sidebar = () => {
       ? teacherNavLinks
       : studentNavLinks;
 
-  return (
-    <div
-      className={`bg-[#0e0e0e] h-screen ${
-        isOpen ? 'w-64' : 'w-16'
-      } duration-500 text-gray-100 px-4 fixed left-0 top-0 mt-20 pb-40 overflow-y-auto`}
-    >
-      <style>
-        {`
-          /* Scrollbar Styles */
-          ::-webkit-scrollbar {
-            width: 8px;
-          }
-          ::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-          }
-          ::-webkit-scrollbar-thumb {
-            background-color: blue;
-            border-radius: 4px;
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-          }
-        `}
-      </style>
-
-      <div className="py-3 flex justify-end">
-        <HiMenuAlt3
-          size={26}
-          className="cursor-pointer"
-          onClick={toggleSidebar}
-        />
-      </div>
-      <div className="mt-4 flex flex-col gap-4 relative">
-        {navLinks.map((link, index) => (
-          <div className="relative group" key={index}>
-            {link.hasDropdown ? (
-              <>
-                <div
-                  className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer ${
-                    link.margin ? 'mt-5' : ''
-                  } hover:bg-gray-800`}
-                  onClick={() => toggleDropdown(index)}
-                >
-                  {React.createElement(link.icon, { size: '20' })}
-                  <h2
-                    className={`whitespace-pre duration-500 ${
-                      !isOpen && 'opacity-0 translate-x-28 overflow-hidden'
-                    }`}
-                  >
-                    {link.label}
-                  </h2>
-                  <FaAngleDown
-                    className={`ml-auto transition-transform duration-200 ${
-                      showDropdown[index] ? 'rotate-180' : ''
-                    }`}
-                  />
-                </div>
-                {showDropdown[index] && isOpen && (
-                  <div className="ml-5">
-                    {link.dropdownLinks.map((dropdownLink, i) => (
-                      <Link
-                        href={dropdownLink.href}
-                        key={i}
-                        className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer hover:bg-gray-800`}
-                      >
-                        <FaAngleRight size={12} />
-                        <span className="text-xs">{dropdownLink.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link
-                href={link.href}
-                className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer ${
-                  link.margin ? 'mt-5' : ''
-                } hover:bg-gray-800`}
-              >
-                {React.createElement(link.icon, { size: '20' })}
-                <h2
-                  className={`whitespace-pre duration-500 ${
-                    !isOpen && 'opacity-0 translate-x-28 overflow-hidden'
-                  }`}
-                >
-                  {link.label}
-                </h2>
-              </Link>
-            )}
+      return (
+        <div
+          className={`bg-[#0e0e0e] h-screen h-full h-auto ${
+            isOpen ? 'w-64' : 'w-16'
+          } duration-500 text-gray-100 px-4 fixed left-0 top-0 mt-20 pb-40 overflow-y-auto z-[1000]`}
+        >
+          <style>
+            {`
+              /* Scrollbar Styles */
+              ::-webkit-scrollbar {
+                width: 8px;
+              }
+              ::-webkit-scrollbar-track {
+                background-color: #f1f1f1;
+              }
+              ::-webkit-scrollbar-thumb {
+                background-color: blue;
+                border-radius: 4px;
+              }
+              ::-webkit-scrollbar-thumb:hover {
+                background-color: #555;
+              }
+            `}
+          </style>
+      
+          <div className="py-3 flex justify-end">
+            <HiMenuAlt3
+              size={26}
+              className="cursor-pointer"
+              onClick={toggleSidebar}
+            />
           </div>
-        ))}
-      </div>
-    </div>
-  );
+          <div className="mt-4 flex flex-col gap-4 relative">
+            {navLinks.map((link, index) => (
+              <div className="relative group" key={index}>
+                {link.hasDropdown ? (
+                  <>
+                    <div
+                      className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer ${
+                        link.margin ? 'mt-5' : ''
+                      } hover:bg-gray-800`}
+                      onClick={() => toggleDropdown(index)}
+                    >
+                      {React.createElement(link.icon, { size: '20' })}
+                      <h2
+                        className={`whitespace-pre duration-500 ${
+                          !isOpen && 'opacity-0 translate-x-28 overflow-hidden'
+                        }`}
+                      >
+                        {link.label}
+                      </h2>
+                      <FaAngleDown
+                        className={`ml-auto transition-transform duration-200 ${
+                          showDropdown[index] ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
+                    {showDropdown[index] && isOpen && (
+                      <div className="ml-5">
+                        {link.dropdownLinks.map((dropdownLink, i) => (
+                          <Link
+                            href={dropdownLink.href}
+                            key={i}
+                            className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer hover:bg-gray-800`}
+                          >
+                            <FaAngleRight size={12} />
+                            <span className="text-xs">{dropdownLink.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className={`flex items-center text-sm gap-3.5 font-medium p-2 rounded-md cursor-pointer ${
+                      link.margin ? 'mt-5' : ''
+                    } hover:bg-gray-800`}
+                  >
+                    {React.createElement(link.icon, { size: '20' })}
+                    <h2
+                      className={`whitespace-pre duration-500 ${
+                        !isOpen && 'opacity-0 translate-x-28 overflow-hidden'
+                      }`}
+                    >
+                      {link.label}
+                    </h2>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+      
 };
 
 export default Sidebar;

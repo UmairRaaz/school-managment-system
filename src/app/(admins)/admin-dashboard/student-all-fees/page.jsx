@@ -57,7 +57,7 @@ const StudentAllFees = ({ studentId }) => {
                   <td className="py-3 px-6 text-left">{fee.FeeDescription}</td>
                   <td className="py-3 px-6 text-left">
                     {/* Add any actions you need here */}
-                    <Link href={`/admin-dashboard/view-student-fees/${fee._id}`} className="bg-blue-500 text-white px-4 py-2 rounded">View</Link>
+                    <Link href={`/admin-dashboard/view-student-fees/${fee._id}`} className="bg-black text-white px-4 py-2 rounded">View</Link>
                   </td>
                 </tr>
               ))}
