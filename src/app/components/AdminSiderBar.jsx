@@ -245,11 +245,10 @@ const Sidebar = () => {
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [
-       
-        { href: "/admin-dashboard/view-student", label: "View Profile" },
-        
+        { href: `/admin-dashboard/view-student/${userDetails.id}`, label: "View Profile" }
       ],
     },
+    
    
     {
       href: "/",
