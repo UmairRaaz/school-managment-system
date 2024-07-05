@@ -3,16 +3,6 @@
 
 import { useEffect, useState } from "react";
 
-import { FaBoxes } from "react-icons/fa";
-
-
-import {
-  FaUserGraduate,
-  FaChalkboardTeacher,
-  FaMoneyBillWave,
-  FaUserNurse,
-} from "react-icons/fa";
-import { FaSackDollar } from "react-icons/fa6";
 import { FcVoicePresentation } from "react-icons/fc";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { MdOutlinePending } from "react-icons/md";
@@ -22,10 +12,8 @@ import { FcLike } from "react-icons/fc";
 import { FcDislike } from "react-icons/fc";
 import { FcSimCardChip } from "react-icons/fc";
 import { FcBusinessman } from "react-icons/fc";
-import { FcAssistant } from "react-icons/fc";
 import { IoIosNotifications } from "react-icons/io";
 import { PiMicrophoneStageFill } from "react-icons/pi";
-import { FaArrowsAltH } from "react-icons/fa";
 import axios from "axios";
 
 const StudentDashboard = () => {

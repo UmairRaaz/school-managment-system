@@ -3,13 +3,6 @@
 import { useEffect, useState } from "react";
 
 import { FaBoxes } from "react-icons/fa";
-
-import {
-  FaUserGraduate,
-  FaChalkboardTeacher,
-  FaMoneyBillWave,
-  FaUserNurse,
-} from "react-icons/fa";
 import { FaSackDollar } from "react-icons/fa6";
 import { FcVoicePresentation } from "react-icons/fc";
 import { GiTakeMyMoney } from "react-icons/gi";
@@ -23,24 +16,24 @@ import { FcBusinessman } from "react-icons/fc";
 import { FcAssistant } from "react-icons/fc";
 import { IoIosNotifications } from "react-icons/io";
 import { PiMicrophoneStageFill } from "react-icons/pi";
-import { FaArrowsAltH } from "react-icons/fa";
 import axios from "axios";
 
 const AdminDashboard = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalStudents, setTotalStudents] = useState(0);
   const [totalPresent, settotalPresent] = useState(0);
+  const [totalAbsent, settotalAbsent] = useState(0)
   const [totalTeachers, setTotalTeachers] = useState(0);
   const [totalPaidFee, settotalPaidFee] = useState(0);
   const [totalUnpaidFee, settotalUnpaidFee] = useState(0);
-  const [totalResult, settotalResult] = useState(0);
-  const [totalPassStudents, settotalPassStudents] = useState(0);
-  const [totalFailedStudents, settotalFailedStudents] = useState(0);
-  const [totalClassNotification, settotalClassNotification] = useState(0);
-  const [totalPublicNotifications, settotalPublicNotifications] = useState(0);
-  const [totalAttendanceToday, setTotalAttendanceToday] = useState(0);
-  const [totalPaidStudents, settotalPaidStudents] = useState(0);
-  const [toalUnpaidStudents, settoalUnpaidStudents] = useState(0);
+  const [totalResults, settotalResults] = useState(0);
+  const [passedResults, setPassedResults] = useState(0);
+  const [failedResults, setFailedResults] = useState(0);
+  const [totalClassNotifications, setTotalClassNotifications] = useState(0);
+  const [totalPublicNotifications, setTotalPublicNotifications] = useState(0);
+  const [totalAttendance, setTotalAttendance] = useState(0);
+  const [countPaid, setCountPaid] = useState(0);
+  const [countUnpaid, setCountUnpaid] = useState(0);
   const [filter, setFilter] = useState("All");
   const [timeFilter, setTimeFilter] = useState({
     year: "",
@@ -49,24 +42,31 @@ const AdminDashboard = () => {
   });
 
   const getDashboardDetails = async (params = {}) => {
-    console.log("params", params)
-    const response = await axios.post("api/admin/admin-dashboard-details", params);
-    console.log(response.totalStudents)
-    let result = response.data.data;
-    setTotalAmount(result.totalFeeSum);
-    setTotalStudents(result.totalStudents);
-    settotalPresent(result.totalPresent);
-    setTotalTeachers(result.totalTeachers);
-    settotalPaidFee(result.totalPaidFeeSum);
-    settotalUnpaidFee(result.totalUnpaidFeeSum);
-    settotalResult(result.totalResults);
-    settotalPassStudents(result.passedResults);
-    settotalFailedStudents(result.failedResults);
-    settotalClassNotification(result.totalClassNotifications);
-    settotalPublicNotifications(result.totalPublicNotifications);
-    setTotalAttendanceToday(result.totalAttendance);
-    settotalPaidStudents(result.countPaid);
-    settoalUnpaidStudents(result.countUnpaid);
+    console.log(params)
+    try {
+      const response = await axios.post(
+        "/api/admin/admin-dashboard-details",
+        params
+      );
+      const result = response.data.data;
+      setTotalAmount(result.totalFeeSum);
+      setTotalStudents(result.totalStudents);
+      settotalPresent(result.totalPresent);
+      settotalAbsent(result.totalAbsent);
+      setTotalTeachers(result.totalTeachers);
+      settotalPaidFee(result.totalPaidFeeSum);
+      settotalUnpaidFee(result.totalUnpaidFeeSum);
+      settotalResults(result.totalResults);
+      setPassedResults(result.passedResults);
+      setFailedResults(result.failedResults);
+      setTotalClassNotifications(result.totalClassNotifications);
+      setTotalPublicNotifications(result.totalPublicNotifications);
+      setTotalAttendance(result.totalAttendance);
+      setCountPaid(result.countPaid);
+      setCountUnpaid(result.countUnpaid);
+    } catch (error) {
+      console.error("Error fetching dashboard details:", error);
+    }
   };
 
   useEffect(() => {
@@ -87,20 +87,24 @@ const AdminDashboard = () => {
       category: "Financial",
       name: "Total Amount",
       value: totalAmount,
-      date: new Date(),
       icon: <FaSackDollar />,
     },
     {
       category: "Student",
       name: "Students",
       value: totalStudents,
-      date: new Date(),
       icon: <FcBusinessman />,
     },
     {
       category: "Student",
       name: "Present",
       value: totalPresent,
+      icon: <FcVoicePresentation />,
+    },
+    {
+      category: "Student",
+      name: "Absent",
+      value: totalAbsent,
       date: new Date(),
       icon: <FcVoicePresentation />,
     },
@@ -108,77 +112,66 @@ const AdminDashboard = () => {
       category: "Staff",
       name: "Teachers",
       value: totalTeachers,
-      date: new Date(),
       icon: <FcAssistant />,
     },
     {
       category: "Financial",
       name: "Received Amount",
       value: totalPaidFee,
-      date: new Date(),
       icon: <GiTakeMyMoney />,
     },
     {
       category: "Financial",
       name: "Pending Amount",
       value: totalUnpaidFee,
-      date: new Date(),
       icon: <MdOutlinePending />,
     },
     {
       category: "Financial",
       name: "Paid Students",
-      value: totalPaidStudents,
-      date: new Date(),
+      value: countPaid,
       icon: <FcPaid />,
     },
     {
       category: "Financial",
       name: "Unpaid Students",
-      value: toalUnpaidStudents,
-      date: new Date(),
+      value: countUnpaid,
       icon: <FaUserSlash />,
     },
     {
       category: "Student",
       name: "Result",
-      value: totalResult,
-      date: new Date(),
+      value: totalResults,
       icon: <FcSimCardChip />,
     },
     {
       category: "Student",
       name: "Passed Student",
-      value: totalPassStudents,
-      date: new Date(),
+      value: passedResults,
       icon: <FcLike />,
     },
     {
       category: "Student",
       name: "Failed Student",
-      value: totalFailedStudents,
-      date: new Date(),
+      value: failedResults,
       icon: <FcDislike />,
     },
     {
       category: "Notification",
       name: "Class Notification",
-      value: totalClassNotification,
-      date: new Date(),
+      value: totalClassNotifications,
       icon: <IoIosNotifications />,
     },
     {
       category: "Notification",
       name: "Public Notification",
       value: totalPublicNotifications,
-      date: new Date(),
       icon: <PiMicrophoneStageFill />,
     },
     {
       category: "Student",
       name: "Attendance",
-      value: totalAttendanceToday,
-      date: new Date(),
+      value: totalAttendance,
       icon: <FaBoxes />,
     },
   ];
@@ -186,25 +179,14 @@ const AdminDashboard = () => {
   const filteredData =
     filter === "All" ? data : data.filter((item) => item.category === filter);
 
-  const applyTimeFilter = (items) => {
-    if (timeFilter.year) {
-      items = items.filter(
-        (item) => item.date.getFullYear() === parseInt(timeFilter.year)
-      );
-    }
-    if (timeFilter.month) {
-      items = items.filter(
-        (item) => item.date.getMonth() === parseInt(timeFilter.month)
-      );
-    }
-    if (timeFilter.class) {
-      items = items.filter((item) => item.class === timeFilter.class);
-    }
-    return items;
-  };
+  const handleMonthChange = (e) => {
+    setTimeFilter({ ...timeFilter, month: e.target.value, class: "" })
+  }
+  const handleYearChange = (e) => {
+    setTimeFilter({ ...timeFilter, year: e.target.value, class: "" })
+  }
 
-  const finalData = applyTimeFilter(filteredData);
-
+  const finalData = filteredData;
   return (
     <div className="max-w-6xl mx-auto p-2 mt-20">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 text-xs">
@@ -246,14 +228,12 @@ const AdminDashboard = () => {
 
           <div className="relative">
             <select
-              onChange={(e) =>
-                setTimeFilter({ ...timeFilter, month: e.target.value })
-              }
+              onChange={(e) => handleMonthChange(e)} 
               className="appearance-none py-2 px-2 md:px-6 bg-black text-white rounded-lg"
             >
               <option value="">Month</option>
               {Array.from({ length: 12 }, (_, i) => (
-                <option key={i} value={i}>
+                <option key={i} value={i + 1}>
                   {new Date(0, i).toLocaleString("default", { month: "long" })}
                 </option>
               ))}
@@ -271,9 +251,7 @@ const AdminDashboard = () => {
 
           <div className="relative">
             <select
-              onChange={(e) =>
-                setTimeFilter({ ...timeFilter, year: e.target.value })
-              }
+              onChange={(e) => handleYearChange(e)} 
               className="appearance-none py-2 px-2 md:px-6 bg-black text-white rounded-lg"
             >
               <option value="">Year</option>
@@ -300,7 +278,7 @@ const AdminDashboard = () => {
           <div className="relative">
             <select
               onChange={(e) =>
-                setTimeFilter({ ...timeFilter, class: e.target.value })
+                setTimeFilter({ ...timeFilter, month: "", year: "", class: e.target.value })
               }
               className="appearance-none py-2 px-2 md:px-6 bg-black text-white rounded-lg"
             >

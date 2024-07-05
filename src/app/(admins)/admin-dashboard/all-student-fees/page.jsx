@@ -54,7 +54,7 @@ const AllStudentsFees = () => {
       const response = await axios.post(`/api/admin/get-all-fees`, {
         date: selectedDate,
       });
-      console.log(response.data.allFees);
+      console.log("mothly fee", response.data.allFees);
       setFees(response.data.allFees);
       setSelectedFees([]); // Reset selected fees
     } catch (error) {
