@@ -2,7 +2,7 @@ import dbConnect from "@/app/libs/dbConnect";
 import { StudentModel } from "@/app/models/studentModel";
 import { TeacherModel } from "@/app/models/teacherModel";
 import { NextResponse } from "next/server";
-
+export const revalidate = 0;
 export async function POST(req) {
     try {
         await dbConnect();

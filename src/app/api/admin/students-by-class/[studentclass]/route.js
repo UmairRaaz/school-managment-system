@@ -3,7 +3,7 @@
 import dbConnect from '@/app/libs/dbConnect';
 import { StudentModel } from '@/app/models/studentModel';
 import { NextResponse } from 'next/server';
-
+export const revalidate = 0;
 export async function GET(req, { params }) {
     try {
         await dbConnect();

@@ -6,7 +6,7 @@ import { Result } from "@/app/models/ResultModel";
 import { Attendance } from "@/app/models/attendanceModel";
 import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
-
+export const revalidate = 0;
 export async function POST(req) {
     const filterData = await req.json();
     const { year, month, class: classFilter } = filterData;

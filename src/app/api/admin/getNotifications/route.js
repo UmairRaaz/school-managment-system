@@ -1,7 +1,7 @@
 import dbConnect from "@/app/libs/dbConnect";
 import { NotificationModel } from "@/app/models/notificationModel";
 import { NextResponse } from "next/server";
-
+export const revalidate = 0;
 export async function GET() {
   await dbConnect();
 

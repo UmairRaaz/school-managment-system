@@ -3,7 +3,7 @@
 import dbConnect from '@/app/libs/dbConnect';
 import { FeeModel } from '@/app/models/feesModel';
 import { NextResponse } from 'next/server';
-
+export const revalidate = 0;
 export async function DELETE(req, { params }) {
     try {
         await dbConnect();

@@ -4,7 +4,7 @@ import dbConnect from '@/app/libs/dbConnect';
 import { Result } from '@/app/models/ResultModel';
 
 import { NextResponse } from 'next/server';
-
+export const revalidate = 0;
 export async function DELETE(req, { params }) {
     try {
         await dbConnect();

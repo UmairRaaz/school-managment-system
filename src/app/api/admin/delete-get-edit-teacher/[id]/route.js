@@ -4,7 +4,7 @@ import { uploads } from '@/app/libs/cloudinary';
 import dbConnect from '@/app/libs/dbConnect';
 import { TeacherModel } from '@/app/models/teacherModel';
 import { NextResponse } from 'next/server';
-
+export const revalidate = 0;
 export async function DELETE(req, { params }) {
     try {
         await dbConnect();

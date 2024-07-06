@@ -2,7 +2,7 @@ import dbConnect from "@/app/libs/dbConnect";
 import { Attendance } from "@/app/models/attendanceModel";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-
+export const revalidate = 0;
 export async function GET(req, { params }) {
   try {
     await dbConnect();

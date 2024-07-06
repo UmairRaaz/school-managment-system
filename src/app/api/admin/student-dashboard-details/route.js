@@ -8,7 +8,7 @@ import { StudentModel } from "@/app/models/studentModel";
 
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
-
+export const revalidate = 0;
 async function aggregateData(collectionModel, matchStages, groupStages, month, year) {
     try {
         await dbConnect();
