@@ -1,6 +1,7 @@
 'use client'
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
@@ -34,7 +35,7 @@ const Form = () => {
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedStudent, setSelectedStudent] = useState("");
-
+  const router = useRouter()
   const fetchStudents = async (studentclass) => {
     try {
       const response = await axios.get(`/api/admin/students-by-class/${studentclass}`);
@@ -66,6 +67,7 @@ const Form = () => {
       setValue('section', student.Section);
       setValue('cast', student.Caste);
       setValue('age', student.age);
+      setValue('studentId', student._id);
     } catch (error) {
       console.error('Error fetching student details:', error);
     }
@@ -105,6 +107,7 @@ const Form = () => {
     if (response.data.success) {
       alert("Result added successfully");
       reset();
+      router.push(`/admin-dashboard/view-results/${response.data.result._id}`)
     } else {
       alert("Add Complete Details");
     }

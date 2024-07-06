@@ -33,7 +33,7 @@ export async function POST(req) {
         } else {
             const newStudent = await StudentModel.create({...formDataObject, image:uploadedImage.secure_url });
             console.log(newStudent);
-            return NextResponse.json({ message: "Student added successfully", success: true }, { status: 200 });
+            return NextResponse.json({ message: "Student added successfully",newStudent: newStudent, success: true }, { status: 200 });
         }
     } catch (error) {
         console.error(error);

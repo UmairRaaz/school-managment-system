@@ -16,9 +16,12 @@ const LoginForm = () => {
     try {
       const response = await LoginAction(data);
       console.log("response", response);
-      // Handle successful login here (e.g., redirect)
+      if(response){
+        seterrorMessage("Incorrect username or password");
+      }
     } catch (error) {
-      seterrorMessage("Login failed. Please try again.");
+      console.log(error)
+      seterrorMessage("Incorrect username or password");
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +60,7 @@ const LoginForm = () => {
                           className={`form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border ${errors.username ? 'border-red-500' : 'border-gray-300'} rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
                           placeholder='Username'
                         />
-                        {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+                        {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
                       </div>
                       <div className='mb-4'>
                         <input
@@ -69,6 +72,7 @@ const LoginForm = () => {
                         />
                         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                       </div>
+                      {errorMessage && <p className="text-red-500 text-xs mb-1">{errorMessage}</p>}
                       <div className='text-center pt-1 pb-1'>
                         <button
                           type="submit"
@@ -82,13 +86,13 @@ const LoginForm = () => {
                           ) : 'Login'}
                         </button>
                       </div>
-                      <div className='flex items-center justify-end '>
+                      {/* <div className='flex items-center justify-end '>
                         <a href='/' className='inline-block py-8 text-green-600 font-medium text-xs leading-tight uppercase rounded focus:outline-none focus:ring-0 transition duration-150 ease-in-out'>
                           Forgot Password?
                         </a>
-                      </div>
+                      </div> */}
                     </form>
-                    {errorMessage && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
+                    
                   </div>
                 </div>
               </div>

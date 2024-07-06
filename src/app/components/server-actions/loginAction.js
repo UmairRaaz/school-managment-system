@@ -14,9 +14,10 @@ export async function LoginAction(formData) {
             redirectTo :"/"
         })
     } catch (error) {
+        console.log("error finding", error)
         if(error instanceof AuthError){
             switch(error.type){
-                case "CredentialsSignin" : return {error : "Invalid Credentials"}
+                case "CallbackRouteError" : return {error : "Invalid Credentials"}
                 default : return {error: "unknown error found"}
             }
         }

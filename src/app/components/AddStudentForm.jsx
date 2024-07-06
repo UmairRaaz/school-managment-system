@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -11,7 +12,7 @@ const AddStudentForm = () => {
     formState: { errors },
     reset,
   } = useForm();
-
+  const router = useRouter()
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const handleImageChange = (event) => {
@@ -42,6 +43,7 @@ const AddStudentForm = () => {
         alert("Student added successfully");
         reset();
         setImagePreview(null);
+        router.push(`/admin-dashboard/view-student/${response.data.newStudent._id}`);
       } else {
         alert("Username is taken");
       }

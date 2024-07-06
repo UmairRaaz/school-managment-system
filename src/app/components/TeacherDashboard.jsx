@@ -265,7 +265,7 @@ const TeacherDashboard = () => {
             >
               <option value="Class">Class</option>
               {Array.from({ length: 10 }, (_, i) => (
-                <option key={i + 1} value={`Class-${i + 1}`}>{`Class ${
+                <option key={i + 1} value={i + 1}>{`Class ${
                   i + 1
                 }`}</option>
               ))}

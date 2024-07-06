@@ -9,7 +9,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
     const filterData = await req.json();
-    console.log(filterData);
     const { year, month, class: classFilter } = filterData;
 
     try {
@@ -97,6 +96,7 @@ function getDateFilter(year, month) {
 
 async function aggregateStudentTotal(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
+    await dbConnect();
     if (classFilter && !hasFilters) {
         const matchStage = { $match: { CurrentClass: classFilter } };
         pipeline.push(matchStage);
@@ -111,7 +111,7 @@ async function aggregateStudentTotal(hasFilters, dateFilter, classFilter) {
 }
 async function aggregateAttendanceSummary(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
-
+    await dbConnect();
     if (classFilter && !hasFilters) {
         const matchStage = { $match: { className: classFilter } };
         pipeline.push(matchStage);
@@ -135,7 +135,7 @@ async function aggregateAttendanceSummary(hasFilters, dateFilter, classFilter) {
 }
 async function aggregateTeacherTotal(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
-
+    await dbConnect();
     // Match stage based on filters
     if (classFilter && !hasFilters) {
         // Unwind the 'classes' array first
@@ -164,7 +164,7 @@ async function aggregateTeacherTotal(hasFilters, dateFilter, classFilter) {
 
 async function aggregateFeeSummary(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
-
+    await dbConnect();
     // Match stage based on filters
     if (classFilter && !hasFilters) {
         // Match based on classFilter directly on StudentModel's current class
@@ -225,6 +225,7 @@ async function aggregateFeeSummary(hasFilters, dateFilter, classFilter) {
 
 async function aggregateResultTotal(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
+    await dbConnect();
     if (classFilter && !hasFilters) {
         const matchStage = { $match: { class: classFilter } };
         pipeline.push(matchStage);
@@ -240,7 +241,7 @@ async function aggregateResultTotal(hasFilters, dateFilter, classFilter) {
 
 async function aggregateNotificationSummary(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
-
+    await dbConnect();
     // Match stage based on filters
     if (hasFilters) {
         pipeline.push({ $match: dateFilter });
@@ -271,7 +272,7 @@ async function aggregateNotificationSummary(hasFilters, dateFilter, classFilter)
 
 async function aggregateResultSummary(hasFilters, dateFilter, classFilter) {
     const pipeline = [];
-
+    await dbConnect();
     if (classFilter && !hasFilters) {
         const matchStage = { $match: { class: classFilter } };
         pipeline.push(matchStage);

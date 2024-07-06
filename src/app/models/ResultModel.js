@@ -44,6 +44,7 @@ const ResultSchema = new Schema({
     required: true,
     trim: true
   },
+  studentId: { type: Schema.Types.ObjectId, ref: 'StudentModel', required: true },
   section: {
     type: String,
     required: true,
@@ -74,7 +75,7 @@ const ResultSchema = new Schema({
   subjects: {
     type: [SubjectSchema],
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         // At least one subject should be filled
         return v && v.length > 0 && v.some(subject => subject.name.trim() !== "" || subject.totalMarks > 0 || subject.minMarks > 0 || subject.obtainedMarks > 0);
       },
@@ -85,7 +86,7 @@ const ResultSchema = new Schema({
     type: Boolean,
     required: true
   }
-}, {timestamps: true});
+}, { timestamps: true });
 
 
 export const Result = mongoose.models?.Result || mongoose.model('Result', ResultSchema);
