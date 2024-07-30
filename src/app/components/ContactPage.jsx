@@ -15,7 +15,7 @@ const ContactPage = () => {
           <div className="flex flex-col items-center text-gray-800 bg-gradient-to-r from-blue-200 to-blue-200 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-500">
             <h2 className="text-3xl lg:text-4xl font-bold mb-6font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-400 text-center mb-8">Contact Information</h2>
             <p className="text-xl lg:text-2xl mb-4 flex items-center text-black transition duration-300 transform hover:scale-125 ">
-  <FaWhatsapp className="inline-block mr-3 transition duration-300 transform" /> +92 3144461778
+  <FaWhatsapp className="inline-block mr-3 transition duration-300 transform" /> +123 456 789
 </p>
 
             <p className="text-xl lg:text-2xl mb-8 text-white text-center">
