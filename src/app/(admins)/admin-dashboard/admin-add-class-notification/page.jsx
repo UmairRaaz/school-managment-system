@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const AdminAddClassNotificationPage = () => {
   const {
@@ -229,7 +230,7 @@ const AdminAddClassNotificationPage = () => {
           />
           {imagePreview && (
             <div className="mt-2">
-              <img src={imagePreview} alt="Preview" className="mb-2" />
+              <Image src={imagePreview} alt="Preview" className="mb-2" />
               <button
                 type="button"
                 onClick={handleRemoveImage}

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { FaDownload } from "react-icons/fa";
+import Image from "next/image";
 
 const AdminPreviewNotification = ({ params }) => {
   const [notification, setNotification] = useState(null);
@@ -86,7 +87,7 @@ const AdminPreviewNotification = ({ params }) => {
             </div>
           </div>
           <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-            <img
+            <Image
               src="/school.jpeg"
               alt="logo"
               className="object-cover w-full h-full border border-black rounded-md"
@@ -112,7 +113,7 @@ const AdminPreviewNotification = ({ params }) => {
           {/* Full Width and Height Image */}
           {notification?.image && (
             <div className="relative h-80 md:h-96 lg:h-96 mt-8">
-              <img
+              <Image
                 src={notification.image}
                 alt="Background"
                 className="absolute inset-0 w-full h-full object-contain"

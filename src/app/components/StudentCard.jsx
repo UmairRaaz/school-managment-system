@@ -1,4 +1,5 @@
 // pages/index.js
+import Image from 'next/image';
 import React from 'react';
 import { FaWhatsapp, FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
@@ -18,7 +19,7 @@ const students = [
 const StudentCard = ({ student }) => {
   return (
     <div className="relative w-full h-64 overflow-hidden rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
-      <img
+      <Image
         src={student.image}
         alt={student.name}
         className="object-cover w-full h-full"

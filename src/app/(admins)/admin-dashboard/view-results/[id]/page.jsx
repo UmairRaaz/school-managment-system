@@ -4,6 +4,7 @@ import { useReactToPrint } from "react-to-print";
 import { FaDownload } from "react-icons/fa";
 import { GiTrophyCup } from "react-icons/gi";
 import axios from "axios";
+import Image from "next/image";
 
 const ViewResultCard = ({ params }) => {
   const componentRef = useRef();
@@ -138,7 +139,7 @@ const ViewResultCard = ({ params }) => {
             </div>
           </div>
           <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-            <img
+            <Image
               src="/school.jpeg"
               alt="School Logo"
               className="object-cover w-full h-full border border-black rounded-md"
@@ -150,7 +151,7 @@ const ViewResultCard = ({ params }) => {
         <div className="mx-auto rounded-lg mt-10">
           <div className="flex flex-wrap justify-between gap-4">
             <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-              <img
+              <Image
                 src={result.image || "/placeholder.jpg"}
                 alt="Student"
                 className="object-cover w-full h-full border border-black rounded-md"

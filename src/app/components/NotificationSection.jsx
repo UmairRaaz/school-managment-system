@@ -97,7 +97,7 @@ const NotificationSectionWithModal = () => {
               </p>
             </div>
             {currentNotification.image && (
-              <img
+              <Image
                 src={currentNotification.image}
                 alt={currentNotification.title}
                 className="w-20 h-auto mt-4 px-4 cursor-pointer"
@@ -129,7 +129,7 @@ const NotificationSectionWithModal = () => {
           ></div>
           <div className=" overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full p-10">
             <div className="p-4">
-              <img
+              <Image
                 src={currentNotification.image}
                 alt={currentNotification.title}
                 className="w-full h-auto"

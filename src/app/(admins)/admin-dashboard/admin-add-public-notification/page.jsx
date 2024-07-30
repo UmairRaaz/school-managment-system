@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const AdminAddPublicNotificationPage = () => {
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
@@ -98,7 +99,7 @@ const AdminAddPublicNotificationPage = () => {
           />
           {imagePreview && (
             <div className="mt-2">
-              <img src={imagePreview} alt="Preview" className="max-w-xs rounded mb-2" />
+              <Image src={imagePreview} alt="Preview" className="max-w-xs rounded mb-2" />
               <button
                 type="button"
                 onClick={handleRemoveImage}

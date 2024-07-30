@@ -39,7 +39,7 @@ const ContactPage = () => {
           </div>
           {/* Decorative Image */}
           <div className="relative w-72 h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-2xl border-8 border-white transform hover:scale-110 transition duration-500">
-            <img
+            <Image
               src="/images/profile/about2.jpg"
               alt="Contact Decorative"
               className="object-cover w-full h-full"

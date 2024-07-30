@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const TeacherAddClassNotificationPage = () => {
   const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm();
@@ -162,7 +163,7 @@ const TeacherAddClassNotificationPage = () => {
           <input type="file" {...register("image")} className="border border-gray-300 p-2 rounded w-full" onChange={handleImageChange} />
           {imagePreview && (
             <div className="mt-2">
-              <img src={imagePreview} alt="Preview" className="max-w-xs rounded" />
+              <Image src={imagePreview} alt="Preview" className="max-w-xs rounded" />
               <button type="button" onClick={handleRemoveImage} className="mt-2 px-4 py-2 bg-red-600 text-white rounded">Remove Image</button>
             </div>
           )}
