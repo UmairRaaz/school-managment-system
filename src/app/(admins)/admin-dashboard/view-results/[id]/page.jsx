@@ -12,21 +12,22 @@ const ViewResultCard = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const { id } = params;
 
-  const getResult = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/admin/delete-edit-get-result/${id}`);
-      setResult(response.data.result);
-    } catch (error) {
-      console.error("Failed to fetch result", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   useEffect(() => {
+    const getResult = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/admin/delete-edit-get-result/${id}`);
+        setResult(response.data.result);
+      } catch (error) {
+        console.error("Failed to fetch result", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     getResult();
-  }, []);
+  }, [id]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -59,7 +60,7 @@ const ViewResultCard = ({ params }) => {
 
   // Mock data (to be replaced with `result` from API)
   const mockData = {
-    schoolName: "The Zia's School",
+    schoolName: "The Zai's School",
     schoolAddress: "123 Main Street, Jamshoro, Pakistan",
     schoolLogo: "../school.jpeg", // Replace with your school logo URL
     studentName: "Moon Khan",

@@ -14,22 +14,23 @@ const Fees = ({ params }) => {
     content: () => componentRef.current,
   });
 
-  const getFeesDetails = async () => {
-    try {
-      const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
-      const fees = response.data.fees;
-      fees.date = formatDate(fees.date);
-      setFeesData(fees);
-    } catch (error) {
-      console.error('Error fetching fees details:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   useEffect(() => {
+    const getFeesDetails = async () => {
+      try {
+        const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
+        const fees = response.data.fees;
+        fees.date = formatDate(fees.date);
+        setFeesData(fees);
+      } catch (error) {
+        console.error('Error fetching fees details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     getFeesDetails();
-  }, []);
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

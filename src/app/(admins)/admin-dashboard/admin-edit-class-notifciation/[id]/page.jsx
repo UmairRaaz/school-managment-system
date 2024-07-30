@@ -36,25 +36,24 @@ const AdminEditClassNotificationPage = ({ params }) => {
     setAdminId(session?._id);
   }, [session]);
 
-  const getNotification = async () => {
-    try {
-      const response = await axios.get(
-        `/api/admin/delete-edit-get-notification/${id}`
-      );
-      const notificationData = response.data.notification;
-      setNotification(notificationData);
-      reset(notificationData);
-      setImagePreview(notificationData.image);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching the notification:", error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getNotification = () => {
+      axios.get(`/api/admin/delete-edit-get-notification/${id}`)
+        .then(response => {
+          const notificationData = response.data.notification;
+          setNotification(notificationData);
+          reset(notificationData); // Assuming reset is defined in your component
+          setImagePreview(notificationData.image);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error("Error fetching the notification:", error);
+          setLoading(false);
+        });
+    };
+
     getNotification();
-  }, [id]);
+  }, [id, reset]);
 
   useEffect(() => {
     axios

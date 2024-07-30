@@ -13,7 +13,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
         >
-          Welcome to Zia's School
+          Welcome to Zai's School
         </motion.h1> */}
         {/* <motion.p
           className="mt-4 text-lg sm:text-xl md:text-2xl lg:text-3xl max-w-3xl"

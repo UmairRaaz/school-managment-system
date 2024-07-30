@@ -38,18 +38,17 @@ const AdminPreviewNotification = ({ params }) => {
         `,
   });
 
-  const getNotification = async () => {
-    try {
-      const response = await axios.get(
-        `/api/admin/delete-edit-get-notification/${id}`
-      );
-      setNotification(response.data.notification);
-    } catch (error) {
-      console.error("Error fetching the notification:", error);
-    }
-  };
-
   useEffect(() => {
+    const getNotification = async () => {
+      try {
+        const response = await axios.get(
+          `/api/admin/delete-edit-get-notification/${id}`
+        );
+        setNotification(response.data.notification);
+      } catch (error) {
+        console.error("Error fetching the notification:", error);
+      }
+    };
     getNotification();
   }, [id]);
 
@@ -79,7 +78,7 @@ const AdminPreviewNotification = ({ params }) => {
           <div className="flex items-center">
             <div>
               <h2 className="text-4xl font-bold mt-10">
-                The Zia&rsquo;s School
+                The Zai&rsquo;s School
               </h2>
               <p className="text-lg mt-4">
                 123 Main Street, Jamshoro, Pakistan

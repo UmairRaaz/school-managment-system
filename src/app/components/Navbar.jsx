@@ -61,7 +61,7 @@ function Navbar() {
             href="/"
             className="text-2xl font-bold tracking-wide hover:text-black transition duration-300 text-black"
           >
-            <span className="text-5xl font-extrabold text-blue-500">Z</span>ia's{" "}
+            <span className="text-5xl font-extrabold text-blue-500">Z</span>ai&lsquo;s{" "}
             <span className="text-2xl font-extrabold ">S</span>chool
           </Link>
         </div>

@@ -23,7 +23,7 @@ const EditteacherPage = ({ params }) => {
 
   useEffect(() => {
     getTeacherDetails(id)
-  }, [])
+  }, [id])
 
   return (
     <div>

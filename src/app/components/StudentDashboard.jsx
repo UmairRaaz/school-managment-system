@@ -34,30 +34,29 @@ const StudentDashboard = () => {
     year: "",
   });
   const { data: session, status } = useSession();
-  const getDashbaordDetails = async (params = {}) => {
+  const getDashbaordDetails = useCallback(async (params = {}) => {
     console.log("params", params);
     const response = await axios.post("api/admin/student-dashboard-details", {
       studentId: session?._id.toString(),
       month: params.month,
       year: params.year,
-  });
+    });
     let result = response.data.data;
     console.log(result);
 
-    settotalPresent(result.attendance.totalPresent);
-    settotalAbsent(result.attendance.totalAbsent);
-    settotalPaidFee(result.fees.totalPaidAmount);
-    settotalUnpaidFee(result.fees.totalUnpaidAmount);
-    setpaidChallan(result.fees.totalPaidCount);
-    setunpaidChallan(result.fees.totalUnpaidCount);
+    setTotalPresent(result.attendance.totalPresent);
+    setTotalAbsent(result.attendance.totalAbsent);
+    setTotalPaidFee(result.fees.totalPaidAmount);
+    setTotalUnpaidFee(result.fees.totalUnpaidAmount);
+    setPaidChallan(result.fees.totalPaidCount);
+    setUnpaidChallan(result.fees.totalUnpaidCount);
+    setTotalResult(result.results.totalResult);
+    setTotalPassStudents(result.results.totalPass);
+    setTotalFailedStudents(result.results.totalFail);
+    setTotalClassNotification(result.notifications.totalForClass);
+    setTotalPublicNotifications(result.notifications.totalForPublic);
+  }, [session]);
 
-    settotalResult(result.results.totalResult);
-    settotalPassStudents(result.results.totalPass);
-    settotalFailedStudents(result.results.totalFail);
-    
-    settotalClassNotification(result.notifications.totalForClass);
-    settotalPublicNotifications(result.notifications.totalForPublic);
-  };
   useEffect(() => {
     if (filter !== "All") {
       setTimeFilter({ year: "", month: "" });
@@ -68,7 +67,7 @@ const StudentDashboard = () => {
     } else {
       getDashbaordDetails(timeFilter);
     }
-  }, [filter, timeFilter]);
+  }, [filter, timeFilter, getDashbaordDetails, setFilter, setTimeFilter]);
   const today = new Date();
   const data = [
     {

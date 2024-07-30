@@ -19,20 +19,52 @@ const AllStudentsFees = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
-  
   console.log("selectedYear", selectedYear);
 
   useEffect(() => {
-    if (selectedDate ) {
+    if (selectedDate) {
+      const handleGetFeesByDate = async () => {
+        try {
+          setFeesLoading(true);
+          const response = await axios.post(`/api/admin/get-all-fees`, {
+            date: selectedDate,
+          });
+          console.log("mothly fee", response.data.allFees);
+          setFees(response.data.allFees);
+          setSelectedFees([]); // Reset selected fees
+        } catch (error) {
+          console.error("Error fetching fees:", error);
+        } finally {
+          setFeesLoading(false);
+        }
+      };
       handleGetFeesByDate();
     }
   }, [selectedDate]);
 
   useEffect(() => {
     if (!selectedDate && selectedYear) {
+      const handleGetFeesByYear = async () => {
+        try {
+          setFeesLoading(true);
+          const response = await axios.post(
+            `/api/admin/get-all-fees-annually`,
+            {
+              year: selectedYear,
+            }
+          );
+          console.log(response.data.allFees);
+          setFees(response.data.allFees);
+          setSelectedFees([]);
+        } catch (error) {
+          console.error("Error fetching fees:", error);
+        } finally {
+          setFeesLoading(false);
+        }
+      };
       handleGetFeesByYear();
     }
-  }, [selectedYear]);
+  }, [selectedYear, selectedDate]);
 
   const handleAddFees = async () => {
     try {
@@ -43,38 +75,6 @@ const AllStudentsFees = () => {
       console.log(response.data.allFees);
     } catch (error) {
       console.error("Error adding fees:", error);
-    } finally {
-      setFeesLoading(false);
-    }
-  };
-
-  const handleGetFeesByDate = async () => {
-    try {
-      setFeesLoading(true);
-      const response = await axios.post(`/api/admin/get-all-fees`, {
-        date: selectedDate,
-      });
-      console.log("mothly fee", response.data.allFees);
-      setFees(response.data.allFees);
-      setSelectedFees([]); // Reset selected fees
-    } catch (error) {
-      console.error("Error fetching fees:", error);
-    } finally {
-      setFeesLoading(false);
-    }
-  };
-
-  const handleGetFeesByYear = async () => {
-    try {
-      setFeesLoading(true);
-      const response = await axios.post(`/api/admin/get-all-fees-annually`, {
-        year: selectedYear,
-      });
-      console.log(response.data.allFees);
-      setFees(response.data.allFees);
-      setSelectedFees([]);
-    } catch (error) {
-      console.error("Error fetching fees:", error);
     } finally {
       setFeesLoading(false);
     }
@@ -176,7 +176,7 @@ const AllStudentsFees = () => {
             value={selectedDate}
             onChange={(e) => {
               setSelectedDate(e.target.value);
-              setSelectedYear(''); // Clear year selection
+              setSelectedYear(""); // Clear year selection
             }}
             className="border border-gray-300 rounded-md px-2 py-1 text-xs"
           />
@@ -184,7 +184,7 @@ const AllStudentsFees = () => {
             value={selectedYear}
             onChange={(e) => {
               setSelectedYear(e.target.value);
-              setSelectedDate(''); // Clear date selection
+              setSelectedDate(""); // Clear date selection
             }}
             className="border border-gray-300 rounded-md px-2 py-1 text-xs"
           >
