@@ -21,14 +21,22 @@ export async function PUT(NextRequest, { params }) {
                 formDataObject[key] = value;
             }
         }
-        const {name, role, email, username, password, phoneNumber, image} = formDataObject;
+        const { name, role, email, username, password, phoneNumber, image } = formDataObject;
 
-        console.log(image[1])
-        const uploadedImage = await uploads(image[1], "image");
-        console.log(uploadedImage.secure_url)
+
+        // console.log(image[1])
+        // const uploadedImage = await uploads(image[1], "image");
+        // console.log(uploadedImage.secure_url)
 
         // Check if the new username is already taken by another user
         const existingUser = await AdminModel.findOne({ username: username });
+        let imageLink = existingUser.image;
+
+        if (formDataObject.image && typeof formDataObject.image === 'object') {
+            const uploadedImage = await uploads(image[1], "image");
+            imageLink = uploadedImage.secure_url;
+        }
+
 
         if (existingUser && existingUser._id.toString() !== id) {
             return NextResponse.json({ message: "Username is already taken", success: false }, { status: 409 });
@@ -37,14 +45,14 @@ export async function PUT(NextRequest, { params }) {
         // Proceed with the update if username is not taken
         const user = await AdminModel.findByIdAndUpdate(
             id,
-            { 
-                name: name, 
-                role: role, 
-                email: email, 
-                username: username, 
+            {
+                name: name,
+                role: role,
+                email: email,
+                username: username,
                 password: password,
                 phoneNumber: phoneNumber,
-                image: uploadedImage.secure_url
+                image: imageLink,
             },
             { new: true }
         );
