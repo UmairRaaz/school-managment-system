@@ -21,26 +21,26 @@ const AllStudentsFees = () => {
 
   console.log("selectedYear", selectedYear);
 
-  useEffect(() => {
-    if (selectedDate) {
-      const handleGetFeesByDate = async () => {
-        try {
-          setFeesLoading(true);
-          const response = await axios.post(`/api/admin/get-all-fees`, {
-            date: selectedDate,
-          });
-          console.log("mothly fee", response.data.allFees);
-          setFees(response.data.allFees);
-          setSelectedFees([]); // Reset selected fees
-        } catch (error) {
-          console.error("Error fetching fees:", error);
-        } finally {
-          setFeesLoading(false);
-        }
-      };
-      handleGetFeesByDate();
+  const handleGetFeesByDate = useCallback(async () => {
+    try {
+      setFeesLoading(true);
+      const response = await axios.post(`/api/admin/get-all-fees`, {
+        date: selectedDate,
+      });
+      console.log("monthly fee", response.data.allFees);
+      setFees(response.data.allFees);
+      setSelectedFees([]); // Reset selected fees
+    } catch (error) {
+      console.error("Error fetching fees:", error);
+    } finally {
+      setFeesLoading(false);
     }
   }, [selectedDate]);
+  useEffect(() => {
+    if (selectedDate) {
+      handleGetFeesByDate();
+    }
+  }, [selectedDate , handleGetFeesByDate]);
 
   useEffect(() => {
     if (!selectedDate && selectedYear) {
