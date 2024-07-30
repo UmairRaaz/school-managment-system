@@ -78,7 +78,7 @@ const AdminPreviewNotification = ({ params }) => {
           <div className="flex items-center">
             <div>
               <h2 className="text-4xl font-bold mt-10">
-                The Roots English School
+                The Zia&rsquo;s School
               </h2>
               <p className="text-lg mt-4">
                 123 Main Street, Jamshoro, Pakistan

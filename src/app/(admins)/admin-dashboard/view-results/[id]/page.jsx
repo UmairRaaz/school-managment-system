@@ -58,7 +58,7 @@ const ViewResultCard = ({ params }) => {
 
   // Mock data (to be replaced with `result` from API)
   const mockData = {
-    schoolName: "The Roots English School",
+    schoolName: "The Zia's School",
     schoolAddress: "123 Main Street, Jamshoro, Pakistan",
     schoolLogo: "../school.jpeg", // Replace with your school logo URL
     studentName: "Moon Khan",

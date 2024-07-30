@@ -7,6 +7,8 @@ import Footer from "@/app/components/Footer";
 import NotificationSection from "@/app/components/NotificationSection";
 import ContactPage from "@/app/components/ContactPage";
 import StudentAllCard from "@/app/components/StudentCard"
+import LandingPage from "../components/LandingPage";
+import Gallery from "../components/Gallery";
 
 
 
@@ -16,14 +18,11 @@ export default async function Home() {
  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <LandingPage/>
       <AboutUs/>
-      <StudentAllCard/>
+      <Gallery/>
       <NotificationSection />
-     
-     
       <ContactPage/>
-
-     
     </div>
   );
 }

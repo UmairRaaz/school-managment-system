@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const ContactPage = () => {
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-200 to-indigo-200">
+    <div id='contact' className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-200 to-indigo-200">
       <div className="container mx-auto p-8 lg:p-16  ">
       <h1 className="text-4xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-400 text-center mb-12">
           Get in Touch with Us

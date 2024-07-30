@@ -3,8 +3,15 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IoIosHome } from "react-icons/io";
-import { FaCog, FaSignOutAlt } from 'react-icons/fa';
-import { FaUserCircle, FaInfoCircle, FaEnvelope, FaBell, FaBars, FaTimes } from "react-icons/fa";
+import { FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaInfoCircle,
+  FaEnvelope,
+  FaBell,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 
@@ -28,20 +35,19 @@ function Navbar() {
         username: session?.username || "",
         image: session?.image || "/profile.png",
         email: session?.email || "",
-        role: session?.role || ""
+        role: session?.role || "",
       });
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     }
-   
   }, [session]);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-  console.log("home-sessions", session)
+  console.log("home-sessions", session);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  console.log(session)
+  console.log(session);
   const logoutHandler = () => {
     setIsLoggedIn(false);
     router.push("/login");
@@ -51,73 +57,97 @@ function Navbar() {
     <nav className="bg-white p-6 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-black font-bold text-2xl">
-          MyWebsite
+          <Link
+            href="/"
+            className="text-2xl font-bold tracking-wide hover:text-black transition duration-300 text-black"
+          >
+            <span className="text-5xl font-extrabold text-blue-500">Z</span>ia's{" "}
+            <span className="text-2xl font-extrabold ">S</span>chool
+          </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-8">
-          <Link href="/">
-            <IoIosHome size={25} className="text-blue-400 hover:text-blue-500" />
+          <Link href="/" className="relative group px-4 py-2">
+            Home
+            <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
           </Link>
-          <Link href="/about" className="text-black hover:text-blue-500">
+          <Link href="#about" className="relative group px-4 py-2">
             About
-          </Link>
-          <Link href="/services" className="text-black hover:text-blue-500">
-            Services
-          </Link>
-          <Link href="/contact" className="text-black hover:text-blue-500">
-            Contact
-          </Link>
-          <Link href="/notifications" className="text-black hover:text-blue-500">
-            <FaBell size={25} />
+            <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
           </Link>
 
+          <Link href="#contact" className="relative group px-4 py-2">
+            Contact
+            <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
+          </Link>
+          
+
           <div className="relative">
-      {isLoggedIn ? (
-        <>
-          <Image
-            src={userDetails.image}
-            alt="Profile"
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
-            onClick={toggleDropdown}
-          />
-          {isDropdownOpen && (
-            <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
-              <div className="p-4 border-b border-gray-200">
-                <p className="text-sm font-semibold text-gray-900">{userDetails.username}</p>
-                <p className="text-xs text-gray-600">{userDetails.email}</p>
-              </div>
-              <div className="p-2">
-                {userDetails.role === "admin" && (
-                  <a href={`/admin-dashboard`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
+            {isLoggedIn ? (
+              <>
+                <Image
+                  src={userDetails.image}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                  onClick={toggleDropdown}
+                />
+                {isDropdownOpen && (
+                  <div className="origin-top-right absolute z-50 right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
+                    <div className="p-4 border-b border-gray-200">
+                      <p className="text-sm font-semibold text-gray-900">
+                        {userDetails.username}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        {userDetails.email}
+                      </p>
+                    </div>
+                    <div className="p-2">
+                      {userDetails.role === "admin" && (
+                        <Link
+                          href={`/admin-dashboard`}
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                        >
+                          <FaCog className="mr-2 text-blue-500" /> View
+                          Dashboard
+                        </Link>
+                      )}
+                      {userDetails.role === "teacher" && (
+                        <Link
+                          href={`/admin-dashboard/`}
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                        >
+                          <FaCog className="mr-2 text-blue-500" /> View
+                          Dashboard
+                        </Link>
+                      )}
+                      {userDetails.role === "student" && (
+                        <Link
+                          href={`/admin-dashboard/`}
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                        >
+                          <FaCog className="mr-2 text-blue-500" /> View
+                          Dashboard
+                        </Link>
+                      )}
+                      <a
+                        href="/api/auth/signout"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out"
+                      >
+                        <FaSignOutAlt className="mr-2 text-red-500" /> Logout
+                      </a>
+                    </div>
+                  </div>
                 )}
-                {userDetails.role === "teacher" && (
-                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
-                )}
-                {userDetails.role === "student" && (
-                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
-                )}
-                <a href="/api/auth/signout" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
-                  <FaSignOutAlt className="mr-2 text-red-500" /> Logout
-                </a>
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <a href="/admin-auth/login">
-          <button className="text-sm px-6 py-3 bg-black text-white rounded-full hover:bg-gradient-to-l transition-colors duration-300 shadow-lg transform hover:scale-105">
-            Login
-          </button>
-        </a>
-      )}
-    </div>
+              </>
+            ) : (
+              <a href="/admin-auth/login">
+                <button className="text-sm px-6 py-3 bg-black text-white rounded-full hover:bg-gradient-to-l transition-colors duration-300 shadow-lg transform hover:scale-105">
+                  Login
+                </button>
+              </a>
+            )}
+          </div>
         </div>
         <button className="lg:hidden text-black" onClick={toggleSidebar}>
           <FaBars className="h-6 w-6" />
@@ -131,84 +161,104 @@ function Navbar() {
             </button>
             <ul className="space-y-6">
               <li>
-                <Link href="/" className="flex items-center space-x-3 text-black hover:text-blue-500">
-                  <IoIosHome size={25} />
-                  <span>Home</span>
+                <Link
+                  href="/"
+                  className="block px-4 py-2 text-xl transition duration-300 relative group"
+                >
+                  Home
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400  scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="flex items-center space-x-3 text-black hover:text-blue-500">
-                  <FaInfoCircle size={25} />
-                  <span>About</span>
+                <Link
+                  href="#about"
+                  className="block px-4 py-2 text-xl transition duration-300 relative group"
+                >
+                  About
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400  scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
                 </Link>
               </li>
+
               <li>
-                <Link href="/services" className="flex items-center space-x-3 text-black hover:text-blue-500">
-                  <FaUserCircle size={25} />
-                  <span>Services</span>
+                <Link
+                  href="#contact"
+                  className="block px-4 py-2 text-xl transition duration-300 relative group"
+                >
+                  Contact
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400  scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left"></span>
                 </Link>
               </li>
+             
               <li>
-                <Link href="/contact" className="flex items-center space-x-3 text-black hover:text-blue-500">
-                  <FaEnvelope size={25} />
-                  <span>Contact</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/notifications" className="flex items-center space-x-3 text-black hover:text-blue-500">
-                  <FaBell size={25} />
-                  <span>Notifications</span>
-                </Link>
-              </li>
-              <li>
-              <div className="relative">
-      {isLoggedIn ? (
-        <>
-          <Image
-            src={userDetails.image}
-            alt="Profile"
-            width={32}
-            height={32}
-            className="w-8 h-8 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
-            onClick={toggleDropdown}
-          />
-          {isDropdownOpen && (
-            <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
-              <div className="p-4 border-b border-gray-200">
-                <p className="text-sm font-semibold text-gray-900">{userDetails.username}</p>
-                <p className="text-xs text-gray-600">{userDetails.email}</p>
-              </div>
-              <div className="p-2">
-                {userDetails.role === "admin" && (
-                  <a href={`/admin-dashboard/admin-profile`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
-                )}
-                {userDetails.role === "teacher" && (
-                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
-                )}
-                {userDetails.role === "student" && (
-                  <a href={`/admin-dashboard/`} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out">
-                    <FaCog className="mr-2 text-blue-500" /> View Dashboard
-                  </a>
-                )}
-                <a href="/api/auth/signout" onClick={logoutHandler} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out">
-                  <FaSignOutAlt className="mr-2 text-red-500" /> Logout
-                </a>
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <a href="/admin-auth/login">
-          <button className="text-sm px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-md">
-            Login
-          </button>
-        </a>
-      )}
-    </div>
+                <div className="relative">
+                  {isLoggedIn ? (
+                    <>
+                      <Image
+                        src={userDetails.image}
+                        alt="Profile"
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 rounded-full cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                        onClick={toggleDropdown}
+                      />
+                      {isDropdownOpen && (
+                        <div className="origin-top-right z-50 absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 transform transition-all duration-300 ease-out">
+                          <div className="p-4 border-b border-gray-200">
+                            <p className="text-sm font-semibold text-gray-900">
+                              {userDetails.username}
+                            </p>
+                            <p className="text-xs text-gray-600">
+                              {userDetails.email}
+                            </p>
+                          </div>
+                          <div className="p-2">
+                            {userDetails.role === "admin" && (
+                              <Link
+                                href={`/admin-dashboard/admin-profile`}
+                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                              >
+                                <FaCog className="mr-2 text-blue-500" /> View
+                                Dashboard
+                              </Link>
+                            )}
+                            {userDetails.role === "teacher" && (
+                              <Link
+                                href={`/admin-dashboard/`}
+                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                              >
+                                <FaCog className="mr-2 text-blue-500" /> View
+                                Dashboard
+                              </Link>
+                            )}
+                            {userDetails.role === "student" && (
+                              <Link
+                                href={`/admin-dashboard/`}
+                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded transition duration-150 ease-in-out"
+                              >
+                                <FaCog className="mr-2 text-blue-500" /> View
+                                Dashboard
+                              </Link>
+                            )}
+                            <a
+                              href="/api/auth/signout"
+                              onClick={logoutHandler}
+                              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 rounded transition duration-150 ease-in-out"
+                            >
+                              <FaSignOutAlt className="mr-2 text-red-500" />{" "}
+                              Logout
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <a href="/admin-auth/login">
+                      <button className="text-sm px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-md">
+                        Login
+                      </button>
+                    </a>
+                  )}
+                </div>
               </li>
             </ul>
           </div>
