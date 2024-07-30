@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { FcVoicePresentation } from "react-icons/fc";
 import { GiTakeMyMoney } from "react-icons/gi";
