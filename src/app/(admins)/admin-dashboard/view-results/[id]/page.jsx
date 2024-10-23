@@ -62,7 +62,7 @@ const ViewResultCard = ({ params }) => {
   const mockData = {
     schoolName: "The Zai's School",
     schoolAddress: "123 Main Street, Jamshoro, Pakistan",
-    schoolLogo: "../school.jpeg", // Replace with your school logo URL
+    schoolLogo: "/logo.png", // Replace with your school logo URL
     studentName: "Moon Khan",
     fatherName: "Rustam Khan",
     class: "10",
@@ -140,8 +140,8 @@ const ViewResultCard = ({ params }) => {
             </div>
           </div>
           <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-            <Image
-              src="/school.jpeg"
+            <img
+              src="/logo.png"
               alt="School Logo"
               className="object-cover w-full h-full border border-black rounded-md"
             />
@@ -152,7 +152,7 @@ const ViewResultCard = ({ params }) => {
         <div className="mx-auto rounded-lg mt-10">
           <div className="flex flex-wrap justify-between gap-4">
             <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-              <Image
+              <img
                 src={result.image || "/placeholder.jpg"}
                 alt="Student"
                 className="object-cover w-full h-full border border-black rounded-md"

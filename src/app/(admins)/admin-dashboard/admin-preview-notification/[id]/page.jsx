@@ -86,8 +86,8 @@ const AdminPreviewNotification = ({ params }) => {
             </div>
           </div>
           <div className="h-40 w-40 p-4 flex items-center justify-center print:h-32 print:w-32">
-            <Image
-              src="/school.jpeg"
+            <img
+              src="/logo.png"
               alt="logo"
               className="object-cover w-full h-full border border-black rounded-md"
             />
@@ -112,7 +112,7 @@ const AdminPreviewNotification = ({ params }) => {
           {/* Full Width and Height Image */}
           {notification?.image && (
             <div className="relative h-80 md:h-96 lg:h-96 mt-8">
-              <Image
+              <img
                 src={notification.image}
                 alt="Background"
                 className="absolute inset-0 w-full h-full object-contain"
