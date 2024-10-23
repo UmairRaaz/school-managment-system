@@ -188,7 +188,6 @@ const Sidebar = () => {
       color: "blue",
       hasDropdown: true,
       dropdownLinks: [
-        { href: `/admin-dashboard/take-attendance/${userDetails?.id}`, label: "Take Attendance" },
         { href: `/admin-dashboard/view-attendance`, label: "View Attendance" },
       ],
     },

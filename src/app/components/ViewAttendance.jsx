@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
@@ -10,73 +10,26 @@ import { enUS } from 'date-fns/locale';
 const ViewAttendance = () => {
   const componentRef = useRef();
   const [loading, setLoading] = useState(false);
-  const [teachers, setTeachers] = useState([]);
-  const [selectedTeacher, setSelectedTeacher] = useState('');
-  const [classes, setClasses] = useState([]);
-  const [sections, setSections] = useState([]);
-  const [subjects, setSubjects] = useState([]);
   const [attendanceData, setAttendanceData] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [students, setStudents] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedSection, setSelectedSection] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    const fetchTeachers = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('/api/admin/all-teachers');
-        setTeachers(response.data.teachers);
-      } catch (error) {
-        console.error('Error fetching teachers', error);
-      }
-      setLoading(false);
-    };
+  // Hard-coded class options from 1 to 10
+  const classes = Array.from({ length: 10 }, (_, i) => (i + 1).toString());
 
-    const fetchStudents = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('/api/admin/all-students');
-        setStudents(response.data.students);
-      } catch (error) {
-        console.error('Error fetching students', error);
-      }
-      setLoading(false);
-    };
-
-    fetchTeachers();
-    fetchStudents();
-  }, []);
-
-  const handleTeacherChange = async (event) => {
-    const teacherId = event.target.value;
-    setSelectedTeacher(teacherId);
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/admin/delete-get-edit-teacher/${teacherId}`);
-      const { classes, section, subjects } = response.data.teacher;
-      setClasses(classes);
-      setSections(section);
-      setSubjects(subjects);
-      setAttendanceData([]);
-      setNotFound(false);
-    } catch (error) {
-      console.error('Error fetching teacher details', error);
-    }
-    setLoading(false);
-  };
+  // Hard-coded section options from A to D
+  const sections = ['A', 'B', 'C', 'D'];
 
   const handleFetchAttendance = async () => {
     setLoading(true);
     try {
       const response = await axios.post(`/api/admin/get-attendance`, {
-        selectedTeacher,
         selectedClass,
         selectedSection,
-        selectedSubject,
         selectedMonth,
       });
       const { attendance } = response.data;
@@ -88,7 +41,6 @@ const ViewAttendance = () => {
           const attMonth = format(parseISO(att.date), 'yyyy-MM');
           return attMonth === selectedMonth;
         });
-
         setAttendanceData(filteredAttendance);
         setNotFound(false);
       }
@@ -104,7 +56,6 @@ const ViewAttendance = () => {
     const dayNames = [];
     const dates = [];
     const dateFormat = 'EEE';
-
     const firstDayOfMonth = startOfMonth(new Date(selectedMonth));
     const lastDayOfMonth = endOfMonth(new Date(selectedMonth));
     const numberOfDays = lastDayOfMonth.getDate();
@@ -149,6 +100,7 @@ const ViewAttendance = () => {
           studentAttendanceMap.set(studentData.rollNumber, {
             id: studentData.id,
             rollNumber: studentData.rollNumber,
+            studentName: studentData.studentName, // Corrected variable name here
             attendance: Array(31).fill('-'),
             totalPresent: 0,
           });
@@ -169,9 +121,8 @@ const ViewAttendance = () => {
     let index = 1;
     studentAttendanceMap.forEach((studentData) => {
       const student = students.find((s) => s._id === studentData.id);
-      const studentName = student ? student.Name : 'Unknown';
+      const studentName = student ? student.studentName : 'Unknown';
 
-      // Apply search filter
       if (
         searchTerm &&
         !studentName.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -189,10 +140,9 @@ const ViewAttendance = () => {
       rows.push(
         <tr key={studentData.rollNumber}>
           <td className="text-[8px] border text-center">{index}</td>
-          <td className="text-[8px] border text-center">{studentName}</td>
+          <td className="text-[8px] border text-center">{studentData.studentName}</td>
           <td className="text-[8px] border text-center">{studentData.rollNumber}</td>
           {attendanceCells}
-         
           <td className="text-[8px] border text-center bg-blue-200">{studentData.totalPresent}</td>
         </tr>
       );
@@ -201,7 +151,7 @@ const ViewAttendance = () => {
     });
 
     const totalRow = (
-      <tr key="totalRow ">
+      <tr key="totalRow">
         <td className="text-[8px] border text-center"></td>
         <td className="text-[8px] border text-center font-semibold bg-blue-200">Total</td>
         <td className="text-[8px] border text-center"></td>
@@ -238,78 +188,38 @@ const ViewAttendance = () => {
         <div className="text-[10px] mb-6 grid grid-cols-1 sm:grid-cols-6 md:grid-cols-4 lg:flex flex-wrap gap-2 items-end mt-10 ">
           <div className="flex-grow mb-4 sm:mb-0">
             <label className="block text-[10px] font-medium text-gray-700 mb-2">
-              Select Teacher
+              Select Class
             </label>
             <select
-              value={selectedTeacher}
-              onChange={handleTeacherChange}
-              className="border text-[10px] p-2 w-full rounded-md shadow-sm"
+              value={selectedClass}
+              onChange={(e) => setSelectedClass(e.target.value)}
+              className="text-[10px] border p-2 w-full rounded-md shadow-sm"
             >
-              <option value="" className="text-[10px]">Select a teacher</option>
-              {teachers.map((teacher) => (
-                <option key={teacher._id} value={teacher._id}>
-                  {teacher.name}
+              <option value="" className="text-[10px]">Select a class</option>
+              {classes.map((cls) => (
+                <option key={cls} value={cls}>
+                  {cls}
                 </option>
               ))}
             </select>
           </div>
-          {classes.length > 0 && (
-            <div className="flex-grow mb-4 sm:mb-0">
-              <label className="block text-[10px] font-medium text-gray-700 mb-2">
-                Select Class
-              </label>
-              <select
-                value={selectedClass}
-                onChange={(e) => setSelectedClass(e.target.value)}
-                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-              >
-                <option value="" className="text-[10px]">Select a class</option>
-                {classes.map((cls) => (
-                  <option key={cls} value={cls}>
-                    {cls}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          {sections.length > 0 && (
-            <div className="flex-grow mb-4 sm:mb-0">
-              <label className="block text-[10px] font-medium text-gray-700 mb-2">
-                Select Section
-              </label>
-              <select
-                value={selectedSection}
-                onChange={(e) => setSelectedSection(e.target.value)}
-                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-              >
-                <option value="" className="text-[10px]">Select a section</option>
-                {sections.map((section) => (
-                  <option key={section} value={section}>
-                    {section}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          {subjects.length > 0 && (
-            <div className="flex-grow mb-4 sm:mb-0">
-              <label className="block text-[10px] font-medium text-gray-700 mb-2">
-                Select Subject
-              </label>
-              <select
-                value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
-                className="text-[10px] border p-2 w-full rounded-md shadow-sm"
-              >
-                <option value="" className="text-[12px]">Select a subject</option>
-                {subjects.map((subject) => (
-                  <option key={subject} value={subject}>
-                    {subject}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <div className="flex-grow mb-4 sm:mb-0">
+            <label className="block text-[10px] font-medium text-gray-700 mb-2">
+              Select Section
+            </label>
+            <select
+              value={selectedSection}
+              onChange={(e) => setSelectedSection(e.target.value)}
+              className="text-[10px] border p-2 w-full rounded-md shadow-sm"
+            >
+              <option value="" className="text-[10px]">Select a section</option>
+              {sections.map((section) => (
+                <option key={section} value={section}>
+                  {section}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex-grow mb-4 sm:mb-0">
             <label className="block text-[10px] font-medium text-gray-700 mb-2">
               Select Month
@@ -322,68 +232,33 @@ const ViewAttendance = () => {
             />
           </div>
           <div className="flex-grow mb-4 sm:mb-0">
-            <label className="block text-[10px] font-medium text-gray-700 mb-2">
-              Search
-            </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by name or roll number"
-              className="text-[7px] border p-3 w-full rounded-md shadow-sm"
-            />
-          </div>
-          <button
-              onClick={handleFetchAttendance}
-              className="bg-black p-3 text-white text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center mb-4 sm:mb-0 print:hidden"
-              style={{ whiteSpace: 'nowrap' }}
-              disabled={!selectedTeacher || !selectedClass || !selectedSection || !selectedSubject}
-            >
-              View
-              <FiEye className="ml-2" />
-            </button>
             <button
-              onClick={handlePrint}
-              className="bg-black text-white p-3 text-xs rounded-md shadow-md transition duration-300 ease-in-out flex items-center print:hidden"
-              style={{ whiteSpace: 'nowrap' }}
-              disabled={!attendanceData.length}
+              onClick={handleFetchAttendance}
+              className="text-[10px] mt-2 p-2 bg-blue-500 text-white rounded-md shadow-md"
             >
-              PDF
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 ml-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 2a.75.75 0 01.75.75V6h3a.75.75 0 010 1.5h-3v3.25a.75.75 0 01-1.5 0V7.5H6a.75.75 0 010-1.5h3V2.75A.75.75 0 0110 2zm7.86 7.28a.75.75 0 00-1.06 0L12 14.94V11.5a.75.75 0 00-1.5 0v3.44l-4.78-5.72a.75.75 0 00-1.16.94l6 7.2a.75.75 0 001.16 0l6-7.2a.75.75 0 00.1-.84z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              Fetch Attendance
             </button>
+          </div>
         </div>
-  
-        {loading ? (
-          <div className="text-center py-10">Loading...</div>
-        ) : notFound ? (
-          <div className="text-center py-10">Attendance Data Not Found</div>
-        ) : attendanceData.length > 0 ? (
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full bg-white border-collapse border">
+        {loading && <div>Loading...</div>}
+        {notFound && <div>No attendance data found.</div>}
+        {attendanceData.length > 0 && (
+          <>
+            <table className="min-w-full border-collapse border border-gray-200">
               <thead>{renderDays()}</thead>
               <tbody>{renderAttendanceRows()}</tbody>
             </table>
-          </div>
-        ) : (
-          <div className="text-center py-10">No Data Found</div>
+            <button
+              onClick={handlePrint}
+              className="mt-5 p-2 bg-green-500 text-white rounded-md shadow-md"
+            >
+              Print
+            </button>
+          </>
         )}
       </div>
-      <div className='py-10'> </div>
     </div>
-   
   );
-  
 };
 
 export default ViewAttendance;

@@ -11,10 +11,10 @@ export async function POST(req) {
     const {selectedClass, selectedSection, selectedTeacher, selectedSubject, date} = body
     const isoDate = new Date(date).toISOString();
     const attendance = await Attendance.find({
-      subject : selectedSubject,
+   
       section : selectedSection,
       className : selectedClass,
-      teacher : selectedTeacher,
+
       date : isoDate
     })
     console.log(attendance)

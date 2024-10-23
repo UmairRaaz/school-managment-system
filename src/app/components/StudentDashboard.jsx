@@ -44,17 +44,17 @@ const StudentDashboard = () => {
     let result = response.data.data;
     console.log(result);
 
-    setTotalPresent(result.attendance.totalPresent);
-    setTotalAbsent(result.attendance.totalAbsent);
-    setTotalPaidFee(result.fees.totalPaidAmount);
-    setTotalUnpaidFee(result.fees.totalUnpaidAmount);
-    setPaidChallan(result.fees.totalPaidCount);
-    setUnpaidChallan(result.fees.totalUnpaidCount);
-    setTotalResult(result.results.totalResult);
-    setTotalPassStudents(result.results.totalPass);
-    setTotalFailedStudents(result.results.totalFail);
-    setTotalClassNotification(result.notifications.totalForClass);
-    setTotalPublicNotifications(result.notifications.totalForPublic);
+    settotalPresent(result.attendance.totalPresent);
+    settotalAbsent(result.attendance.totalAbsent);
+    settotalPaidFee(result.fees.totalPaidAmount);
+    settotalUnpaidFee(result.fees.totalUnpaidAmount);
+    setpaidChallan(result.fees.totalPaidCount);
+    setunpaidChallan(result.fees.totalUnpaidCount);
+    settotalResult(result.results.totalResult);
+    settotalPassStudents(result.results.totalPass);
+    settotalFailedStudents(result.results.totalFail);
+    settotalClassNotification(result.notifications.totalForClass);
+    settotalPublicNotifications(result.notifications.totalForPublic);
   }, [session]);
 
   useEffect(() => {

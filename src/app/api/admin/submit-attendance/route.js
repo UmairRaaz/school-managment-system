@@ -4,7 +4,7 @@ export const revalidate = 0;
 export async function POST(req) {
     try {
         const body = await req.json();
-
+        console.log("attendance body", body)
         // Convert the date from the request body to a Date object and strip the time component
         const requestDate = new Date(body.date);
         requestDate.setHours(0, 0, 0, 0);
@@ -20,9 +20,7 @@ export async function POST(req) {
 
         // Check if attendance is already taken for the same date, class, subject, and teacher
         const existingAttendance = await Attendance.findOne({
-            teacher: body.teacher,
             className: body.className,
-            subject: body.subject,
             section: body.section,
             date: body.date
         });

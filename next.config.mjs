@@ -4,6 +4,7 @@ const nextConfig = {
     esmExternals: "loose", // Add this for Mongoose
     serverComponentsExternalPackages: ["mongoose"] // Add this for Mongoose
   },
+  
   webpack: (config) => {
     config.experiments = {
       topLevelAwait: true,
@@ -23,6 +24,7 @@ const nextConfig = {
       },
     ],
   },
+  
 };
 
 export default nextConfig;

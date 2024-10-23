@@ -28,3 +28,16 @@
   
 
   
+  @media print {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* Three columns for three copies */
+      gap: 0;
+    }
+    /* Adjust other styles as necessary */
+  }
+  

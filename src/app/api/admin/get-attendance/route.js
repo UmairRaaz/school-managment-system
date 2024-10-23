@@ -8,14 +8,13 @@ export async function POST(req) {
     await dbConnect();
 
     const body = await req.json();
-    const { selectedTeacher, selectedClass, selectedSection, selectedSubject } = body;
-    console.log(selectedTeacher, selectedClass, selectedSection, selectedSubject);
+    const { selectedClass, selectedSection } = body;
+    console.log( selectedClass, selectedSection);
     const attendance = await Attendance.find({
-      teacher: selectedTeacher,
       className: selectedClass,
-      subject: selectedSubject,
-      section: selectedSection 
-    });
+      section: selectedSection
+    }); 
+    
 
     console.log(attendance);
     return NextResponse.json({ message: "Attendance fetched successfully", success: true, attendance: attendance }, { status: 200 });

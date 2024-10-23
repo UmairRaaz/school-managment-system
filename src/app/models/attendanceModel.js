@@ -3,19 +3,19 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const attendanceSchema = new Schema({
-  teacher: {
-    type: Schema.Types.ObjectId,
-    ref: 'Teacher',
-    required: true,
-  },
+  // teacher: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Teacher',
+  //   required: true,
+  // },
   className: {
     type: String,
     required: true,
   },
-  subject: {
-    type: String,
-    required: true,
-  },
+  // subject: {
+  //   type: String,
+  //   required: true,
+  // },
   section: {
     type: String,
     required: true,
@@ -31,7 +31,12 @@ const attendanceSchema = new Schema({
         ref: 'Student',
         required: true,
       },
+    
       rollNumber: {
+        type: String,
+        required: true,
+      },
+      studentName: {
         type: String,
         required: true,
       },

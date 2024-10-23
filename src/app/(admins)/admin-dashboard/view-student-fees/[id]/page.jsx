@@ -1,8 +1,8 @@
-'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import { useReactToPrint } from 'react-to-print';
-import { FaDownload } from 'react-icons/fa';
-import axios from 'axios';
+'use client'
+import React, { useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import { FaDownload } from "react-icons/fa";
+import axios from "axios";
 
 const Fees = ({ params }) => {
   const componentRef = useRef();
@@ -14,27 +14,26 @@ const Fees = ({ params }) => {
     content: () => componentRef.current,
   });
 
-  
+  const getFeesDetails = async () => {
+    try {
+      const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
+      const fees = response.data.fees;
+      fees.date = formatDate(fees.date);
+      setFeesData(fees);
+    } catch (error) {
+      console.error("Error fetching fees details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getFeesDetails = async () => {
-      try {
-        const response = await axios.get(`/api/admin/fees-get-edit-delete/${id}`);
-        const fees = response.data.fees;
-        fees.date = formatDate(fees.date);
-        setFeesData(fees);
-      } catch (error) {
-        console.error('Error fetching fees details:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     getFeesDetails();
-  }, [id]);
+  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
   const calculateFee = (currentClass) => {
@@ -58,25 +57,42 @@ const Fees = ({ params }) => {
       <div className="bg-white w-full max-w-5xl" ref={componentRef}>
         {loading ? (
           <div className="flex justify-center items-center h-full">
-            <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+            <div
+              className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+              role="status"
+            >
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-4 px-2 md:px-6">
-            {['Candidate Copy', 'Bank Copy', 'School Copy'].map((copyType, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 py-4 px-2 ">
+            {Array(3).fill().map((_, index) => (
               <div
                 key={index}
                 className="text-sm bg-white p-4 md:p-8 shadow-xl rounded-lg border border-gray-300 flex flex-col justify-between h-full"
               >
                 <header className="text-center mb-8">
-                  <h1 className="text-lg font-bold text-gray-800">School Name</h1>
-                  <p className="text-gray-600">School Address</p>
-                  <p className="text-gray-600">Bank Name</p>
+                  <img src="/logo.png" className="w-20 mx-auto" />
+                  <p className="text-gray-600">Summit Bank Limited</p>
+                  <p className="text-gray-600 text-xs">Account No. 1-99-17-26001-714-101891</p>
                 </header>
-                <section className="mb-2">
+                <section>
                   <p className="mb-2 text-xs">
-                    <span className="font-semibold">S.No:</span> {feesData.serialNumber}
+                    <span className="font-semibold">Issue Date:</span> {feesData.date}
+                  </p>
+                  <div className="flex justify-between">
+                    <p className="mb-2 text-xs">
+                      <span className="font-semibold">S.No:</span> {feesData.serialNumber}
+                    </p>
+                    <p className="mb-2 text-xs">
+                      <span className="font-semibold">Roll Number:</span> {feesData.studentId.SID}
+                    </p>
+                  </div>
+                  <p className="mb-2 text-xs">
+                    <span className="font-semibold">Fee for the month of:</span> {feesData.month}
+                  </p>
+                  <p className="mb-2 text-xs">
+                    <span className="font-semibold">Fee Description:</span> Monthly Fee
                   </p>
                   <p className="mb-2 text-xs">
                     <span className="font-semibold">Name:</span> {feesData.studentId.Name}
@@ -84,79 +100,133 @@ const Fees = ({ params }) => {
                   <p className="mb-2 text-xs">
                     <span className="font-semibold">Father Name:</span> {feesData.studentId.FatherName}
                   </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Roll Number:</span> {feesData.studentId.SID}
-                  </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Class:</span> {feesData.studentId.CurrentClass}th
-                  </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Section:</span> {feesData.studentId.Section}
-                  </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Fee Description:</span> Monthly Fee
-                  </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Fee Status:</span> {feesData.isPaid ? "Paid" : "Unpaid"}
-                  </p>
-                  <p className="mb-2 text-xs">
-                    <span className="font-semibold">Date:</span> {feesData.date}
-                  </p>
+                  <div className="flex justify-between">
+                    <p className="mb-2 text-xs">
+                      <span className="font-semibold">Class:</span> {feesData.studentId.CurrentClass}th
+                    </p>
+                    <p className="mb-2 text-xs">
+                      <span className="font-semibold">Section:</span> {feesData.studentId.Section}
+                    </p>
+                  </div>
+                  <section>
+                    <table className="w-full border-collapse mb-8">
+                      <thead>
+                        <tr className="flex justify-between">
+                          <th className="bg-gray-100 text-left w-1/2 mb-4">Particulars</th>
+                          <th className="bg-gray-100 text-right w-1/2 mb-4">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Admission Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Tuition Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.{feesData.MonthlyFee}
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Stationary Amount
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Computer Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Labortary Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            Annual Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            School Magzine
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                            School Fee
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                          Others
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td className="text-xs border-b text-left w-1/2">
+                          Arreras
+                          </td>
+                          <td className="text-xs border-b text-right w-1/2">
+                            Rs.0
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between font-semibold mt-2">
+                          <td className="text-left  w-[70%] text-xs">Net Paybale by due date</td>
+                          <td className="text-right  w-[30%]">
+                            Rs.{calculateFee(feesData.studentId.CurrentClass)}
+                          </td>
+                        </tr>
+                        <tr className="flex justify-between font-semibold mt-2">
+                          <td className="text-left w-[70%] text-xs">Net Paybale after due date</td>
+                          <td className="text-right  w-[30%]">
+                            Rs.{calculateFee(feesData.studentId.CurrentClass)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+                  <footer className="">
+                    <div className="mt-3">
+                      <span className="text-xs font-semibold">Depositor Name:</span> __________________
+                    </div>
+                    <div className="mt-3">
+                      <span className="text-xs font-semibold">CNIC:</span> ____________________________
+                    </div>
+                    <div className="mt-3">
+                      <span className="text-xs font-semibold">Signature:</span> _______________________
+                    </div>
+                    <div className="text-center mt-8 font-semibold text-gray-700">
+                      {["Candidate Copy", "Bank Copy", "School Copy"][index]}
+                    </div>
+                  </footer>
                 </section>
-                <section>
-                  <table className="w-full border-collapse mb-8">
-                    <thead>
-                      <tr className="flex justify-between">
-                        <th className="bg-gray-100 text-left w-1/2 mb-4">Fee Type</th>
-                        <th className="bg-gray-100 text-right w-1/2 mb-4">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Calculated Fee</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.0</td>
-                      </tr>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Admission Fee</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.0</td>
-                      </tr>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Monthly Fee</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.{feesData.MonthlyFee}</td>
-                      </tr>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Tuition Fee</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.0</td>
-                      </tr>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Discount</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.0</td>
-                      </tr>
-                      <tr className="flex justify-between">
-                        <td className="text-xs border-b text-left w-1/2">Penalty</td>
-                        <td className="text-xs border-b text-right w-1/2">Rs.0</td>
-                      </tr>
-                      <tr className="flex justify-between font-semibold mt-2">
-                        <td className="text-left w-1/2">Total</td>
-                        <td className="text-right w-1/2">Rs.{calculateFee(feesData.studentId.CurrentClass)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </section>
-                <footer className="">
-                  <div className="mt-3">
-                    <span className="text-xs font-semibold">Depositor Name:</span> __________________
-                  </div>
-                  <div className="mt-3">
-                    <span className="text-xs font-semibold">CNIC:</span> ____________________________
-                  </div>
-                  <div className="mt-3">
-                    <span className="text-xs font-semibold">Signature:</span> _______________________
-                  </div>
-                  <div className="text-center mt-8 font-semibold text-gray-700">
-                    {copyType}
-                  </div>
-                </footer>
               </div>
             ))}
           </div>
