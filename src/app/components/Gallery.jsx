@@ -57,8 +57,6 @@ const Gallery = () => {
             <img
               src={image}
               alt={`Gallery image ${index + 1}`}
-              width={300} // Fixed width
-              height={300} // Fixed height
               className="w-[300px] h-[200px] object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
