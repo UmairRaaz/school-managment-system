@@ -50,7 +50,7 @@ const NotificationSectionWithModal = () => {
   if (loading) {
     return (
       <div className="bg-gradient-to-r p-6 rounded-lg w-full md:w-[94%] px-8 md:px-20">
-        <h1 className="text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r  from-blue-500 text-[#fe9800] to-pink-400  text-center mb-12">
+        <h1 className="text-2xl lg:text-3xl font-extrabold bg-clip-text bg-gradient-to-r  from-blue-500 text-[#fe9800] to-pink-400  text-center mb-12">
           Notifications
         </h1>
         <div>Loading...</div>
@@ -60,7 +60,7 @@ const NotificationSectionWithModal = () => {
 
   return (
     <div className="bg-gradient-to-r p-6 rounded-lg w-full md:w-[94%] px-8 md:px-20">
-      <h1 className="text-2xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 text-[#fe9800] to-pink-400 text-center mb-12">
+      <h1 className="text-2xl lg:text-3xl font-extrabold  bg-clip-text bg-gradient-to-r from-blue-500 text-[#fe9800] to-pink-400 text-center mb-12">
         Notifications
       </h1>
       <div className="h-60 overflow-hidden relative">
