@@ -26,7 +26,7 @@ const ContactPage = () => {
             </h2>
             <p className="text-xl lg:text-2xl mb-4 flex items-center text-black transition duration-300 transform hover:scale-125 ">
               <FaWhatsapp className="inline-block mr-3 transition duration-300 transform" />{" "}
-              +123 456 789
+              03369981971 
             </p>
 
             <p className="text-xl lg:text-2xl mb-8 text-white text-center">
@@ -34,7 +34,7 @@ const ContactPage = () => {
             </p>
             <div className="flex space-x-6 text-4xl">
               <a
-                href="https://wa.me/1234567890"
+                href="https://wa.me/92369981971"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-green hover:text-green-400 transition duration-300 transform hover:scale-125"
