@@ -25,7 +25,7 @@ const LandingPage = () => {
 
   return (
     <div className="container-fluid min-h-screen z-10 flex flex-col items-center justify-center bg-gray-100 relative overflow-hidden px-4 sm:px-6 lg:px-8 sm:mt-8">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-blue-600 text-center leading-tight">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-[#fe9800] text-center leading-tight">
         Welcome to Our School
       </h1>
       <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-12 text-gray-700 text-center">

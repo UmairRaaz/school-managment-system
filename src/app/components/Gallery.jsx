@@ -36,7 +36,7 @@ const Gallery = () => {
   return (
     <div className="container-fluid py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600 mb-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[#fe9800] mb-4">
           School Activities
         </h1>
         <p className="text-sm md:text-lg text-gray-700 max-w-3xl mx-auto">
@@ -76,13 +76,12 @@ const Gallery = () => {
               className="absolute top-4 right-4 text-3xl text-gray-800 cursor-pointer"
               onClick={closeModal}
             />
-            <Image
+            <img
               src={selectedImage}
-              alt="Selected gallery image"
+              alt="Selected gallery  image"
               layout="responsive"
-              width={1200}
-              height={800}
-              className="object-cover rounded-lg"
+          
+              className="object-cover rounded-lg w-[1200px] h-[800px]"
             />
           </div>
         </div>

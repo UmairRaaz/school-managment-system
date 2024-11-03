@@ -4,10 +4,10 @@ import { FaChalkboardTeacher, FaGraduationCap, FaBuilding, FaHandsHelping } from
 
 const AboutUs = () => {
   return (
-    <div id='about' className="container-fluid min-h-screen flex flex-col items-center bg-gray-100 px-4 sm:px-6 lg:px-8 py-12">
+    <div id='about' className="container-fluid min-h-screen flex flex-col items-center bg-gray-100 px-4 sm:px-6 lg:px-8 pb-12">
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-600 mb-4">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#fe9800] mb-4">
           About Us
         </h1>
         <p className="text-base sm:text-lg md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto">

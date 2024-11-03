@@ -5,7 +5,7 @@ const HeroSection = () => {
   return (
     <section className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-20">
       <div className="container mx-auto text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">Welcome to Our School</h1>
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 ">Welcome to Our School</h1>
         <p className="text-lg mb-8">
           Providing quality education since 1980
         </p>

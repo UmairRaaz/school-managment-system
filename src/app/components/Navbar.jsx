@@ -54,15 +54,20 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-white p-6 shadow-lg">
+    <nav className="bg-white px-14 py-2 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-black font-bold text-2xl">
-          <Link
+        <div className="">
+          {/* <Link
             href="/"
             className="text-2xl font-bold tracking-wide hover:text-black transition duration-300 text-black"
           >
             <span className="text-5xl font-extrabold text-blue-500">Z</span>ai&lsquo;s{" "}
             <span className="text-2xl font-extrabold ">S</span>chool
+          </Link> */}
+          <Link
+            href="/"
+          >
+            <Image  src={"/logo.png"} width={60} height={40} alt="logo"/>
           </Link>
         </div>
         <div className="hidden lg:flex items-center space-x-8">

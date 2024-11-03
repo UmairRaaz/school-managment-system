@@ -7,7 +7,7 @@ const ContactPage = () => {
   return (
     <div id='contact' className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-200 to-indigo-200">
       <div className="container mx-auto p-8 lg:p-16  ">
-      <h1 className="text-4xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-400 text-center mb-12">
+      <h1 className="text-4xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500  text-[#fe9800] to-pink-400 text-center mb-12">
           Get in Touch with Us
         </h1>
         <div className="flex flex-col lg:flex-row items-center justify-around space-y-12 lg:space-y-0 lg:space-x-12">
